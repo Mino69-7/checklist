@@ -1,15 +1,21 @@
 {
-    "name": "Checklist Alimentaire Bébé",
-    "short_name": "Checklist Bébé",
-    "description": "Application de suivi des découvertes alimentaires pour bébé",
+    "name": "La découverte de Jannounette",
+    "short_name": "Jannounette",
+    "description": "Application pour suivre la diversification alimentaire de bébé",
     "start_url": "./index.html",
     "display": "standalone",
-    "background_color": "#f8fafc",
-    "theme_color": "#6366f1",
+    "background_color": "#667eea",
+    "theme_color": "#764ba2",
     "orientation": "portrait",
     "scope": "./",
     "lang": "fr",
     "icons": [
+        {
+            "src": "app-icon.svg",
+            "sizes": "any",
+            "type": "image/svg+xml",
+            "purpose": "any maskable"
+        },
         {
             "src": "icon-192.png",
             "sizes": "192x192",
