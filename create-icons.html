@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Générateur d'icônes - Checklist Bébé</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .icon-generator {
+            background: white;
+            padding: 30px;
+            border-radius: 16px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            max-width: 400px;
+            margin: 0 auto;
+            text-align: center;
+        }
+        canvas {
+            border: 1px solid #ddd;
+            border-radius: 12px;
+            margin: 20px 0;
+        }
+        button {
+            background: #6366f1;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            margin: 10px;
+        }
+        button:hover {
+            background: #5855eb;
+        }
+    </style>
+</head>
+<body>
+    <div class="icon-generator">
+        <h1>🍎 Générateur d'icônes</h1>
+        <p>Cliquez pour générer les icônes de l'application</p>
+        
+        <canvas id="icon192" width="192" height="192"></canvas>
+        <br>
+        <button onclick="generateIcon(192)">Générer icône 192x192</button>
+        <button onclick="downloadIcon(192)">Télécharger 192px</button>
+        
+        <br><br>
+        
+        <canvas id="icon512" width="512" height="512"></canvas>
+        <br>
+        <button onclick="generateIcon(512)">Générer icône 512x512</button>
+        <button onclick="downloadIcon(512)">Télécharger 512px</button>
+    </div>
+
+    <script>
+        function generateIcon(size) {
+            const canvas = document.getElementById(`icon${size}`);
+            const ctx = canvas.getContext('2d');
+            
+            // Fond dégradé
+            const gradient = ctx.createLinearGradient(0, 0, size, size);
+            gradient.addColorStop(0, '#667eea');
+            gradient.addColorStop(1, '#764ba2');
+            ctx.fillStyle = gradient;
+            ctx.fillRect(0, 0, size, size);
+            
+            // Cercle blanc semi-transparent
+            ctx.fillStyle = 'rgba(255,255,255,0.2)';
+            ctx.beginPath();
+            ctx.arc(size * 0.7, size * 0.3, size * 0.3, 0, 2 * Math.PI);
+            ctx.fill();
+            
+            // Emoji principal
+            ctx.font = `${size * 0.4}px serif`;
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            ctx.fillText('🍎', size * 0.5, size * 0.45);
+            
+            // Checkmark
+            ctx.font = `${size * 0.15}px serif`;
+            ctx.fillText('✅', size * 0.75, size * 0.75);
+            
+            // Bordure arrondie
+            const radius = size * 0.1;
+            ctx.strokeStyle = 'rgba(255,255,255,0.3)';
+            ctx.lineWidth = size * 0.01;
+            ctx.beginPath();
+            ctx.roundRect(size * 0.02, size * 0.02, size * 0.96, size * 0.96, radius);
+            ctx.stroke();
+        }
+        
+        function downloadIcon(size) {
+            const canvas = document.getElementById(`icon${size}`);
+            const link = document.createElement('a');
+            link.download = `icon-${size}.png`;
+            link.href = canvas.toDataURL();
+            link.click();
+        }
+        
+        // Générer les icônes au chargement
+        window.addEventListener('load', () => {
+            generateIcon(192);
+            generateIcon(512);
+        });
+    </script>
+</body>
+</html> 

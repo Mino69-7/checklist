@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="Checklist Bébé">
+    <title>Checklist Alimentaire pour Bébé</title>
+    <link rel="apple-touch-icon" href="icon-192.png">
+    <link rel="manifest" href="manifest.json">
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="app-container">
+        <header class="header">
+            <div class="header-content">
+                <div class="header-top">
+                    <h1>🍎 La découverte de Jannounette 🍏</h1>
+                    <button class="settings-btn" id="settingsBtn">
+                        <svg viewBox="0 0 24 24" class="settings-icon">
+                            <path d="M12,15.5A3.5,3.5 0 0,1 8.5,12A3.5,3.5 0 0,1 12,8.5A3.5,3.5 0 0,1 15.5,12A3.5,3.5 0 0,1 12,15.5M19.43,12.97C19.47,12.65 19.5,12.33 19.5,12C19.5,11.67 19.47,11.34 19.43,11.03L21.54,9.37C21.73,9.22 21.78,8.95 21.66,8.73L19.66,5.27C19.54,5.05 19.27,4.96 19.05,5.05L16.56,6.05C16.04,5.66 15.5,5.32 14.87,5.07L14.5,2.42C14.46,2.18 14.25,2 14,2H10C9.75,2 9.54,2.18 9.5,2.42L9.13,5.07C8.5,5.32 7.96,5.66 7.44,6.05L4.95,5.05C4.73,4.96 4.46,5.05 4.34,5.27L2.34,8.73C2.22,8.95 2.27,9.22 2.46,9.37L4.57,11.03C4.53,11.34 4.5,11.67 4.5,12C4.5,12.33 4.53,12.65 4.57,12.97L2.46,14.63C2.27,14.78 2.22,15.05 2.34,15.27L4.34,18.73C4.46,18.95 4.73,19.03 4.95,18.95L7.44,17.94C7.96,18.34 8.5,18.68 9.13,18.93L9.5,21.58C9.54,21.82 9.75,22 10,22H14C14.25,22 14.46,21.82 14.5,21.58L14.87,18.93C15.5,18.68 16.04,18.34 16.56,17.94L19.05,18.95C19.27,19.03 19.54,18.95 19.66,18.73L21.66,15.27C21.78,15.05 21.73,14.78 21.54,14.63L19.43,12.97Z" fill="currentColor"/>
+                        </svg>
+                    </button>
+                </div>
+                <p class="subtitle">Découvertes gustatives de bébé (<span id="babyAgeDisplay">4</span> mois et +)</p>
+                <div class="age-info">
+                    <span class="age-badge" id="ageBadge">👶 4 mois</span>
+                    <span class="safe-foods">Aliments adaptés et sécurisés</span>
+                </div>
+                <div class="progress-container">
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="progressFill"></div>
+                    </div>
+                    <span class="progress-text" id="progressText">0% découvert</span>
+                </div>
+            </div>
+        </header>
+
+        <nav class="tab-navigation">
+            <button class="tab-btn active" data-category="fruits">
+                🍓 Fruits
+            </button>
+            <button class="tab-btn" data-category="legumes">
+                🥕 Légumes
+            </button>
+            <button class="tab-btn" data-category="prevention">
+                ⚠️ Prévention
+            </button>
+            <button class="tab-btn" data-category="stats">
+                📊 Stats
+            </button>
+        </nav>
+
+        <main class="main-content">
+            <div class="search-container">
+                <input type="text" id="searchInput" placeholder="🔍 Rechercher un aliment..." class="search-input">
+            </div>
+
+            <div class="category-section active" id="fruits">
+                <div class="widget-grid" id="fruitsGrid">
+                    <!-- Les fruits seront générés par JavaScript -->
+                </div>
+            </div>
+
+            <div class="category-section" id="legumes">
+                <div class="widget-grid" id="legumesGrid">
+                    <!-- Les légumes seront générés par JavaScript -->
+                </div>
+            </div>
+
+            <div class="category-section" id="prevention">
+                <div class="prevention-content">
+                    <div class="prevention-header">
+                        <h2>⚠️ Aliments à éviter avant 12 mois</h2>
+                        <p class="prevention-subtitle">Important pour la sécurité de votre bébé de 4 mois</p>
+                    </div>
+                    
+                    <div class="prevention-sections">
+                        <div class="prevention-section danger">
+                            <h3>🚫 Strictement interdits</h3>
+                            <div class="prevention-grid" id="forbiddenGrid">
+                                <!-- Généré par JavaScript -->
+                            </div>
+                        </div>
+                        
+                        <div class="prevention-section warning">
+                            <h3>⚠️ À éviter (risques)</h3>
+                            <div class="prevention-grid" id="avoidGrid">
+                                <!-- Généré par JavaScript -->
+                            </div>
+                        </div>
+                        
+                        <div class="prevention-section info">
+                            <h3>📅 À introduire plus tard</h3>
+                            <div class="prevention-grid" id="laterGrid">
+                                <!-- Généré par JavaScript -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="category-section" id="stats">
+                <div class="stats-container">
+                    <div class="stat-card">
+                        <div class="stat-icon">🎯</div>
+                        <div class="stat-content">
+                            <div class="stat-number" id="totalTried">0</div>
+                            <div class="stat-label">Aliments goûtés</div>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">❤️</div>
+                        <div class="stat-content">
+                            <div class="stat-number" id="totalLoved">0</div>
+                            <div class="stat-label">Coups de cœur</div>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">🌟</div>
+                        <div class="stat-content">
+                            <div class="stat-number" id="averageRating">0.0</div>
+                            <div class="stat-label">Note moyenne</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="recent-discoveries">
+                    <h3>🎉 Dernières découvertes</h3>
+                    <div id="recentList" class="recent-list">
+                        <!-- Sera rempli par JavaScript -->
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <div class="rating-modal" id="ratingModal">
+            <div class="modal-content">
+                <h3 id="modalTitle">Comment bébé a-t-il aimé ?</h3>
+                <div class="rating-options">
+                    <button class="rating-btn" data-rating="1">
+                        <span class="rating-emoji">😖</span>
+                        <span class="rating-label">N'aime pas</span>
+                    </button>
+                    <button class="rating-btn" data-rating="2">
+                        <span class="rating-emoji">😐</span>
+                        <span class="rating-label">Bof</span>
+                    </button>
+                    <button class="rating-btn" data-rating="3">
+                        <span class="rating-emoji">😊</span>
+                        <span class="rating-label">Aime bien</span>
+                    </button>
+                    <button class="rating-btn" data-rating="4">
+                        <span class="rating-emoji">😍</span>
+                        <span class="rating-label">Adore !</span>
+                    </button>
+                </div>
+                <button class="close-modal" id="closeModal">Fermer</button>
+            </div>
+        </div>
+
+        <div class="settings-modal" id="settingsModal">
+            <div class="settings-content">
+                <div class="settings-header">
+                    <h3>⚙️ Paramètres</h3>
+                    <button class="close-settings" id="closeSettings">✕</button>
+                </div>
+                <div class="settings-body">
+                    <div class="setting-item">
+                        <label class="setting-label">🍼 Âge de bébé</label>
+                        <div class="age-selector">
+                            <button class="age-btn minus" id="ageMinus">−</button>
+                            <div class="age-display">
+                                <span class="age-number" id="ageNumber">4</span>
+                                <span class="age-unit">mois</span>
+                            </div>
+                            <button class="age-btn plus" id="agePlus">+</button>
+                        </div>
+                        <p class="setting-description">
+                            Ajustez l'âge pour adapter les recommandations alimentaires<br>
+                            <small>💡 La diversification est généralement recommandée à partir de 4 mois</small>
+                        </p>
+                    </div>
+                    
+                    <div class="setting-item">
+                        <label class="setting-label">👶 Prénom de bébé</label>
+                        <input type="text" class="name-input" id="babyName" placeholder="Nom de bébé (optionnel)" maxlength="20">
+                        <p class="setting-description">Personnalisez l'expérience avec le prénom</p>
+                    </div>
+                </div>
+                <div class="settings-footer">
+                    <button class="save-settings" id="saveSettings">💾 Sauvegarder</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="deselect-modal" id="deselectModal">
+            <div class="deselect-content">
+                <div class="deselect-header">
+                    <h3 id="deselectTitle">🤔 Modifier l'évaluation</h3>
+                    <button class="close-deselect" id="closeDeselect">✕</button>
+                </div>
+                <div class="deselect-body">
+                    <div class="current-rating">
+                        <p>Évaluation actuelle :</p>
+                        <div class="current-rating-display" id="currentRatingDisplay">
+                            <!-- Sera rempli par JavaScript -->
+                        </div>
+                    </div>
+                    <div class="deselect-options">
+                        <button class="deselect-btn modify" id="modifyRating">
+                            ✏️ Modifier la note
+                        </button>
+                        <button class="deselect-btn remove" id="removeRating">
+                            🗑️ Supprimer de la liste
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="icons.js"></script>
+    <script src="script.js"></script>
+</body>
+</html> 
