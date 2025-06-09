@@ -1356,4 +1356,1043 @@ body {
     .rating-btn {
         padding: 12px 6px;
     }
+}
+
+/* ===== CALENDRIER STYLES ===== */
+
+.calendrier-container {
+    padding: 0;
+}
+
+.calendrier-header {
+    text-align: center;
+    margin-bottom: 24px;
+    padding: 24px;
+    background: linear-gradient(135deg, #e0f2fe, #e8f5e8);
+    border-radius: var(--radius);
+    border-left: 4px solid var(--primary);
+}
+
+.calendrier-header h2 {
+    color: var(--primary);
+    margin-bottom: 8px;
+    font-size: 24px;
+    font-weight: 700;
+}
+
+.calendrier-subtitle {
+    color: var(--text-secondary);
+    font-size: 16px;
+    margin: 0 0 20px 0;
+}
+
+.semaine-navigation {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    margin-top: 16px;
+}
+
+.nav-semaine-btn {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    border: 2px solid var(--primary);
+    background: var(--surface);
+    color: var(--primary);
+    font-size: 24px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.nav-semaine-btn:hover {
+    background: var(--primary);
+    color: white;
+    transform: scale(1.1);
+}
+
+.nav-semaine-btn:active {
+    transform: scale(0.95);
+}
+
+.nav-semaine-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    transform: none;
+}
+
+.nav-semaine-btn:disabled:hover {
+    background: var(--surface);
+    color: var(--primary);
+}
+
+.semaine-info {
+    background: linear-gradient(135deg, var(--primary), var(--primary-light));
+    color: white;
+    padding: 16px 24px;
+    border-radius: var(--radius);
+    text-align: center;
+    min-width: 180px;
+    box-shadow: var(--shadow);
+}
+
+.semaine-label {
+    font-size: 12px;
+    font-weight: 500;
+    opacity: 0.9;
+    display: block;
+}
+
+.semaine-numero {
+    font-size: 28px;
+    font-weight: 800;
+    display: block;
+    line-height: 1;
+    margin: 4px 0;
+}
+
+.semaine-dates {
+    font-size: 14px;
+    font-weight: 500;
+    opacity: 0.9;
+    display: block;
+}
+
+.calendrier-content {
+    background: var(--surface);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    overflow: hidden;
+}
+
+.calendrier-semaine {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 1px;
+    background: var(--border);
+}
+
+.calendrier-jour {
+    background: var(--surface);
+    min-height: 180px;
+    padding: 12px 8px;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    transition: all 0.3s ease;
+}
+
+.calendrier-jour:hover {
+    background: rgba(99, 102, 241, 0.02);
+}
+
+.jour-header {
+    text-align: center;
+    margin-bottom: 12px;
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 8px;
+}
+
+.jour-nom {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.jour-date {
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-top: 2px;
+}
+
+.jour-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.moment-repas {
+    background: rgba(99, 102, 241, 0.05);
+    border-radius: var(--radius-sm);
+    padding: 8px;
+    border-left: 3px solid var(--primary);
+    transition: all 0.3s ease;
+}
+
+.moment-repas:hover {
+    background: rgba(99, 102, 241, 0.1);
+    transform: translateX(2px);
+}
+
+.moment-title {
+    font-size: 10px;
+    font-weight: 600;
+    color: var(--primary);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 4px;
+}
+
+.aliments-list {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.aliment-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    margin-bottom: 4px;
+    background: white;
+    transition: all 0.2s ease;
+}
+
+.aliment-info {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+}
+
+.aliment-nom {
+    font-weight: 500;
+    font-size: 11px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.aliment-duree {
+    font-size: 9px;
+    color: #666;
+    font-weight: 400;
+}
+
+.aliment-actions {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    flex-shrink: 0;
+}
+
+.aliment-eval-btn {
+    background: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    font-size: 10px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+}
+
+.aliment-eval-btn:hover {
+    background: var(--primary-dark);
+    transform: scale(1.1);
+}
+
+.aliment-note {
+    font-size: 12px;
+    cursor: pointer;
+    padding: 2px 4px;
+    border-radius: 4px;
+    background: rgba(255, 255, 255, 0.8);
+    transition: background 0.2s ease;
+}
+
+.aliment-note:hover {
+    background: rgba(255, 255, 255, 1);
+    transform: scale(1.05);
+}
+
+/* Styles pour les différentes notes dans le calendrier */
+.aliment-item.note-1 {
+    border-color: #ff6b6b;
+    background: linear-gradient(135deg, #fff, #ffebeb);
+}
+
+.aliment-item.note-2 {
+    border-color: #ffa726;
+    background: linear-gradient(135deg, #fff, #fff3e0);
+}
+
+.aliment-item.note-3 {
+    border-color: #66bb6a;
+    background: linear-gradient(135deg, #fff, #e8f5e8);
+}
+
+.aliment-item.note-4 {
+    border-color: #42a5f5;
+    background: linear-gradient(135deg, #fff, #e3f2fd);
+}
+
+/* Ajustements pour mobile */
+@media (max-width: 430px) {
+    .aliment-item {
+        padding: 6px;
+        gap: 6px;
+    }
+    
+    .aliment-nom {
+        font-size: 10px;
+    }
+    
+    .aliment-duree {
+        font-size: 8px;
+    }
+    
+    .aliment-eval-btn {
+        width: 18px;
+        height: 18px;
+        font-size: 9px;
+    }
+}
+
+/* Styles pour la suppression d'aliments - mise à jour */
+.aliment-delete {
+    background: #ff4444;
+    color: white;
+    border-radius: 50%;
+    width: 16px;
+    height: 16px;
+    font-size: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-weight: bold;
+    flex-shrink: 0;
+}
+
+.aliment-delete:hover {
+    background: #cc0000;
+    transform: scale(1.1);
+}
+
+.aliment-item.clickable:hover {
+    background: rgba(255, 105, 180, 0.05);
+    border-color: var(--primary-color);
+    transform: translateY(-1px);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+/* Calendrier Modal */
+.calendrier-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 2000;
+    padding: 20px;
+    backdrop-filter: blur(5px);
+}
+
+.calendrier-modal.active {
+    display: flex;
+}
+
+.calendrier-modal-content {
+    background: var(--surface);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-lg);
+    width: 100%;
+    max-width: 500px;
+    max-height: 90vh;
+    overflow: hidden;
+    transform: scale(0.9);
+    opacity: 0;
+    transition: all 0.3s ease;
+}
+
+.calendrier-modal.active .calendrier-modal-content {
+    transform: scale(1);
+    opacity: 1;
+}
+
+.calendrier-modal-header {
+    padding: 20px 24px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: linear-gradient(135deg, #f8fafc, #f1f5f9);
+}
+
+.calendrier-modal-header h3 {
+    margin: 0;
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--text-primary);
+}
+
+.close-calendrier-modal {
+    background: none;
+    border: none;
+    font-size: 24px;
+    color: var(--text-secondary);
+    cursor: pointer;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+}
+
+.close-calendrier-modal:hover {
+    background: rgba(0, 0, 0, 0.1);
+    color: var(--text-primary);
+}
+
+.calendrier-modal-body {
+    padding: 24px;
+    max-height: 60vh;
+    overflow-y: auto;
+}
+
+.aliment-search-section {
+    margin-bottom: 24px;
+}
+
+.search-categorie {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 16px;
+}
+
+.search-cat-btn {
+    flex: 1;
+    background: var(--background);
+    border: 2px solid var(--border);
+    padding: 12px 16px;
+    border-radius: var(--radius-sm);
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text-secondary);
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.search-cat-btn.active {
+    background: var(--primary);
+    border-color: var(--primary);
+    color: white;
+    transform: scale(1.02);
+}
+
+.aliment-search-input {
+    width: 100%;
+    padding: 16px 20px;
+    border: 2px solid var(--border);
+    border-radius: var(--radius-sm);
+    font-size: 16px;
+    color: var(--text-primary);
+    background: var(--surface);
+    transition: all 0.3s ease;
+    margin-bottom: 16px;
+}
+
+.aliment-search-input:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+}
+
+.aliments-results {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+    gap: 12px;
+    max-height: 200px;
+    overflow-y: auto;
+}
+
+.aliment-result-item {
+    background: var(--background);
+    border: 2px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 12px 8px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.aliment-result-item:hover {
+    border-color: var(--primary);
+    background: rgba(99, 102, 241, 0.05);
+    transform: translateY(-2px);
+}
+
+.aliment-result-item.selected {
+    background: var(--primary);
+    border-color: var(--primary);
+    color: white;
+    transform: scale(1.02);
+}
+
+.aliment-result-emoji {
+    font-size: 20px;
+    margin-bottom: 4px;
+    display: block;
+}
+
+.aliment-result-icon {
+    width: 20px;
+    height: 20px;
+    display: block;
+    margin: 0 auto 4px;
+    filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
+}
+
+.aliment-result-nom {
+    font-size: 12px;
+    font-weight: 600;
+    line-height: 1.2;
+}
+
+.aliment-config-section {
+    border-top: 1px solid var(--border);
+    padding-top: 24px;
+}
+
+.selected-aliment {
+    background: linear-gradient(135deg, #e0f2fe, #e8f5e8);
+    border-radius: var(--radius-sm);
+    padding: 16px;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.selected-aliment-emoji {
+    font-size: 32px;
+    margin-bottom: 8px;
+    display: block;
+}
+
+.selected-aliment-icon {
+    width: 32px;
+    height: 32px;
+    display: block;
+    margin: 0 auto 8px;
+    filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
+}
+
+.selected-aliment-nom {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--primary);
+    margin-bottom: 4px;
+}
+
+.selected-aliment-bienfaits {
+    font-size: 12px;
+    color: var(--text-secondary);
+}
+
+.config-label {
+    display: block;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 12px;
+}
+
+.config-duree {
+    margin-bottom: 24px;
+}
+
+.duree-selector {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+}
+
+.duree-btn {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: 2px solid var(--primary);
+    background: var(--surface);
+    color: var(--primary);
+    font-size: 20px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.duree-btn:hover {
+    background: var(--primary);
+    color: white;
+    transform: scale(1.1);
+}
+
+.duree-btn:active {
+    transform: scale(0.95);
+}
+
+.duree-display {
+    background: linear-gradient(135deg, var(--primary), var(--primary-light));
+    color: white;
+    padding: 12px 20px;
+    border-radius: var(--radius-sm);
+    text-align: center;
+    min-width: 100px;
+    box-shadow: var(--shadow);
+}
+
+.duree-number {
+    font-size: 20px;
+    font-weight: 800;
+    display: block;
+    line-height: 1;
+}
+
+.duree-unit {
+    font-size: 11px;
+    font-weight: 500;
+    opacity: 0.9;
+}
+
+.config-moments {
+    margin-bottom: 24px;
+}
+
+.moments-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+}
+
+.moment-checkbox {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 16px;
+    border: 2px solid var(--border);
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    background: var(--surface);
+}
+
+.moment-checkbox:hover {
+    border-color: var(--primary);
+    background: rgba(99, 102, 241, 0.05);
+}
+
+.moment-checkbox input[type="checkbox"] {
+    appearance: none;
+    width: 18px;
+    height: 18px;
+    border: 2px solid var(--border);
+    border-radius: 4px;
+    background: var(--surface);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.moment-checkbox input[type="checkbox"]:checked {
+    background: var(--primary);
+    border-color: var(--primary);
+}
+
+.moment-checkbox input[type="checkbox"]:checked::after {
+    content: '✓';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.moment-checkbox input[type="checkbox"]:checked ~ .moment-label {
+    color: var(--primary);
+    font-weight: 600;
+}
+
+.moment-label {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--text-primary);
+    flex: 1;
+    cursor: pointer;
+}
+
+.calendrier-modal-footer {
+    padding: 20px 24px;
+    border-top: 1px solid var(--border);
+    background: var(--background);
+    display: flex;
+    gap: 12px;
+    justify-content: flex-end;
+}
+
+.calendrier-modal-btn {
+    padding: 12px 24px;
+    border-radius: var(--radius-sm);
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border: none;
+}
+
+.calendrier-modal-btn.cancel {
+    background: var(--background);
+    color: var(--text-secondary);
+    border: 2px solid var(--border);
+}
+
+.calendrier-modal-btn.cancel:hover {
+    background: var(--border);
+    color: var(--text-primary);
+}
+
+.calendrier-modal-btn.confirm {
+    background: linear-gradient(135deg, var(--success), #34d399);
+    color: white;
+    border: 2px solid transparent;
+}
+
+.calendrier-modal-btn.confirm:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(16, 185, 129, 0.3);
+}
+
+/* Responsive Calendrier */
+@media (max-width: 768px) {
+    .calendrier-semaine {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        background: transparent;
+    }
+    
+    .calendrier-jour {
+        min-height: auto;
+        padding: 16px;
+        border-radius: var(--radius-sm);
+        box-shadow: var(--shadow);
+        margin-bottom: 0;
+    }
+    
+    .jour-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-bottom: 2px solid var(--border);
+        padding-bottom: 12px;
+        margin-bottom: 16px;
+    }
+    
+    .jour-nom {
+        font-size: 14px;
+    }
+    
+    .jour-date {
+        font-size: 18px;
+    }
+    
+    .semaine-navigation {
+        flex-direction: column;
+        gap: 12px;
+    }
+    
+    .nav-semaine-btn {
+        width: 40px;
+        height: 40px;
+        font-size: 20px;
+    }
+    
+    .semaine-info {
+        min-width: 160px;
+        padding: 12px 20px;
+    }
+    
+    .semaine-numero {
+        font-size: 24px;
+    }
+}
+
+@media (max-width: 430px) {
+    .calendrier-header {
+        padding: 20px 16px;
+        margin: 0 -16px 20px;
+        border-radius: 0;
+        border-left: none;
+        border-top: 4px solid var(--primary);
+    }
+    
+    .calendrier-header h2 {
+        font-size: 20px;
+    }
+    
+    .calendrier-subtitle {
+        font-size: 14px;
+    }
+    
+    .calendrier-jour {
+        padding: 12px;
+    }
+    
+    .moment-repas {
+        padding: 6px;
+    }
+    
+    .calendrier-modal-content {
+        margin: 0;
+        max-width: 100%;
+        max-height: 90vh;
+        border-radius: 16px 16px 0 0;
+    }
+    
+    .calendrier-modal {
+        align-items: flex-end;
+        padding: 0;
+    }
+    
+    .calendrier-modal-body {
+        padding: 20px;
+        max-height: 70vh;
+    }
+    
+    .aliments-results {
+        grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+        gap: 8px;
+    }
+    
+    .moments-grid {
+        grid-template-columns: 1fr;
+        gap: 8px;
+    }
+    
+    .duree-selector {
+        gap: 12px;
+    }
+    
+    .duree-btn {
+        width: 36px;
+        height: 36px;
+        font-size: 18px;
+    }
+    
+    .duree-display {
+        min-width: 80px;
+        padding: 10px 16px;
+    }
+    
+    .duree-number {
+        font-size: 18px;
+    }
+}
+
+/* Style pour le jour actuel */
+.calendrier-jour.aujourd-hui {
+    border: 2px solid var(--primary-color);
+    box-shadow: 0 4px 20px rgba(255, 105, 180, 0.3);
+}
+
+.calendrier-jour.aujourd-hui .jour-header {
+    background: linear-gradient(135deg, var(--primary-color), #ff69b4);
+    color: white;
+}
+
+/* Styles pour la suppression d'aliments */
+.aliment-item.clickable {
+    cursor: pointer;
+    position: relative;
+    transition: all 0.2s ease;
+}
+
+.aliment-item.clickable:hover {
+    background: rgba(255, 0, 0, 0.1);
+    border-color: #ff4444;
+    transform: translateY(-1px);
+}
+
+.aliment-delete {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    background: #ff4444;
+    color: white;
+    border-radius: 50%;
+    width: 16px;
+    height: 16px;
+    font-size: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+    font-weight: bold;
+}
+
+.aliment-item.clickable:hover .aliment-delete {
+    opacity: 1;
+}
+
+/* Animation pour les éléments supprimés */
+@keyframes slideOutRight {
+    from {
+        opacity: 1;
+        transform: translateX(0);
+    }
+    to {
+        opacity: 0;
+        transform: translateX(100px);
+    }
+}
+
+.aliment-item.removing {
+    animation: slideOutRight 0.3s ease forwards;
+}
+
+.ajouter-aliment-btn {
+    margin-top: auto;
+    background: transparent;
+    border: 2px dashed #ddd;
+    border-radius: 8px;
+    padding: 12px 8px;
+    color: #666;
+    font-size: 12px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+}
+
+.ajouter-aliment-btn:hover {
+    border-color: var(--primary-color);
+    color: var(--primary-color);
+    background: rgba(255, 105, 180, 0.05);
+    transform: translateY(-2px);
+}
+
+.aliment-emoji {
+    font-size: 14px;
+}
+
+.aliment-item .custom-icon.aliment-icon {
+    width: 14px;
+    height: 14px;
+    display: inline-block;
+    filter: drop-shadow(0 1px 2px rgba(0,0,0,0.1));
+    flex-shrink: 0;
+}
+
+/* Checkbox de consommation */
+.aliment-check {
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+}
+
+.aliment-checkbox {
+    width: 16px;
+    height: 16px;
+    cursor: pointer;
+    accent-color: #4CAF50;
+    margin: 0;
+}
+
+/* État consommé */
+.aliment-item.consomme {
+    background: linear-gradient(135deg, #e8f5e8, #c8e6c9) !important;
+    border-color: #4CAF50 !important;
+    box-shadow: 0 2px 8px rgba(76, 175, 80, 0.3);
+}
+
+.aliment-item.consomme .aliment-info {
+    opacity: 1;
+}
+
+.aliment-item.consomme .aliment-nom {
+    color: #2E7D32;
+    font-weight: 600;
+}
+
+.aliment-item.consomme .aliment-duree {
+    color: #388E3C;
+}
+
+/* Animation pour l'état consommé */
+.aliment-item.consomme {
+    animation: consommeGlow 0.5s ease;
+}
+
+@keyframes consommeGlow {
+    0% {
+        box-shadow: 0 2px 8px rgba(76, 175, 80, 0.3);
+    }
+    50% {
+        box-shadow: 0 4px 16px rgba(76, 175, 80, 0.6);
+        transform: scale(1.02);
+    }
+    100% {
+        box-shadow: 0 2px 8px rgba(76, 175, 80, 0.3);
+        transform: scale(1);
+    }
+}
+
+/* Combinaison état consommé + évalué */
+.aliment-item.consomme.note-1 {
+    background: linear-gradient(135deg, #e8f5e8, #ffcdd2) !important;
+    border-color: #4CAF50 !important;
+}
+
+.aliment-item.consomme.note-2 {
+    background: linear-gradient(135deg, #e8f5e8, #ffe0b2) !important;
+    border-color: #4CAF50 !important;
+}
+
+.aliment-item.consomme.note-3 {
+    background: linear-gradient(135deg, #e8f5e8, #c8e6c9) !important;
+    border-color: #4CAF50 !important;
+}
+
+.aliment-item.consomme.note-4 {
+    background: linear-gradient(135deg, #e8f5e8, #bbdefb) !important;
+    border-color: #4CAF50 !important;
+}
+
+/* Ajustements responsive pour la checkbox */
+@media (max-width: 430px) {
+    .aliment-checkbox {
+        width: 14px;
+        height: 14px;
+    }
 } 

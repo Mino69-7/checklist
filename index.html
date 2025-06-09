@@ -45,7 +45,10 @@
         </header>
 
         <nav class="tab-navigation">
-            <button class="tab-btn active" data-category="fruits">
+            <button class="tab-btn active" data-category="calendrier">
+                📅 Calendrier
+            </button>
+            <button class="tab-btn" data-category="fruits">
                 🍓 Fruits
             </button>
             <button class="tab-btn" data-category="legumes">
@@ -64,7 +67,32 @@
                 <input type="text" id="searchInput" placeholder="🔍 Rechercher un aliment..." class="search-input">
             </div>
 
-            <div class="category-section active" id="fruits">
+            <div class="category-section active" id="calendrier">
+                <div class="calendrier-container">
+                    <div class="calendrier-header">
+                        <h2>📅 Planification alimentaire</h2>
+                        <p class="calendrier-subtitle">Organisez les repas de bébé sur 4 semaines</p>
+                        
+                        <div class="semaine-navigation">
+                            <button class="nav-semaine-btn" id="prevSemaine">‹</button>
+                            <div class="semaine-info">
+                                <span class="semaine-label">Semaine</span>
+                                <span class="semaine-numero" id="semaineActuelle">1</span>
+                                <span class="semaine-dates" id="semaineDates">4-10 Nov</span>
+                            </div>
+                            <button class="nav-semaine-btn" id="nextSemaine">›</button>
+                        </div>
+                    </div>
+
+                    <div class="calendrier-content">
+                        <div class="calendrier-semaine" id="calendrierSemaine">
+                            <!-- Sera généré par JavaScript -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="category-section" id="fruits">
                 <div class="widget-grid" id="fruitsGrid">
                     <!-- Les fruits seront générés par JavaScript -->
                 </div>
@@ -223,6 +251,73 @@
                             🗑️ Supprimer de la liste
                         </button>
                     </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="calendrier-modal" id="calendrierModal">
+            <div class="calendrier-modal-content">
+                <div class="calendrier-modal-header">
+                    <h3 id="calendrierModalTitle">🍎 Ajouter un aliment</h3>
+                    <button class="close-calendrier-modal" id="closeCalendrierModal">✕</button>
+                </div>
+                <div class="calendrier-modal-body">
+                    <div class="aliment-search-section">
+                        <div class="search-categorie">
+                            <button class="search-cat-btn active" data-search-category="fruits">🍓 Fruits</button>
+                            <button class="search-cat-btn" data-search-category="legumes">🥕 Légumes</button>
+                        </div>
+                        <input type="text" id="alimentSearchInput" placeholder="🔍 Rechercher un aliment..." class="aliment-search-input">
+                        <div class="aliments-results" id="alimentsResults">
+                            <!-- Sera rempli par JavaScript -->
+                        </div>
+                    </div>
+                    
+                    <div class="aliment-config-section" id="alimentConfigSection" style="display: none;">
+                        <div class="selected-aliment" id="selectedAliment">
+                            <!-- Sera rempli par JavaScript -->
+                        </div>
+                        
+                        <div class="config-duree">
+                            <label class="config-label">🕐 Durée</label>
+                            <div class="duree-selector">
+                                <button class="duree-btn minus" id="dureeMinus">−</button>
+                                <div class="duree-display">
+                                    <span class="duree-number" id="dureeNumber">1</span>
+                                    <span class="duree-unit">jour(s)</span>
+                                </div>
+                                <button class="duree-btn plus" id="dureePlus">+</button>
+                            </div>
+                        </div>
+                        
+                        <div class="config-moments">
+                            <label class="config-label">🍽️ Moments de la journée</label>
+                            <div class="moments-grid">
+                                <label class="moment-checkbox">
+                                    <input type="checkbox" value="matin" id="momentMatin">
+                                    <span class="moment-label">🌅 Matin</span>
+                                </label>
+                                <label class="moment-checkbox">
+                                    <input type="checkbox" value="midi" id="momentMidi">
+                                    <span class="moment-label">☀️ Midi</span>
+                                </label>
+                                <label class="moment-checkbox">
+                                    <input type="checkbox" value="gouter" id="momentGouter">
+                                    <span class="moment-label">🍪 Goûter</span>
+                                </label>
+                                <label class="moment-checkbox">
+                                    <input type="checkbox" value="soir" id="momentSoir">
+                                    <span class="moment-label">🌙 Soir</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="calendrier-modal-footer">
+                    <button class="calendrier-modal-btn cancel" id="cancelCalendrierModal">Annuler</button>
+                    <button class="calendrier-modal-btn confirm" id="confirmCalendrierModal" style="display: none;">
+                        ✅ Ajouter au calendrier
+                    </button>
                 </div>
             </div>
         </div>

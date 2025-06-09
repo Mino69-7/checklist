@@ -129,18 +129,29 @@ const alimentsData = {
 class BabyFoodTracker {
     constructor() {
         this.evaluations = this.chargerEvaluations();
-        this.categorieActive = 'fruits';
+        this.categorieActive = 'calendrier';
         this.alimentActuel = null;
         this.settings = this.chargerParametres();
+        
+        // État du calendrier
+        this.calendrierData = this.chargerCalendrier();
+        this.dateDebutCalendrier = new Date('2025-06-01'); // 1er juin 2025
+        this.semaineActuelle = this.calculerSemaineActuelle();
+        this.jourActuel = null;
+        this.alimentSelectionne = null;
+        this.categorieRechercheActive = 'fruits';
+        
         this.init();
     }
 
     init() {
-        this.genererAliments();
         this.configurerEvenements();
         this.mettreAJourStatistiques();
         this.mettreAJourProgress();
         this.mettreAJourAffichageAge();
+        
+        // Initialiser l'affichage par défaut sur le calendrier
+        this.changerCategorie('calendrier');
     }
 
     chargerEvaluations() {
@@ -198,6 +209,9 @@ class BabyFoodTracker {
                 this.changerCategorie(e.target.dataset.category);
             });
         });
+
+        // Événements calendrier
+        this.configurerEvenementsCalendrier();
 
         // Recherche
         document.getElementById('searchInput').addEventListener('input', (e) => {
@@ -288,10 +302,15 @@ class BabyFoodTracker {
 
         this.categorieActive = categorie;
         
+        // Toujours mettre à jour la progression pour tous les onglets
+        this.mettreAJourProgress();
+        
         if (categorie === 'stats') {
             this.mettreAJourStatistiques();
         } else if (categorie === 'prevention') {
             this.genererPrevention();
+        } else if (categorie === 'calendrier') {
+            this.genererCalendrier();
         } else {
             this.genererAliments();
         }
@@ -369,6 +388,23 @@ class BabyFoodTracker {
         this.alimentActuel = null;
     }
 
+    // Fonction de synchronisation globale pour mettre à jour tous les affichages
+    synchroniserToutesLesDonnees() {
+        this.mettreAJourStatistiques();
+        this.mettreAJourProgress();
+        
+        // Mettre à jour l'affichage selon la catégorie active
+        if (this.categorieActive === 'calendrier') {
+            this.genererCalendrier();
+        } else if (this.categorieActive === 'stats') {
+            // Les stats sont déjà mises à jour avec mettreAJourStatistiques()
+        } else if (this.categorieActive === 'prevention') {
+            this.genererPrevention();
+        } else {
+            this.genererAliments();
+        }
+    }
+
     evaluerAliment(nomAliment, note) {
         const etaitDejaEvalue = this.evaluations[nomAliment] !== undefined;
         
@@ -411,9 +447,11 @@ class BabyFoodTracker {
         }
         
         this.fermerModal();
-        this.genererAliments();
-        this.mettreAJourStatistiques();
-        this.mettreAJourProgress();
+        
+        // Synchronisation globale avec délai pour assurer que tout est bien sauvegardé
+        setTimeout(() => {
+            this.synchroniserToutesLesDonnees();
+        }, 50);
 
         // Animation de succès
         const message = etaitDejaEvalue ? `${nomAliment} modifié ! ✏️` : `${nomAliment} évalué ! ✅`;
@@ -693,12 +731,557 @@ class BabyFoodTracker {
         localStorage.setItem('babyFoodHistorique', JSON.stringify(historiqueFiltre));
         
         this.fermerModalDeselection();
-        this.genererAliments();
-        this.mettreAJourStatistiques();
-        this.mettreAJourProgress();
+        
+        // Synchronisation globale avec délai pour assurer que tout est bien sauvegardé
+        setTimeout(() => {
+            this.synchroniserToutesLesDonnees();
+        }, 50);
         
         // Notification de suppression
         this.afficherNotificationSucces(`${nomAliment} retiré de la liste ! 🗑️`);
+    }
+
+    // ===== MÉTHODES CALENDRIER =====
+
+    chargerCalendrier() {
+        const saved = localStorage.getItem('babyFoodCalendrier');
+        if (saved) {
+            return JSON.parse(saved);
+        }
+        
+        // Structure par défaut : calendrier basé sur les dates
+        return {};
+    }
+
+    calculerSemaineActuelle() {
+        const aujourd = new Date();
+        const diffTime = aujourd.getTime() - this.dateDebutCalendrier.getTime();
+        const diffJours = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+        const semaineCalculee = Math.floor(diffJours / 7) + 1;
+        
+        // Limiter entre 1 et un maximum raisonnable (52 semaines = 1 an)
+        return Math.max(1, Math.min(52, semaineCalculee));
+    }
+
+    obtenirDatesSemaine(numeroSemaine) {
+        const premierJour = new Date(this.dateDebutCalendrier);
+        premierJour.setDate(this.dateDebutCalendrier.getDate() + (numeroSemaine - 1) * 7);
+        
+        // Ajuster au lundi de la semaine
+        const jourSemaine = premierJour.getDay();
+        const diffAuLundi = jourSemaine === 0 ? -6 : 1 - jourSemaine;
+        premierJour.setDate(premierJour.getDate() + diffAuLundi);
+        
+        const dernierJour = new Date(premierJour);
+        dernierJour.setDate(premierJour.getDate() + 6);
+        
+        return { premierJour, dernierJour };
+    }
+
+    obtenirCleCalendrier(date) {
+        // Générer une clé unique basée sur la date (YYYY-MM-DD)
+        return date.toISOString().split('T')[0];
+    }
+
+    obtenirDonneesJour(date) {
+        const cle = this.obtenirCleCalendrier(date);
+        if (!this.calendrierData[cle]) {
+            this.calendrierData[cle] = {
+                matin: [],
+                midi: [],
+                gouter: [],
+                soir: []
+            };
+        }
+        return this.calendrierData[cle];
+    }
+
+    sauvegarderCalendrier() {
+        localStorage.setItem('babyFoodCalendrier', JSON.stringify(this.calendrierData));
+    }
+
+    configurerEvenementsCalendrier() {
+        // Navigation semaines
+        const prevBtn = document.getElementById('prevSemaine');
+        const nextBtn = document.getElementById('nextSemaine');
+        
+        if (prevBtn) {
+            prevBtn.addEventListener('click', () => this.naviguerSemaine(-1));
+        }
+        if (nextBtn) {
+            nextBtn.addEventListener('click', () => this.naviguerSemaine(1));
+        }
+
+        // Modal calendrier
+        const closeModal = document.getElementById('closeCalendrierModal');
+        const cancelModal = document.getElementById('cancelCalendrierModal');
+        const confirmModal = document.getElementById('confirmCalendrierModal');
+
+        if (closeModal) {
+            closeModal.addEventListener('click', () => this.fermerModalCalendrier());
+        }
+        if (cancelModal) {
+            cancelModal.addEventListener('click', () => this.fermerModalCalendrier());
+        }
+        if (confirmModal) {
+            confirmModal.addEventListener('click', () => this.confirmerAjoutAliment());
+        }
+
+        // Recherche d'aliments
+        const searchInput = document.getElementById('alimentSearchInput');
+        if (searchInput) {
+            searchInput.addEventListener('input', (e) => this.rechercherAlimentsCalendrier(e.target.value));
+        }
+
+        // Catégories de recherche
+        document.querySelectorAll('.search-cat-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                document.querySelectorAll('.search-cat-btn').forEach(b => b.classList.remove('active'));
+                e.target.classList.add('active');
+                this.categorieRechercheActive = e.target.dataset.searchCategory;
+                this.afficherAlimentsRecherche();
+            });
+        });
+
+        // Sélecteurs de durée
+        const dureeMinus = document.getElementById('dureeMinus');
+        const dureePlus = document.getElementById('dureePlus');
+        
+        if (dureeMinus) {
+            dureeMinus.addEventListener('click', () => this.modifierDuree(-1));
+        }
+        if (dureePlus) {
+            dureePlus.addEventListener('click', () => this.modifierDuree(1));
+        }
+    }
+
+    genererCalendrier() {
+        if (this.categorieActive !== 'calendrier') return;
+        
+        this.mettreAJourNavigationSemaine();
+        this.genererSemaine();
+    }
+
+    mettreAJourNavigationSemaine() {
+        const semaineNumero = document.getElementById('semaineActuelle');
+        const semaineDates = document.getElementById('semaineDates');
+        const prevBtn = document.getElementById('prevSemaine');
+        const nextBtn = document.getElementById('nextSemaine');
+
+        if (semaineNumero) {
+            semaineNumero.textContent = this.semaineActuelle;
+        }
+
+        if (semaineDates) {
+            const { premierJour, dernierJour } = this.obtenirDatesSemaine(this.semaineActuelle);
+            
+            const formatDate = (date) => {
+                return `${date.getDate().toString().padStart(2, '0')}/${(date.getMonth() + 1).toString().padStart(2, '0')}`;
+            };
+            
+            semaineDates.textContent = `${formatDate(premierJour)} - ${formatDate(dernierJour)}`;
+        }
+
+        if (prevBtn) {
+            prevBtn.disabled = this.semaineActuelle <= 1;
+        }
+        if (nextBtn) {
+            nextBtn.disabled = this.semaineActuelle >= 52; // Limiter à 1 an
+        }
+    }
+
+    naviguerSemaine(direction) {
+        const nouvelleSemaine = this.semaineActuelle + direction;
+        if (nouvelleSemaine >= 1 && nouvelleSemaine <= 52) {
+            this.semaineActuelle = nouvelleSemaine;
+            this.genererCalendrier();
+        }
+    }
+
+    genererSemaine() {
+        const container = document.getElementById('calendrierSemaine');
+        if (!container) return;
+
+        container.innerHTML = '';
+        
+        const nomsJours = ['Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam', 'Dim'];
+        const { premierJour } = this.obtenirDatesSemaine(this.semaineActuelle);
+
+        for (let i = 0; i < 7; i++) {
+            const dateJour = new Date(premierJour);
+            dateJour.setDate(premierJour.getDate() + i);
+            
+            const jourData = this.obtenirDonneesJour(dateJour);
+            const jourElement = this.creerJourElement(dateJour, nomsJours[i], jourData);
+            container.appendChild(jourElement);
+        }
+    }
+
+    creerJourElement(dateJour, nomJour, jourData) {
+        const div = document.createElement('div');
+        div.className = 'calendrier-jour';
+        
+        // Marquer aujourd'hui
+        const aujourd = new Date();
+        const estAujourdhui = dateJour.toDateString() === aujourd.toDateString();
+        if (estAujourdhui) {
+            div.classList.add('aujourd-hui');
+        }
+        
+        const cleJour = this.obtenirCleCalendrier(dateJour);
+        
+        div.innerHTML = `
+            <div class="jour-header">
+                <div class="jour-nom">${nomJour}</div>
+                <div class="jour-date">${dateJour.getDate()}</div>
+            </div>
+            <div class="jour-content">
+                ${this.genererMomentsRepas(jourData, cleJour)}
+                <button class="ajouter-aliment-btn" data-jour="${cleJour}">
+                    <span>+</span> Ajouter
+                </button>
+            </div>
+        `;
+
+        // Ajouter les événements
+        const btnAjouter = div.querySelector('.ajouter-aliment-btn');
+        btnAjouter.addEventListener('click', () => this.ouvrirModalAjoutAliment(cleJour));
+
+        // Ajouter les événements de suppression sur les aliments existants APRÈS génération du HTML
+        setTimeout(() => {
+            div.querySelectorAll('.aliment-item.clickable').forEach(item => {
+                // Événement pour la checkbox de consommation
+                const checkbox = item.querySelector('.aliment-checkbox');
+                if (checkbox) {
+                    checkbox.addEventListener('change', (e) => {
+                        e.stopPropagation();
+                        const nomAliment = item.dataset.aliment;
+                        const moment = item.dataset.moment;
+                        this.marquerConsommation(nomAliment, cleJour, moment, checkbox.checked);
+                    });
+                }
+
+                // Événement pour l'évaluation
+                const evalBtn = item.querySelector('.aliment-eval-btn');
+                if (evalBtn) {
+                    evalBtn.addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        const nomAliment = item.dataset.aliment;
+                        this.ouvrirModalEvaluationCalendrier(nomAliment);
+                    });
+                }
+
+                // Événement pour la modification d'évaluation existante
+                const noteDiv = item.querySelector('.aliment-note');
+                if (noteDiv) {
+                    noteDiv.addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        const nomAliment = item.dataset.aliment;
+                        this.ouvrirModalEvaluationCalendrier(nomAliment);
+                    });
+                }
+
+                // Événement pour la suppression
+                const deleteBtn = item.querySelector('.aliment-delete');
+                if (deleteBtn) {
+                    deleteBtn.addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        const nomAliment = item.dataset.aliment;
+                        const moment = item.dataset.moment;
+                        this.confirmerSuppressionAliment(nomAliment, cleJour, moment);
+                    });
+                }
+            });
+        }, 0);
+
+        return div;
+    }
+
+    genererMomentsRepas(jourData, cleJour) {
+        const moments = [
+            { key: 'matin', nom: '🌅 Matin' },
+            { key: 'midi', nom: '☀️ Midi' },
+            { key: 'gouter', nom: '🍪 Goûter' },
+            { key: 'soir', nom: '🌙 Soir' }
+        ];
+
+        return moments.map(moment => {
+            const aliments = jourData[moment.key];
+            if (aliments.length === 0) return '';
+
+            return `
+                <div class="moment-repas">
+                    <div class="moment-title">${moment.nom}</div>
+                    <div class="aliments-list">
+                        ${aliments.map(aliment => this.genererAlimentItem(aliment, cleJour, moment.key)).join('')}
+                    </div>
+                </div>
+            `;
+        }).join('');
+    }
+
+    genererAlimentItem(aliment, cleJour, moment) {
+        const alimentData = this.trouverAliment(aliment.nom);
+        const customIcon = getAlimentIcon(aliment.nom);
+        const iconHtml = customIcon ? customIcon.replace('class="custom-icon"', 'class="custom-icon aliment-icon"') : `<span class="aliment-emoji">${alimentData ? alimentData.emoji : '🍎'}</span>`;
+        
+        // Vérifier si l'aliment a déjà été évalué
+        const evaluation = this.evaluations[aliment.nom];
+        const estEvalue = evaluation && evaluation.note !== undefined;
+        const noteClass = estEvalue ? `note-${evaluation.note}` : '';
+        const noteDisplay = estEvalue ? this.genererAffichageNote(evaluation.note) : '';
+        
+        // Vérifier si l'aliment a été consommé ce jour/moment
+        const estConsomme = aliment.consomme || false;
+        const consommeClass = estConsomme ? 'consomme' : '';
+        
+        return `
+            <div class="aliment-item clickable ${noteClass} ${consommeClass}" data-aliment="${aliment.nom}" data-jour="${cleJour}" data-moment="${moment}" title="${estEvalue ? 'Cliquer pour modifier/supprimer' : 'Cliquer pour évaluer/supprimer'}">
+                <div class="aliment-check">
+                    <input type="checkbox" class="aliment-checkbox" ${estConsomme ? 'checked' : ''} title="Marquer comme consommé">
+                </div>
+                ${iconHtml}
+                <div class="aliment-info">
+                    <span class="aliment-nom">${aliment.nom}</span>
+                    <span class="aliment-duree">${aliment.duree}j</span>
+                </div>
+                <div class="aliment-actions">
+                    ${estEvalue ? `<div class="aliment-note">${noteDisplay}</div>` : `<button class="aliment-eval-btn" title="Évaluer cet aliment">⭐</button>`}
+                    <span class="aliment-delete" title="Supprimer du calendrier">✕</span>
+                </div>
+            </div>
+        `;
+    }
+
+    ouvrirModalAjoutAliment(cleJour) {
+        this.jourActuel = cleJour;
+        this.alimentSelectionne = null;
+        
+        // Reset de la modal
+        document.getElementById('alimentSearchInput').value = '';
+        document.getElementById('dureeNumber').textContent = '1';
+        document.querySelectorAll('.moment-checkbox input').forEach(cb => cb.checked = false);
+        document.getElementById('alimentConfigSection').style.display = 'none';
+        document.getElementById('confirmCalendrierModal').style.display = 'none';
+        
+        // Affichage des aliments
+        this.afficherAlimentsRecherche();
+        
+        // Ouvrir la modal
+        const date = new Date(cleJour);
+        const nomJour = date.toLocaleDateString('fr-FR', { weekday: 'long' });
+        document.getElementById('calendrierModalTitle').textContent = `🍎 Ajouter un aliment - ${nomJour.charAt(0).toUpperCase() + nomJour.slice(1)} ${date.getDate()}/${date.getMonth() + 1}`;
+        document.getElementById('calendrierModal').classList.add('active');
+        document.body.style.overflow = 'hidden';
+    }
+
+    fermerModalCalendrier() {
+        document.getElementById('calendrierModal').classList.remove('active');
+        document.body.style.overflow = '';
+        this.jourActuel = null;
+        this.alimentSelectionne = null;
+    }
+
+    afficherAlimentsRecherche(termRecherche = '') {
+        const container = document.getElementById('alimentsResults');
+        if (!container) return;
+
+        const aliments = alimentsData[this.categorieRechercheActive];
+        const alimentsFiltres = aliments.filter(aliment => 
+            aliment.nom.toLowerCase().includes(termRecherche.toLowerCase())
+        );
+
+        container.innerHTML = alimentsFiltres.map(aliment => {
+            const customIcon = getAlimentIcon(aliment.nom);
+            const iconHtml = customIcon ? customIcon.replace('class="custom-icon"', 'class="aliment-result-icon"') : `<span class="aliment-result-emoji">${aliment.emoji}</span>`;
+            
+            return `
+                <div class="aliment-result-item" data-aliment="${aliment.nom}">
+                    ${iconHtml}
+                    <div class="aliment-result-nom">${aliment.nom}</div>
+                </div>
+            `;
+        }).join('');
+
+        // Ajouter les événements de sélection
+        container.querySelectorAll('.aliment-result-item').forEach(item => {
+            item.addEventListener('click', () => this.selectionnerAliment(item.dataset.aliment));
+        });
+    }
+
+    rechercherAlimentsCalendrier(terme) {
+        this.afficherAlimentsRecherche(terme);
+    }
+
+    selectionnerAliment(nomAliment) {
+        // Mettre à jour la sélection visuelle
+        document.querySelectorAll('.aliment-result-item').forEach(item => {
+            item.classList.remove('selected');
+        });
+        document.querySelector(`[data-aliment="${nomAliment}"]`).classList.add('selected');
+
+        // Stocker l'aliment sélectionné
+        this.alimentSelectionne = this.trouverAliment(nomAliment);
+        
+        // Afficher la section de configuration
+        this.afficherConfigurationAliment();
+    }
+
+    afficherConfigurationAliment() {
+        if (!this.alimentSelectionne) return;
+
+        const container = document.getElementById('selectedAliment');
+        const customIcon = getAlimentIcon(this.alimentSelectionne.nom);
+        const iconHtml = customIcon ? customIcon.replace('class="custom-icon"', 'class="selected-aliment-icon"') : `<span class="selected-aliment-emoji">${this.alimentSelectionne.emoji}</span>`;
+        
+        container.innerHTML = `
+            ${iconHtml}
+            <div class="selected-aliment-nom">${this.alimentSelectionne.nom}</div>
+            <div class="selected-aliment-bienfaits">${this.alimentSelectionne.bienfaits}</div>
+        `;
+
+        document.getElementById('alimentConfigSection').style.display = 'block';
+        document.getElementById('confirmCalendrierModal').style.display = 'block';
+    }
+
+    modifierDuree(delta) {
+        const dureeNumber = document.getElementById('dureeNumber');
+        let nouvelleDuree = parseInt(dureeNumber.textContent) + delta;
+        
+        // Limiter entre 1 et 7 jours
+        nouvelleDuree = Math.max(1, Math.min(7, nouvelleDuree));
+        
+        dureeNumber.textContent = nouvelleDuree;
+    }
+
+    confirmerAjoutAliment() {
+        if (!this.alimentSelectionne || !this.jourActuel) return;
+
+        const duree = parseInt(document.getElementById('dureeNumber').textContent);
+        const momentsCoches = Array.from(document.querySelectorAll('.moment-checkbox input:checked'))
+            .map(cb => cb.value);
+
+        if (momentsCoches.length === 0) {
+            this.afficherNotificationSucces('Veuillez sélectionner au moins un moment de la journée !');
+            return;
+        }
+
+        // Ajouter l'aliment au calendrier
+        this.ajouterAlimentAuCalendrier(this.alimentSelectionne.nom, this.jourActuel, momentsCoches, duree);
+        
+        this.fermerModalCalendrier();
+        this.genererCalendrier();
+        this.afficherNotificationSucces(`${this.alimentSelectionne.nom} ajouté au calendrier ! ✅`);
+    }
+
+    ajouterAlimentAuCalendrier(nomAliment, cleJourDebut, moments, duree) {
+        const dateDebut = new Date(cleJourDebut);
+        
+        for (let i = 0; i < duree; i++) {
+            const dateJour = new Date(dateDebut);
+            dateJour.setDate(dateDebut.getDate() + i);
+            
+            const jourData = this.obtenirDonneesJour(dateJour);
+
+            moments.forEach(moment => {
+                // Vérifier si l'aliment n'est pas déjà présent
+                const alimentExiste = jourData[moment].find(a => a.nom === nomAliment);
+                
+                if (!alimentExiste) {
+                    jourData[moment].push({
+                        nom: nomAliment,
+                        duree: duree,
+                        jourDebut: i === 0 ? cleJourDebut : null,
+                        dateAjout: new Date().toISOString(),
+                        consomme: false
+                    });
+                }
+            });
+        }
+
+        this.sauvegarderCalendrier();
+    }
+
+    confirmerSuppressionAliment(nomAliment, cleJour, moment) {
+        const confirmation = confirm(`Êtes-vous sûr de vouloir supprimer "${nomAliment}" du ${moment} ?`);
+        if (confirmation) {
+            this.supprimerAlimentDuCalendrier(nomAliment, cleJour, moment);
+            this.genererCalendrier();
+            this.afficherNotificationSucces(`${nomAliment} supprimé du calendrier ! 🗑️`);
+        }
+    }
+
+    supprimerAlimentDuCalendrier(nomAliment, cleJour, moment) {
+        const jourData = this.obtenirDonneesJour(new Date(cleJour));
+        const index = jourData[moment].findIndex(a => a.nom === nomAliment);
+        
+        if (index !== -1) {
+            jourData[moment].splice(index, 1);
+            this.sauvegarderCalendrier();
+        }
+    }
+
+    ouvrirModalEvaluationCalendrier(nomAliment) {
+        // Marquer que nous venons du calendrier
+        this.evalueDepuisCalendrier = true;
+        
+        // Utiliser la modal d'évaluation existante
+        this.ouvrirModalEvaluation(nomAliment);
+        
+        // Ajouter un callback pour régénérer le calendrier après évaluation
+        const originalFermerModal = this.fermerModal.bind(this);
+        this.fermerModal = () => {
+            originalFermerModal();
+            if (this.evalueDepuisCalendrier) {
+                // Forcer la mise à jour immédiate et complète
+                setTimeout(() => {
+                    this.genererCalendrier(); // Régénérer le calendrier pour afficher la nouvelle évaluation
+                    
+                    // Mettre à jour les statistiques et la progression depuis le calendrier
+                    this.mettreAJourStatistiques();
+                    this.mettreAJourProgress();
+                    
+                    // Rafraîchir les autres catégories si on change d'onglet
+                    if (this.categorieActive !== 'calendrier') {
+                        this.genererAliments();
+                    }
+                }, 50); // Délai court pour s'assurer que les données sont bien sauvegardées
+                
+                this.evalueDepuisCalendrier = false;
+            }
+            this.fermerModal = originalFermerModal; // Restaurer la fonction originale
+        };
+    }
+
+    marquerConsommation(nomAliment, cleJour, moment, estConsomme) {
+        const jourData = this.obtenirDonneesJour(new Date(cleJour));
+        const aliment = jourData[moment].find(a => a.nom === nomAliment);
+        
+        if (aliment) {
+            aliment.consomme = estConsomme;
+            this.sauvegarderCalendrier();
+            
+            // Mettre à jour visuellement l'élément
+            this.mettreAJourAffichageConsommation(nomAliment, cleJour, moment, estConsomme);
+            
+            // Afficher une notification
+            const message = estConsomme 
+                ? `✅ ${nomAliment} marqué comme consommé !`
+                : `⏸️ ${nomAliment} marqué comme non consommé`;
+            this.afficherNotificationSucces(message);
+        }
+    }
+
+    mettreAJourAffichageConsommation(nomAliment, cleJour, moment, estConsomme) {
+        // Trouver l'élément dans le DOM
+        const alimentElement = document.querySelector(`[data-aliment="${nomAliment}"][data-jour="${cleJour}"][data-moment="${moment}"]`);
+        if (alimentElement) {
+            if (estConsomme) {
+                alimentElement.classList.add('consomme');
+            } else {
+                alimentElement.classList.remove('consomme');
+            }
+        }
     }
 }
 
@@ -734,4 +1317,4 @@ if ('serviceWorker' in navigator) {
                 console.log('SW registration failed: ', registrationError);
             });
     });
-} 
+}
