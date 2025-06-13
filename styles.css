@@ -18,6 +18,16 @@
     --radius-sm: 8px;
 }
 
+/* ===== CORRECTION SCROLL HORIZONTAL MOBILE ===== */
+html {
+    overflow-x: hidden !important;
+    width: 100%;
+    max-width: 100%;
+    touch-action: pan-y !important;
+    -webkit-overflow-scrolling: touch;
+    box-sizing: border-box;
+}
+
 * {
     margin: 0;
     padding: 0;
@@ -27,6 +37,8 @@
     -webkit-touch-callout: none;
     -webkit-user-select: none;
     user-select: none;
+    /* Empêcher tout débordement horizontal */
+    max-width: 100%;
 }
 
 input, textarea {
@@ -40,22 +52,28 @@ body {
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     min-height: 100vh;
     color: var(--text-primary);
-    overflow-x: hidden;
+    overflow-x: hidden !important;
+    width: 100%;
+    max-width: 100vw;
     -webkit-overflow-scrolling: touch;
-    touch-action: manipulation;
+    touch-action: pan-y !important;
     position: relative;
     padding-top: env(safe-area-inset-top);
     padding-bottom: env(safe-area-inset-bottom);
     padding-left: env(safe-area-inset-left);
     padding-right: env(safe-area-inset-right);
+    box-sizing: border-box;
 }
 
 .app-container {
     max-width: 100vw;
+    width: 100%;
     min-height: 100vh;
     background: var(--background);
     position: relative;
-    touch-action: manipulation;
+    touch-action: pan-y !important;
+    overflow-x: hidden !important;
+    box-sizing: border-box;
 }
 
 /* Header */
@@ -66,6 +84,9 @@ body {
     text-align: center;
     position: relative;
     overflow: hidden;
+    width: 100%;
+    max-width: 100vw;
+    box-sizing: border-box;
 }
 
 .header::before {
@@ -88,8 +109,10 @@ body {
     position: relative;
     z-index: 2;
     max-width: 1200px;
+    width: 100%;
     margin: 0 auto;
     padding: 0 20px;
+    box-sizing: border-box;
 }
 
 .header h1 {
@@ -589,6 +612,10 @@ body {
     top: 16px;
     z-index: 10;
     margin-top: -20px;
+    width: calc(100% - 32px);
+    max-width: calc(100vw - 32px);
+    overflow-x: hidden !important;
+    box-sizing: border-box;
 }
 
 .tab-btn {
@@ -615,6 +642,12 @@ body {
 .main-content {
     padding: 20px 16px;
     padding-bottom: env(safe-area-inset-bottom, 20px);
+    max-width: 1200px;
+    margin: 0 auto;
+    width: 100%;
+    max-width: 100vw;
+    overflow-x: hidden !important;
+    box-sizing: border-box;
 }
 
 .search-container {
@@ -2957,5 +2990,125 @@ input[type="text"], input[type="search"], textarea, [contenteditable] {
     .food-widget {
         min-height: 90px;
         padding: 8px;
+    }
+}
+
+/* ===== STYLES GLOBAUX ANTI-SCROLL HORIZONTAL ===== */
+
+/* Contraintes strictes pour tous les conteneurs */
+.widget-grid,
+.prevention-grid,
+.calendrier-semaine,
+.stats-container,
+.rating-options,
+.moments-grid,
+.aliments-results,
+.search-container,
+.category-section,
+.calendrier-container,
+.calendrier-content,
+.prevention-content,
+.prevention-sections {
+    width: 100%;
+    max-width: 100%;
+    overflow-x: hidden !important;
+    box-sizing: border-box;
+}
+
+/* Contraintes pour les éléments flexibles */
+.tab-navigation,
+.header-content,
+.header-top,
+.age-info,
+.semaine-navigation,
+.semaine-info,
+.calendrier-modal-footer,
+.deselect-options,
+.settings-footer {
+    flex-wrap: wrap;
+    overflow-x: hidden !important;
+    box-sizing: border-box;
+}
+
+/* Contraintes pour les modales */
+.rating-modal,
+.calendrier-modal,
+.deselect-modal,
+.settings-modal {
+    width: 100vw;
+    max-width: 100vw;
+    overflow-x: hidden !important;
+    box-sizing: border-box;
+}
+
+.modal-content,
+.calendrier-modal-content,
+.deselect-content,
+.settings-content {
+    max-width: calc(100vw - 40px);
+    width: 100%;
+    overflow-x: hidden !important;
+    box-sizing: border-box;
+}
+
+/* Contraintes pour les éléments de grille */
+.food-widget,
+.prevention-item,
+.calendrier-jour,
+.stat-card,
+.aliment-item,
+.aliment-result-item {
+    max-width: 100%;
+    overflow-x: hidden !important;
+    box-sizing: border-box;
+}
+
+/* Contraintes pour les inputs et boutons */
+input,
+textarea,
+button,
+.search-input,
+.aliment-search-input,
+.name-input {
+    max-width: 100%;
+    box-sizing: border-box;
+}
+
+/* Empêcher le débordement des textes longs */
+.food-name,
+.prevention-name,
+.aliment-nom,
+.recent-name,
+.selected-aliment-nom {
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    hyphens: auto;
+    max-width: 100%;
+}
+
+/* Contraintes spécifiques pour mobile */
+@media (max-width: 768px) {
+    * {
+        max-width: 100vw !important;
+    }
+    
+    .header,
+    .tab-navigation,
+    .main-content,
+    .app-container {
+        overflow-x: hidden !important;
+        width: 100%;
+        max-width: 100vw;
+    }
+    
+    /* Réduire les marges sur mobile pour éviter les débordements */
+    .tab-navigation {
+        margin: 0 8px;
+        width: calc(100% - 16px);
+        max-width: calc(100vw - 16px);
+    }
+    
+    .main-content {
+        padding: 20px 8px;
     }
 } 

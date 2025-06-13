@@ -205,6 +205,88 @@ class BabyFoodTracker {
         if (metaViewport) {
             metaViewport.setAttribute('content', 'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover');
         }
+        
+        // Empêcher complètement le scroll horizontal
+        this.empecherScrollHorizontal();
+    }
+
+    // Fonction dédiée pour empêcher le scroll horizontal
+    empecherScrollHorizontal() {
+        // Empêcher le scroll horizontal avec les touches du clavier
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'ArrowLeft' || e.key === 'ArrowRight') {
+                // Permettre les flèches seulement si on est dans un input
+                if (!e.target.matches('input, textarea, [contenteditable]')) {
+                    e.preventDefault();
+                }
+            }
+        });
+
+        // Empêcher le scroll horizontal avec la molette (shift + molette)
+        document.addEventListener('wheel', function(e) {
+            if (e.shiftKey || Math.abs(e.deltaX) > Math.abs(e.deltaY)) {
+                e.preventDefault();
+            }
+        }, { passive: false });
+
+        // Empêcher le glissement horizontal sur mobile
+        let startX = 0;
+        let startY = 0;
+        
+        document.addEventListener('touchstart', function(e) {
+            startX = e.touches[0].clientX;
+            startY = e.touches[0].clientY;
+        }, { passive: true });
+
+        document.addEventListener('touchmove', function(e) {
+            if (!e.target.matches('input, textarea, [contenteditable]')) {
+                const currentX = e.touches[0].clientX;
+                const currentY = e.touches[0].clientY;
+                const diffX = Math.abs(currentX - startX);
+                const diffY = Math.abs(currentY - startY);
+                
+                // Si le mouvement est principalement horizontal, l'empêcher
+                if (diffX > diffY && diffX > 10) {
+                    e.preventDefault();
+                }
+            }
+        }, { passive: false });
+
+        // Surveiller et corriger automatiquement le scroll horizontal
+        const preventHorizontalScroll = () => {
+            if (window.scrollX !== 0) {
+                window.scrollTo(0, window.scrollY);
+            }
+            
+            // Vérifier aussi sur le body et html
+            if (document.body.scrollLeft !== 0) {
+                document.body.scrollLeft = 0;
+            }
+            if (document.documentElement.scrollLeft !== 0) {
+                document.documentElement.scrollLeft = 0;
+            }
+        };
+
+        // Surveiller en continu
+        window.addEventListener('scroll', preventHorizontalScroll, { passive: true });
+        
+        // Vérification périodique
+        setInterval(preventHorizontalScroll, 100);
+        
+        // Forcer les styles CSS via JavaScript pour être sûr
+        const style = document.createElement('style');
+        style.textContent = `
+            html, body {
+                overflow-x: hidden !important;
+                max-width: 100vw !important;
+                width: 100% !important;
+            }
+            * {
+                max-width: 100% !important;
+                box-sizing: border-box !important;
+            }
+        `;
+        document.head.appendChild(style);
     }
 
     chargerEvaluations() {
