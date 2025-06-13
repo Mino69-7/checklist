@@ -547,9 +547,33 @@ class BabyFoodTracker {
 
     evaluerAliment(nomAliment, note) {
         const etaitDejaEvalue = this.evaluations[nomAliment] !== undefined;
+        const ancienneNote = this.evaluations[nomAliment];
         
         this.evaluations[nomAliment] = note;
         this.sauvegarderEvaluations();
+        
+        // SYNCHRONISATION : Si l'aliment passe d'une évaluation par défaut (3) à une vraie évaluation,
+        // ou si c'est une nouvelle évaluation et qu'il existe dans le calendrier, s'assurer qu'il est coché
+        if (note !== 3 || !etaitDejaEvalue) {
+            // Parcourir le calendrier et s'assurer que toutes les instances de cet aliment sont cochées
+            let alimentTrouveCalendrier = false;
+            for (const [cle, donneesJour] of Object.entries(this.calendrierData)) {
+                for (const [moment, alimentsMoment] of Object.entries(donneesJour)) {
+                    alimentsMoment.forEach(aliment => {
+                        if (aliment.nom === nomAliment) {
+                            alimentTrouveCalendrier = true;
+                            if (!aliment.consomme) {
+                                aliment.consomme = true;
+                            }
+                        }
+                    });
+                }
+            }
+            
+            if (alimentTrouveCalendrier) {
+                this.sauvegarderCalendrier();
+            }
+        }
         
         // Gérer l'historique
         const maintenant = new Date();
@@ -861,6 +885,22 @@ class BabyFoodTracker {
     supprimerEvaluation() {
         const nomAliment = this.alimentActuel;
         
+        // SYNCHRONISATION : Si l'aliment était évalué avec une note par défaut (3) et qu'il existe dans le calendrier,
+        // le décocher dans le calendrier
+        if (this.evaluations[nomAliment] === 3) {
+            // Parcourir le calendrier et décocher tous les instances de cet aliment
+            for (const [cle, donneesJour] of Object.entries(this.calendrierData)) {
+                for (const [moment, alimentsMoment] of Object.entries(donneesJour)) {
+                    alimentsMoment.forEach(aliment => {
+                        if (aliment.nom === nomAliment && aliment.consomme) {
+                            aliment.consomme = false;
+                        }
+                    });
+                }
+            }
+            this.sauvegarderCalendrier();
+        }
+        
         // Supprimer de l'évaluation
         delete this.evaluations[nomAliment];
         this.sauvegarderEvaluations();
@@ -1089,6 +1129,7 @@ class BabyFoodTracker {
         
         div.innerHTML = `
             <div class="jour-header">
+                <button class="jour-delete-btn" data-jour="${cleJour}" title="Supprimer tous les aliments de ce jour">×</button>
                 <div class="jour-nom">${nomJour}</div>
                 <div class="jour-date">${dateJour.getDate()}</div>
             </div>
@@ -1103,6 +1144,13 @@ class BabyFoodTracker {
         // Ajouter les événements
         const btnAjouter = div.querySelector('.ajouter-aliment-btn');
         btnAjouter.addEventListener('click', () => this.ouvrirModalAjoutAliment(cleJour));
+
+        // Ajouter l'événement de suppression de jour
+        const btnSupprimerJour = div.querySelector('.jour-delete-btn');
+        btnSupprimerJour.addEventListener('click', (e) => {
+            e.stopPropagation();
+            this.confirmerSuppressionJour(cleJour, dateJour);
+        });
 
         // Ajouter les événements de suppression sur les aliments existants APRÈS génération du HTML
         setTimeout(() => {
@@ -1373,8 +1421,48 @@ class BabyFoodTracker {
         const index = jourData[moment].findIndex(a => a.nom === nomAliment);
         
         if (index !== -1) {
+            // Récupérer l'aliment avant suppression pour vérifier s'il était consommé
+            const alimentSupprime = jourData[moment][index];
+            const etaitConsomme = alimentSupprime.consomme;
+            
+            // Supprimer l'aliment du calendrier
             jourData[moment].splice(index, 1);
             this.sauvegarderCalendrier();
+            
+            // SYNCHRONISATION : Si l'aliment était consommé, vérifier s'il existe encore ailleurs
+            if (etaitConsomme) {
+                let existeEncoreConsomme = false;
+                
+                // Parcourir tout le calendrier pour voir si l'aliment existe encore comme consommé
+                for (const [cle, donneesJour] of Object.entries(this.calendrierData)) {
+                    for (const [momentCle, alimentsMoment] of Object.entries(donneesJour)) {
+                        if (alimentsMoment.some(a => a.nom === nomAliment && a.consomme)) {
+                            existeEncoreConsomme = true;
+                            break;
+                        }
+                    }
+                    if (existeEncoreConsomme) break;
+                }
+                
+                // Si l'aliment n'existe plus nulle part comme consommé et qu'il n'a qu'une évaluation par défaut,
+                // retirer l'évaluation automatique
+                if (!existeEncoreConsomme && this.evaluations[nomAliment] === 3) {
+                    delete this.evaluations[nomAliment];
+                    this.sauvegarderEvaluations();
+                    
+                    // Retirer de l'historique si c'était une évaluation automatique
+                    const historique = this.chargerHistorique();
+                    const historiqueFiltre = historique.filter(entree => 
+                        !(entree.aliment === nomAliment && entree.note === 3)
+                    );
+                    localStorage.setItem('babyFoodHistorique', JSON.stringify(historiqueFiltre));
+                    
+                    // Synchroniser toutes les données
+                    setTimeout(() => {
+                        this.synchroniserToutesLesDonnees();
+                    }, 50);
+                }
+            }
         }
     }
 
@@ -1418,6 +1506,68 @@ class BabyFoodTracker {
             aliment.consomme = estConsomme;
             this.sauvegarderCalendrier();
             
+            // SYNCHRONISATION : Si l'aliment est coché dans le calendrier et n'a pas encore d'évaluation,
+            // l'ajouter automatiquement aux évaluations avec une note par défaut
+            if (estConsomme && !this.evaluations[nomAliment]) {
+                // Marquer comme goûté avec une note neutre (3 = 😊) par défaut
+                this.evaluations[nomAliment] = 3;
+                this.sauvegarderEvaluations();
+                
+                // Ajouter à l'historique
+                const historique = this.chargerHistorique();
+                historique.unshift({
+                    aliment: nomAliment,
+                    note: 3,
+                    date: new Date().toISOString()
+                });
+                
+                if (historique.length > 10) {
+                    historique.splice(10);
+                }
+                localStorage.setItem('babyFoodHistorique', JSON.stringify(historique));
+                
+                // Synchroniser toutes les données
+                setTimeout(() => {
+                    this.synchroniserToutesLesDonnees();
+                }, 50);
+            }
+            
+            // Si l'aliment est décoché et qu'il n'a d'évaluation que par défaut (note 3),
+            // on peut optionnellement le retirer des évaluations
+            if (!estConsomme && this.evaluations[nomAliment] === 3) {
+                // Vérifier si cet aliment existe ailleurs dans le calendrier
+                let existeAilleurs = false;
+                for (const [cle, donneesJour] of Object.entries(this.calendrierData)) {
+                    if (cle !== cleJour) {
+                        for (const [momentCle, alimentsMoment] of Object.entries(donneesJour)) {
+                            if (alimentsMoment.some(a => a.nom === nomAliment && a.consomme)) {
+                                existeAilleurs = true;
+                                break;
+                            }
+                        }
+                        if (existeAilleurs) break;
+                    }
+                }
+                
+                // Si l'aliment n'existe nulle part ailleurs comme consommé, retirer l'évaluation par défaut
+                if (!existeAilleurs) {
+                    delete this.evaluations[nomAliment];
+                    this.sauvegarderEvaluations();
+                    
+                    // Retirer de l'historique si c'était une évaluation automatique
+                    const historique = this.chargerHistorique();
+                    const historiqueFiltre = historique.filter(entree => 
+                        !(entree.aliment === nomAliment && entree.note === 3)
+                    );
+                    localStorage.setItem('babyFoodHistorique', JSON.stringify(historiqueFiltre));
+                    
+                    // Synchroniser toutes les données
+                    setTimeout(() => {
+                        this.synchroniserToutesLesDonnees();
+                    }, 50);
+                }
+            }
+            
             // Mettre à jour visuellement l'élément
             this.mettreAJourAffichageConsommation(nomAliment, cleJour, moment, estConsomme);
             
@@ -1443,28 +1593,122 @@ class BabyFoodTracker {
 
     // Vérification périodique pour détecter le changement de jour
     demarrerVerificationJour() {
-        // Vérifier toutes les minutes si on a changé de jour
+        // Vérifier toutes les heures si on a changé de jour
         setInterval(() => {
-            const jourActuel = new Date().toDateString();
-            if (jourActuel !== this.dernierJourVerifie) {
-                this.dernierJourVerifie = jourActuel;
-                
-                // Si on est sur le calendrier, recalculer la semaine actuelle
+            const nouveauJour = new Date().toDateString();
+            if (nouveauJour !== this.dernierJourVerifie) {
+                this.dernierJourVerifie = nouveauJour;
+                // Recalculer la semaine actuelle et mettre à jour le calendrier
                 if (this.categorieActive === 'calendrier') {
-                    const nouvelleSemaine = this.calculerSemaineActuelle();
-                    if (nouvelleSemaine !== this.semaineActuelle) {
-                        this.semaineActuelle = nouvelleSemaine;
-                        this.genererCalendrier();
-                        
-                        // Notification subtile du changement de jour
-                        this.afficherNotificationSucces('📅 Nouveau jour ! Calendrier mis à jour');
-                    } else {
-                        // Même semaine mais nouveau jour, juste rafraîchir l'affichage
-                        this.genererCalendrier();
-                    }
+                    this.semaineActuelle = this.calculerSemaineActuelle();
+                    this.genererCalendrier();
                 }
             }
-        }, 60000); // Vérifier toutes les minutes
+        }, 3600000); // Vérifier toutes les heures
+    }
+
+    confirmerSuppressionJour(cleJour, dateJour) {
+        const formatDate = (date) => {
+            const options = { 
+                weekday: 'long', 
+                year: 'numeric', 
+                month: 'long', 
+                day: 'numeric' 
+            };
+            return date.toLocaleDateString('fr-FR', options);
+        };
+
+        const dateFormatee = formatDate(dateJour);
+        
+        // Compter le nombre d'aliments dans ce jour
+        const donneesJour = this.calendrierData[cleJour] || {};
+        let totalAliments = 0;
+        ['matin', 'midi', 'gouter', 'soir'].forEach(moment => {
+            if (donneesJour[moment]) {
+                totalAliments += donneesJour[moment].length;
+            }
+        });
+
+        if (totalAliments === 0) {
+            this.afficherNotificationSucces('Aucun aliment à supprimer pour ce jour.');
+            return;
+        }
+
+        const confirmation = confirm(
+            `Êtes-vous sûr de vouloir supprimer TOUS les aliments du ${dateFormatee} ?\n\n` +
+            `Cette action supprimera ${totalAliments} aliment(s) de tous les moments de la journée ` +
+            `(matin, midi, goûter, soir).\n\n` +
+            `Cette action est irréversible.`
+        );
+
+        if (confirmation) {
+            this.supprimerTousAlimentsJour(cleJour, dateFormatee);
+        }
+    }
+
+    supprimerTousAlimentsJour(cleJour, dateFormatee) {
+        // Récupérer tous les aliments consommés de ce jour avant suppression
+        const alimentsConsommesSupprimes = [];
+        if (this.calendrierData[cleJour]) {
+            ['matin', 'midi', 'gouter', 'soir'].forEach(moment => {
+                if (this.calendrierData[cleJour][moment]) {
+                    this.calendrierData[cleJour][moment].forEach(aliment => {
+                        if (aliment.consomme) {
+                            alimentsConsommesSupprimes.push(aliment.nom);
+                        }
+                    });
+                }
+            });
+        }
+        
+        // Supprimer toutes les données de ce jour
+        if (this.calendrierData[cleJour]) {
+            delete this.calendrierData[cleJour];
+            this.sauvegarderCalendrier();
+            
+            // SYNCHRONISATION : Pour chaque aliment consommé supprimé, vérifier s'il existe encore ailleurs
+            alimentsConsommesSupprimes.forEach(nomAliment => {
+                let existeEncoreConsomme = false;
+                
+                // Parcourir tout le calendrier restant pour voir si l'aliment existe encore comme consommé
+                for (const [cle, donneesJour] of Object.entries(this.calendrierData)) {
+                    for (const [moment, alimentsMoment] of Object.entries(donneesJour)) {
+                        if (alimentsMoment.some(a => a.nom === nomAliment && a.consomme)) {
+                            existeEncoreConsomme = true;
+                            break;
+                        }
+                    }
+                    if (existeEncoreConsomme) break;
+                }
+                
+                // Si l'aliment n'existe plus nulle part comme consommé et qu'il n'a qu'une évaluation par défaut,
+                // retirer l'évaluation automatique
+                if (!existeEncoreConsomme && this.evaluations[nomAliment] === 3) {
+                    delete this.evaluations[nomAliment];
+                    this.sauvegarderEvaluations();
+                    
+                    // Retirer de l'historique si c'était une évaluation automatique
+                    const historique = this.chargerHistorique();
+                    const historiqueFiltre = historique.filter(entree => 
+                        !(entree.aliment === nomAliment && entree.note === 3)
+                    );
+                    localStorage.setItem('babyFoodHistorique', JSON.stringify(historiqueFiltre));
+                }
+            });
+            
+            // Synchroniser toutes les données
+            setTimeout(() => {
+                this.synchroniserToutesLesDonnees();
+            }, 50);
+            
+            // Régénérer l'affichage du calendrier
+            this.genererCalendrier();
+            
+            // Afficher une notification de succès
+            this.afficherNotificationSucces(
+                `Tous les aliments du ${dateFormatee} ont été supprimés avec succès.`
+            );
+        }
     }
 }
 
