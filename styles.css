@@ -1,6 +1,8 @@
 :root {
     --primary: #6366f1;
     --primary-light: #818cf8;
+    --primary-color: #ff69b4;
+    --primary-dark: #e91e63;
     --secondary: #f59e0b;
     --success: #10b981;
     --warning: #f59e0b;
@@ -21,6 +23,16 @@
     padding: 0;
     box-sizing: border-box;
     -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    user-select: none;
+}
+
+input, textarea {
+    -webkit-user-select: text !important;
+    user-select: text !important;
+    touch-action: manipulation;
 }
 
 body {
@@ -29,6 +41,13 @@ body {
     min-height: 100vh;
     color: var(--text-primary);
     overflow-x: hidden;
+    -webkit-overflow-scrolling: touch;
+    touch-action: manipulation;
+    position: relative;
+    padding-top: env(safe-area-inset-top);
+    padding-bottom: env(safe-area-inset-bottom);
+    padding-left: env(safe-area-inset-left);
+    padding-right: env(safe-area-inset-right);
 }
 
 .app-container {
@@ -36,6 +55,7 @@ body {
     min-height: 100vh;
     background: var(--background);
     position: relative;
+    touch-action: manipulation;
 }
 
 /* Header */
@@ -1325,8 +1345,8 @@ body {
     }
     
     .search-input {
-        font-size: 16px; /* Évite le zoom sur iOS */
-        height: 44px; /* Taille de touche recommandée iOS */
+        font-size: 16px;
+        height: 44px;
     }
     
     .widget-grid {
@@ -2216,18 +2236,63 @@ body {
     }
 }
 
-/* Style pour le jour actuel */
+/* Style pour le jour actuel - Version améliorée et plus subtile */
 .calendrier-jour.aujourd-hui {
     border: 2px solid var(--primary-color);
-    box-shadow: 0 4px 20px rgba(255, 105, 180, 0.3);
+    box-shadow: 0 4px 20px rgba(255, 105, 180, 0.2);
+    background: linear-gradient(135deg, rgba(255, 105, 180, 0.03), rgba(138, 43, 226, 0.03));
+    position: relative;
+    transform: translateY(-2px);
+}
+
+.calendrier-jour.aujourd-hui::before {
+    content: '';
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    right: -2px;
+    bottom: -2px;
+    background: linear-gradient(135deg, var(--primary-color), #8a2be2);
+    border-radius: 12px;
+    z-index: -1;
+    opacity: 0.1;
 }
 
 .calendrier-jour.aujourd-hui .jour-header {
     background: linear-gradient(135deg, var(--primary-color), #ff69b4);
     color: white;
+    position: relative;
 }
 
-/* Styles pour la suppression d'aliments */
+.calendrier-jour.aujourd-hui .jour-header::after {
+    content: '📍';
+    position: absolute;
+    top: 2px;
+    right: 4px;
+    font-size: 10px;
+    opacity: 0.8;
+}
+
+.calendrier-jour.aujourd-hui .jour-content {
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 0 0 10px 10px;
+}
+
+/* Animation subtile pour attirer l'attention */
+@keyframes todayGlow {
+    0%, 100% {
+        box-shadow: 0 4px 20px rgba(255, 105, 180, 0.2);
+    }
+    50% {
+        box-shadow: 0 6px 25px rgba(255, 105, 180, 0.35);
+    }
+}
+
+.calendrier-jour.aujourd-hui {
+    animation: todayGlow 3s ease-in-out infinite;
+}
+
+/* Style pour la suppression d'aliments */
 .aliment-item.clickable {
     cursor: pointer;
     position: relative;
@@ -2394,5 +2459,503 @@ body {
     .aliment-checkbox {
         width: 14px;
         height: 14px;
+    }
+}
+
+/* ===== MEDIA QUERIES COMPLÈTES POUR TOUS LES iPHONE ===== */
+
+/* iPhone 16 Plus (430×932), iPhone 15 Plus (430×932), iPhone 14 Plus (428×926) */
+@media screen and (max-width: 430px) and (min-height: 850px) {
+    .header {
+        padding: env(safe-area-inset-top, 44px) 20px 30px;
+    }
+    
+    .header h1 {
+        font-size: 28px;
+        margin-top: 10px;
+    }
+    
+    .widget-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 16px;
+    }
+    
+    .calendrier-jour {
+        padding: 12px;
+        margin-bottom: 12px;
+    }
+    
+    .food-widget {
+        min-height: 140px;
+        padding: 14px;
+    }
+    
+    .tab-btn {
+        font-size: 12px;
+        padding: 12px 10px;
+    }
+}
+
+/* iPhone 16 (393×852), iPhone 15 (393×852), iPhone 14 (390×844) */
+@media screen and (max-width: 393px) and (min-height: 800px) {
+    .header {
+        padding: env(safe-area-inset-top, 44px) 18px 28px;
+    }
+    
+    .header h1 {
+        font-size: 26px;
+        line-height: 1.1;
+    }
+    
+    .subtitle {
+        font-size: 14px;
+        margin: 6px 0 16px 0;
+    }
+    
+    .widget-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 14px;
+        padding: 0 18px;
+    }
+    
+    .tab-navigation {
+        padding: 0 14px;
+    }
+    
+    .tab-btn {
+        font-size: 11px;
+        padding: 10px 8px;
+        min-height: 44px;
+    }
+    
+    .calendrier-jour {
+        padding: 10px;
+        margin-bottom: 10px;
+    }
+    
+    .moment-repas {
+        padding: 8px;
+        margin-bottom: 6px;
+    }
+    
+    .food-widget {
+        min-height: 130px;
+        padding: 12px;
+    }
+}
+
+/* iPhone 13 (390×844), iPhone 12 (390×844), iPhone 11 (414×896) */
+@media screen and (max-width: 414px) and (min-width: 390px) {
+    .header {
+        padding: env(safe-area-inset-top, 44px) 18px 28px;
+    }
+    
+    .header h1 {
+        font-size: 26px;
+        line-height: 1.2;
+    }
+    
+    .subtitle {
+        font-size: 14px;
+        margin: 6px 0 16px 0;
+    }
+    
+    .widget-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 15px;
+        padding: 0 18px;
+    }
+    
+    .calendrier-jour {
+        padding: 11px;
+        margin-bottom: 11px;
+    }
+    
+    .moment-repas {
+        padding: 9px;
+        margin-bottom: 7px;
+    }
+    
+    .food-widget {
+        min-height: 130px;
+        padding: 12px;
+    }
+    
+    .tab-btn {
+        font-size: 11px;
+        padding: 10px 8px;
+        min-height: 44px;
+    }
+    
+    .tab-navigation {
+        padding: 0 16px;
+    }
+    
+    .calendrier-header h2 {
+        font-size: 24px;
+    }
+    
+    .calendrier-subtitle {
+        font-size: 14px;
+    }
+    
+    .aliment-item {
+        padding: 8px;
+        font-size: 12px;
+    }
+}
+
+/* iPhone 13 mini (375×812), iPhone 12 mini (375×812), iPhone SE 3rd (375×667) */
+@media screen and (max-width: 375px) and (min-width: 360px) {
+    .header {
+        padding: env(safe-area-inset-top, 20px) 16px 24px;
+    }
+    
+    .header h1 {
+        font-size: 24px;
+        line-height: 1.1;
+    }
+    
+    .subtitle {
+        font-size: 13px;
+        margin: 5px 0 14px 0;
+    }
+    
+    .settings-btn {
+        width: 40px;
+        height: 40px;
+    }
+    
+    .settings-icon {
+        width: 20px;
+        height: 20px;
+    }
+    
+    .widget-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 12px;
+        padding: 0 16px;
+    }
+    
+    .food-widget {
+        padding: 12px;
+        min-height: 120px;
+    }
+    
+    .food-emoji {
+        font-size: 32px;
+    }
+    
+    .food-name {
+        font-size: 13px;
+    }
+    
+    .tab-navigation {
+        padding: 0 12px;
+    }
+    
+    .tab-btn {
+        font-size: 10px;
+        padding: 8px 6px;
+        min-height: 44px;
+    }
+    
+    .calendrier-header h2 {
+        font-size: 22px;
+    }
+    
+    .calendrier-jour {
+        padding: 8px;
+        margin-bottom: 8px;
+    }
+    
+    .moment-repas {
+        padding: 6px;
+        margin-bottom: 4px;
+    }
+    
+    .aliment-item {
+        padding: 6px;
+        font-size: 11px;
+    }
+    
+    .aliment-nom {
+        font-size: 11px;
+    }
+    
+    .aliment-duree {
+        font-size: 10px;
+    }
+    
+    .ajouter-aliment-btn {
+        padding: 4px 8px;
+        font-size: 10px;
+        min-height: 32px;
+    }
+}
+
+/* iPhone SE 2nd génération et plus petits (320px-359px) */
+@media screen and (max-width: 359px) {
+    .header {
+        padding: env(safe-area-inset-top, 16px) 12px 20px;
+    }
+    
+    .header h1 {
+        font-size: 22px;
+    }
+    
+    .subtitle {
+        font-size: 12px;
+    }
+    
+    .widget-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+        padding: 0 12px;
+    }
+    
+    .food-widget {
+        min-height: 110px;
+        padding: 10px;
+    }
+    
+    .food-emoji {
+        font-size: 28px;
+    }
+    
+    .food-name {
+        font-size: 12px;
+    }
+    
+    .tab-navigation {
+        padding: 0 8px;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+    
+    .tab-btn {
+        font-size: 9px;
+        padding: 6px 4px;
+        min-width: 60px;
+        flex-shrink: 0;
+    }
+    
+    .calendrier-jour {
+        padding: 6px;
+        margin-bottom: 6px;
+    }
+    
+    .moment-repas {
+        padding: 4px;
+        margin-bottom: 3px;
+    }
+    
+    .aliment-item {
+        padding: 4px;
+        font-size: 10px;
+    }
+    
+    .calendrier-header h2 {
+        font-size: 20px;
+    }
+    
+    .nav-semaine-btn {
+        padding: 6px 10px;
+        font-size: 12px;
+    }
+}
+
+/* Très petits écrans (< 320px) */
+@media screen and (max-width: 319px) {
+    .widget-grid {
+        grid-template-columns: 1fr;
+        gap: 8px;
+    }
+    
+    .tab-navigation {
+        flex-wrap: wrap;
+        gap: 4px;
+    }
+    
+    .tab-btn {
+        font-size: 8px;
+        padding: 4px 6px;
+        min-width: 50px;
+    }
+    
+    .header h1 {
+        font-size: 20px;
+    }
+    
+    .calendrier-jour {
+        padding: 4px;
+        margin-bottom: 4px;
+    }
+}
+
+/* Gestion des appareils avec Dynamic Island (iPhone 14 Pro, 15 Pro, 16 Pro) */
+@media screen and (max-width: 430px) and (min-height: 850px) and (-webkit-min-device-pixel-ratio: 3) {
+    .header {
+        padding: env(safe-area-inset-top, 48px) 20px 30px;
+    }
+    
+    .header::before {
+        top: -30%;
+    }
+    
+    body {
+        padding-top: env(safe-area-inset-top, 0);
+    }
+}
+
+/* Mode paysage pour tous les iPhone */
+@media screen and (max-height: 500px) and (orientation: landscape) {
+    .header {
+        padding: env(safe-area-inset-top, 8px) 20px 16px;
+    }
+    
+    .header h1 {
+        font-size: 20px;
+    }
+    
+    .subtitle {
+        font-size: 12px;
+        margin: 4px 0 12px 0;
+    }
+    
+    .widget-grid {
+        grid-template-columns: repeat(4, 1fr);
+        gap: 12px;
+    }
+    
+    .calendrier-semaine {
+        grid-template-columns: repeat(7, 1fr);
+        gap: 8px;
+    }
+    
+    .calendrier-jour {
+        padding: 6px;
+        margin-bottom: 6px;
+    }
+    
+    .modal-content, .calendrier-modal-content, .deselect-content, .settings-content {
+        max-height: 80vh;
+        overflow-y: auto;
+    }
+    
+    .food-widget {
+        min-height: 100px;
+        padding: 8px;
+    }
+    
+    .tab-btn {
+        padding: 6px 8px;
+        font-size: 10px;
+    }
+}
+
+/* Mode paysage pour petits écrans */
+@media screen and (max-height: 400px) and (orientation: landscape) {
+    .header {
+        padding: env(safe-area-inset-top, 4px) 16px 12px;
+    }
+    
+    .header h1 {
+        font-size: 18px;
+    }
+    
+    .subtitle {
+        font-size: 11px;
+        margin: 2px 0 8px 0;
+    }
+    
+    .calendrier-jour {
+        padding: 4px;
+        margin-bottom: 4px;
+    }
+}
+
+/* Fixes pour l'affichage sur les très hautes résolutions */
+@media screen and (min-height: 900px) {
+    .main-content {
+        min-height: calc(100vh - 200px);
+    }
+    
+    .calendrier-container {
+        min-height: calc(100vh - 180px);
+    }
+}
+
+/* Amélioration du touch pour les éléments interactifs */
+.tab-btn, .food-widget, .rating-btn, .nav-semaine-btn, .calendrier-jour, 
+.moment-repas, .aliment-item, .ajouter-aliment-btn, .settings-btn,
+.search-input, .aliment-search-input, .duree-btn, .moment-checkbox,
+.calendrier-modal-btn, .close-modal, .close-calendrier-modal, .close-deselect {
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+    -webkit-touch-callout: none;
+}
+
+/* Éviter le zoom accidentel sur les inputs */
+input[type="text"], input[type="search"], textarea, select {
+    font-size: 16px !important;
+    transform: scale(1);
+    -webkit-text-size-adjust: 100%;
+    -webkit-appearance: none;
+    border-radius: 8px;
+}
+
+/* Désactiver le zoom double-tap sur tous les éléments */
+*, *:before, *:after {
+    -webkit-user-select: none;
+    user-select: none;
+    touch-action: manipulation;
+}
+
+/* Permettre la sélection uniquement sur les champs de texte */
+input[type="text"], input[type="search"], textarea, [contenteditable] {
+    -webkit-user-select: text !important;
+    user-select: text !important;
+    touch-action: manipulation !important;
+}
+
+/* Améliorations spécifiques pour les modèles notch/Dynamic Island */
+@supports (padding: env(safe-area-inset-top)) {
+    .header {
+        padding-top: calc(env(safe-area-inset-top) + 20px);
+    }
+    
+    .app-container {
+        padding-top: 0;
+        padding-left: env(safe-area-inset-left);
+        padding-right: env(safe-area-inset-right);
+        padding-bottom: env(safe-area-inset-bottom);
+    }
+    
+    .modal-content, .calendrier-modal-content, .deselect-content, .settings-content {
+        margin-top: env(safe-area-inset-top, 20px);
+        margin-bottom: env(safe-area-inset-bottom, 20px);
+    }
+}
+
+/* Optimisations pour les écrans très petits en largeur */
+@media screen and (max-width: 280px) {
+    .widget-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .tab-btn {
+        font-size: 7px;
+        padding: 2px 4px;
+        min-width: 40px;
+    }
+    
+    .header h1 {
+        font-size: 18px;
+    }
+    
+    .food-widget {
+        min-height: 90px;
+        padding: 8px;
     }
 } 

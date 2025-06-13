@@ -141,6 +141,9 @@ class BabyFoodTracker {
         this.alimentSelectionne = null;
         this.categorieRechercheActive = 'fruits';
         
+        // Stocker la date actuelle pour détecter les changements de jour
+        this.dernierJourVerifie = new Date().toDateString();
+        
         this.init();
     }
 
@@ -152,6 +155,56 @@ class BabyFoodTracker {
         
         // Initialiser l'affichage par défaut sur le calendrier
         this.changerCategorie('calendrier');
+        
+        // Démarrer la vérification périodique du changement de jour
+        this.demarrerVerificationJour();
+    }
+
+    // Empêcher le zoom double-tap sur iOS et autres gestes non désirés
+    empecherZoom() {
+        let lastTouchEnd = 0;
+        
+        // Empêcher le zoom double-tap
+        document.addEventListener('touchend', function (event) {
+            const now = (new Date()).getTime();
+            if (now - lastTouchEnd <= 300) {
+                event.preventDefault();
+            }
+            lastTouchEnd = now;
+        }, { passive: false });
+
+        // Empêcher le pinch zoom
+        document.addEventListener('gesturestart', function (e) {
+            e.preventDefault();
+        }, { passive: false });
+
+        document.addEventListener('gesturechange', function (e) {
+            e.preventDefault();
+        }, { passive: false });
+
+        document.addEventListener('gestureend', function (e) {
+            e.preventDefault();
+        }, { passive: false });
+
+        // Empêcher le zoom avec la molette sur desktop
+        document.addEventListener('wheel', function(e) {
+            if (e.ctrlKey) {
+                e.preventDefault();
+            }
+        }, { passive: false });
+
+        // Empêcher les raccourcis clavier de zoom
+        document.addEventListener('keydown', function(e) {
+            if ((e.ctrlKey || e.metaKey) && (e.key === '+' || e.key === '-' || e.key === '0')) {
+                e.preventDefault();
+            }
+        });
+
+        // Forcer la taille de la viewport
+        const metaViewport = document.querySelector('meta[name="viewport"]');
+        if (metaViewport) {
+            metaViewport.setAttribute('content', 'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover');
+        }
     }
 
     chargerEvaluations() {
@@ -203,6 +256,9 @@ class BabyFoodTracker {
     }
 
     configurerEvenements() {
+        // Empêcher le zoom double-tap sur iOS
+        this.empecherZoom();
+        
         // Navigation entre onglets
         document.querySelectorAll('.tab-btn').forEach(btn => {
             btn.addEventListener('click', (e) => {
@@ -310,6 +366,8 @@ class BabyFoodTracker {
         } else if (categorie === 'prevention') {
             this.genererPrevention();
         } else if (categorie === 'calendrier') {
+            // Recalculer automatiquement la semaine actuelle à chaque retour au calendrier
+            this.semaineActuelle = this.calculerSemaineActuelle();
             this.genererCalendrier();
         } else {
             this.genererAliments();
@@ -755,27 +813,44 @@ class BabyFoodTracker {
 
     calculerSemaineActuelle() {
         const aujourd = new Date();
-        const diffTime = aujourd.getTime() - this.dateDebutCalendrier.getTime();
-        const diffJours = Math.floor(diffTime / (1000 * 60 * 60 * 24));
-        const semaineCalculee = Math.floor(diffJours / 7) + 1;
         
-        // Limiter entre 1 et un maximum raisonnable (52 semaines = 1 an)
+        // Calculer le lundi de la semaine actuelle
+        const lundiActuel = new Date(aujourd);
+        const jourSemaine = lundiActuel.getDay();
+        const diffAuLundi = jourSemaine === 0 ? -6 : 1 - jourSemaine; // Dimanche = 0, donc -6 pour aller au lundi précédent
+        lundiActuel.setDate(lundiActuel.getDate() + diffAuLundi);
+        
+        // Calculer le lundi de la première semaine (1er juin 2025 ou le lundi le plus proche)
+        const premierLundi = new Date(this.dateDebutCalendrier);
+        const jourSemaineDebut = premierLundi.getDay();
+        const diffAuLundiDebut = jourSemaineDebut === 0 ? -6 : 1 - jourSemaineDebut;
+        premierLundi.setDate(premierLundi.getDate() + diffAuLundiDebut);
+        
+        // Calculer la différence en semaines
+        const diffTime = lundiActuel.getTime() - premierLundi.getTime();
+        const diffSemaines = Math.floor(diffTime / (1000 * 60 * 60 * 24 * 7));
+        const semaineCalculee = diffSemaines + 1;
+        
+        // Limiter entre 1 et 52 semaines
         return Math.max(1, Math.min(52, semaineCalculee));
     }
 
     obtenirDatesSemaine(numeroSemaine) {
-        const premierJour = new Date(this.dateDebutCalendrier);
-        premierJour.setDate(this.dateDebutCalendrier.getDate() + (numeroSemaine - 1) * 7);
+        // Calculer le lundi de la première semaine
+        const premierLundi = new Date(this.dateDebutCalendrier);
+        const jourSemaineDebut = premierLundi.getDay();
+        const diffAuLundiDebut = jourSemaineDebut === 0 ? -6 : 1 - jourSemaineDebut;
+        premierLundi.setDate(premierLundi.getDate() + diffAuLundiDebut);
         
-        // Ajuster au lundi de la semaine
-        const jourSemaine = premierJour.getDay();
-        const diffAuLundi = jourSemaine === 0 ? -6 : 1 - jourSemaine;
-        premierJour.setDate(premierJour.getDate() + diffAuLundi);
+        // Calculer le lundi de la semaine demandée
+        const lundiSemaine = new Date(premierLundi);
+        lundiSemaine.setDate(premierLundi.getDate() + (numeroSemaine - 1) * 7);
         
-        const dernierJour = new Date(premierJour);
-        dernierJour.setDate(premierJour.getDate() + 6);
+        // Le dimanche de cette semaine
+        const dimancheSemaine = new Date(lundiSemaine);
+        dimancheSemaine.setDate(lundiSemaine.getDate() + 6);
         
-        return { premierJour, dernierJour };
+        return { premierJour: lundiSemaine, dernierJour: dimancheSemaine };
     }
 
     obtenirCleCalendrier(date) {
@@ -1282,6 +1357,32 @@ class BabyFoodTracker {
                 alimentElement.classList.remove('consomme');
             }
         }
+    }
+
+    // Vérification périodique pour détecter le changement de jour
+    demarrerVerificationJour() {
+        // Vérifier toutes les minutes si on a changé de jour
+        setInterval(() => {
+            const jourActuel = new Date().toDateString();
+            if (jourActuel !== this.dernierJourVerifie) {
+                this.dernierJourVerifie = jourActuel;
+                
+                // Si on est sur le calendrier, recalculer la semaine actuelle
+                if (this.categorieActive === 'calendrier') {
+                    const nouvelleSemaine = this.calculerSemaineActuelle();
+                    if (nouvelleSemaine !== this.semaineActuelle) {
+                        this.semaineActuelle = nouvelleSemaine;
+                        this.genererCalendrier();
+                        
+                        // Notification subtile du changement de jour
+                        this.afficherNotificationSucces('📅 Nouveau jour ! Calendrier mis à jour');
+                    } else {
+                        // Même semaine mais nouveau jour, juste rafraîchir l'affichage
+                        this.genererCalendrier();
+                    }
+                }
+            }
+        }, 60000); // Vérifier toutes les minutes
     }
 }
 
