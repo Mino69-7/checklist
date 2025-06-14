@@ -128,10 +128,18 @@ const alimentsData = {
 // Gestion de l'état de l'application
 class BabyFoodTracker {
     constructor() {
+        // État des évaluations et historique
         this.evaluations = this.chargerEvaluations();
-        this.categorieActive = 'calendrier';
         this.alimentActuel = null;
+        
+        // Liste des aliments goûtés (séparée du calendrier)
+        this.alimentsGoutes = this.chargerAlimentsGoutes();
+        
+        // Paramètres de l'application
         this.settings = this.chargerParametres();
+        
+        // Catégorie active par défaut
+        this.categorieActive = 'calendrier';
         
         // État du calendrier
         this.calendrierData = this.chargerCalendrier();
@@ -298,6 +306,11 @@ class BabyFoodTracker {
         localStorage.setItem('babyFoodEvaluations', JSON.stringify(this.evaluations));
     }
 
+    chargerAlimentsGoutes() {
+        const saved = localStorage.getItem('babyFoodAlimentsGoutes');
+        return saved ? JSON.parse(saved) : [];
+    }
+
     chargerParametres() {
         const saved = localStorage.getItem('babyFoodSettings');
         return saved ? JSON.parse(saved) : {
@@ -367,6 +380,11 @@ class BabyFoodTracker {
                 const rating = parseInt(e.currentTarget.dataset.rating);
                 this.evaluerAliment(this.alimentActuel, rating);
             });
+        });
+
+        // Bouton "Supprimer de la liste"
+        document.getElementById('removeFromListBtn').addEventListener('click', () => {
+            this.supprimerAlimentDeLaListe();
         });
 
         // Fermer modal en cliquant à l'extérieur
@@ -473,26 +491,36 @@ class BabyFoodTracker {
         div.className = 'food-widget';
         div.style.animationDelay = `${index * 0.1}s`;
         
+        // Vérifier si l'aliment a été goûté (présent dans le calendrier comme consommé)
+        const estGoute = this.verifierAlimentGoute(aliment.nom);
         const evaluation = this.evaluations[aliment.nom];
-        const estEssaye = evaluation !== undefined;
+        const estEvalue = evaluation !== undefined;
         
-        if (estEssaye) {
+        if (estGoute) {
             div.classList.add('tried');
         }
 
         const customIcon = getAlimentIcon(aliment.nom);
         const iconHtml = customIcon ? customIcon : `<span class="food-emoji">${aliment.emoji}</span>`;
         
+        // Afficher l'emoji de notation seulement si l'aliment est goûté ET évalué
+        const noteDisplay = (estGoute && estEvalue) ? this.genererAffichageNote(evaluation) : '';
+        
         div.innerHTML = `
             ${iconHtml}
             <h3 class="food-name">${aliment.nom}</h3>
             <p class="food-benefits">${aliment.bienfaits}</p>
-            ${estEssaye ? this.genererAffichageNote(evaluation) : ''}
-            ${estEssaye ? `<div class="status-badge rating-${evaluation}"></div>` : ''}
+            ${noteDisplay}
         `;
 
         div.addEventListener('click', () => {
-            this.ouvrirModalEvaluation(aliment.nom);
+            if (!estGoute) {
+                // Si pas encore goûté, le marquer comme goûté
+                this.marquerAlimentCommeGoute(aliment.nom);
+            } else {
+                // Si déjà goûté, ouvrir la modal d'évaluation
+                this.ouvrirModalEvaluation(aliment.nom);
+            }
         });
 
         return div;
@@ -500,31 +528,46 @@ class BabyFoodTracker {
 
     genererAffichageNote(note) {
         const emojis = ['', '😖', '😐', '😊', '😍'];
-        const couleurs = ['', '#ef4444', '#f59e0b', '#eab308', '#10b981'];
         
         return `
-            <div class="rating-display">
-                <span class="rating-star" style="color: ${couleurs[note]}">${emojis[note]}</span>
+            <div class="rating-display-corner">
+                <span class="rating-emoji-corner">${emojis[note]}</span>
             </div>
         `;
     }
 
     ouvrirModalEvaluation(nomAliment) {
+        // NOUVELLE LOGIQUE : Vérifier que l'aliment a été goûté avant d'autoriser l'évaluation
+        if (!this.verifierAlimentGoute(nomAliment)) {
+            this.afficherNotificationSucces('Cet aliment doit d\'abord être goûté avant d\'être évalué !');
+            return;
+        }
+        
         this.alimentActuel = nomAliment;
         
-        // Vérifier si l'aliment est déjà évalué
-        if (this.evaluations[nomAliment]) {
-            this.ouvrirModalDeselection(nomAliment);
-        } else {
-            document.getElementById('modalTitle').textContent = `Comment bébé a-t-il aimé ${nomAliment} ?`;
-            document.getElementById('ratingModal').classList.add('active');
-            document.body.style.overflow = 'hidden';
+        // Toujours afficher la modal de notation
+        document.getElementById('modalTitle').textContent = `Comment bébé a-t-il aimé ${nomAliment} ?`;
+        
+        // Afficher le bouton "Supprimer de la liste" puisque l'aliment est goûté
+        const removeBtn = document.getElementById('removeFromListBtn');
+        if (removeBtn) {
+            removeBtn.style.display = 'block';
         }
+        
+        document.getElementById('ratingModal').classList.add('active');
+        document.body.style.overflow = 'hidden';
     }
 
     fermerModal() {
         document.getElementById('ratingModal').classList.remove('active');
         document.body.style.overflow = '';
+        
+        // Cacher le bouton "Supprimer de la liste"
+        const removeBtn = document.getElementById('removeFromListBtn');
+        if (removeBtn) {
+            removeBtn.style.display = 'none';
+        }
+        
         this.alimentActuel = null;
     }
 
@@ -547,33 +590,13 @@ class BabyFoodTracker {
 
     evaluerAliment(nomAliment, note) {
         const etaitDejaEvalue = this.evaluations[nomAliment] !== undefined;
-        const ancienneNote = this.evaluations[nomAliment];
         
         this.evaluations[nomAliment] = note;
         this.sauvegarderEvaluations();
         
-        // SYNCHRONISATION : Si l'aliment passe d'une évaluation par défaut (3) à une vraie évaluation,
-        // ou si c'est une nouvelle évaluation et qu'il existe dans le calendrier, s'assurer qu'il est coché
-        if (note !== 3 || !etaitDejaEvalue) {
-            // Parcourir le calendrier et s'assurer que toutes les instances de cet aliment sont cochées
-            let alimentTrouveCalendrier = false;
-            for (const [cle, donneesJour] of Object.entries(this.calendrierData)) {
-                for (const [moment, alimentsMoment] of Object.entries(donneesJour)) {
-                    alimentsMoment.forEach(aliment => {
-                        if (aliment.nom === nomAliment) {
-                            alimentTrouveCalendrier = true;
-                            if (!aliment.consomme) {
-                                aliment.consomme = true;
-                            }
-                        }
-                    });
-                }
-            }
-            
-            if (alimentTrouveCalendrier) {
-                this.sauvegarderCalendrier();
-            }
-        }
+        // NOUVELLE LOGIQUE : Plus de synchronisation automatique avec le calendrier
+        // L'évaluation se fait uniquement depuis les pages fruits/légumes
+        // et seulement si l'aliment a déjà été goûté
         
         // Gérer l'historique
         const maintenant = new Date();
@@ -679,11 +702,55 @@ class BabyFoodTracker {
     }
 
     trouverAliment(nom) {
-        for (const categorie of Object.values(alimentsData)) {
-            const aliment = categorie.find(a => a.nom === nom);
+        for (const categorie of ['fruits', 'legumes']) {
+            const aliment = alimentsData[categorie].find(a => a.nom === nom);
             if (aliment) return aliment;
         }
         return null;
+    }
+
+    // NOUVELLE FONCTION : Vérifier si un aliment a été goûté (dans la liste ou dans le calendrier comme consommé)
+    verifierAlimentGoute(nomAliment) {
+        // D'abord vérifier dans la liste des aliments goûtés
+        if (this.alimentsGoutes && this.alimentsGoutes.includes(nomAliment)) {
+            return true;
+        }
+        
+        // Ensuite vérifier dans le calendrier s'il est présent et consommé
+        for (const [cle, donneesJour] of Object.entries(this.calendrierData)) {
+            for (const [moment, alimentsMoment] of Object.entries(donneesJour)) {
+                if (alimentsMoment.some(a => a.nom === nomAliment && a.consomme)) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    // NOUVELLE FONCTION : Marquer un aliment comme goûté (sans l'ajouter au calendrier)
+    marquerAlimentCommeGoute(nomAliment) {
+        // Simplement marquer l'aliment comme goûté dans une liste séparée
+        // Ne pas l'ajouter au calendrier - cela se fait uniquement depuis la page calendrier
+        
+        if (!this.alimentsGoutes) {
+            this.alimentsGoutes = [];
+        }
+        
+        if (!this.alimentsGoutes.includes(nomAliment)) {
+            this.alimentsGoutes.push(nomAliment);
+            
+            // Sauvegarder la liste des aliments goûtés
+            localStorage.setItem('babyFoodAlimentsGoutes', JSON.stringify(this.alimentsGoutes));
+            
+            // Synchroniser l'affichage
+            setTimeout(() => {
+                this.synchroniserToutesLesDonnees();
+            }, 50);
+            
+            this.afficherNotificationSucces(`✅ ${nomAliment} marqué comme goûté !`);
+        } else {
+            this.afficherNotificationSucces(`${nomAliment} est déjà marqué comme goûté !`);
+        }
     }
 
     mettreAJourProgress() {
@@ -885,25 +952,27 @@ class BabyFoodTracker {
     supprimerEvaluation() {
         const nomAliment = this.alimentActuel;
         
-        // SYNCHRONISATION : Si l'aliment était évalué avec une note par défaut (3) et qu'il existe dans le calendrier,
-        // le décocher dans le calendrier
-        if (this.evaluations[nomAliment] === 3) {
-            // Parcourir le calendrier et décocher tous les instances de cet aliment
-            for (const [cle, donneesJour] of Object.entries(this.calendrierData)) {
-                for (const [moment, alimentsMoment] of Object.entries(donneesJour)) {
-                    alimentsMoment.forEach(aliment => {
-                        if (aliment.nom === nomAliment && aliment.consomme) {
-                            aliment.consomme = false;
-                        }
-                    });
-                }
-            }
-            this.sauvegarderCalendrier();
-        }
-        
         // Supprimer de l'évaluation
         delete this.evaluations[nomAliment];
         this.sauvegarderEvaluations();
+        
+        // Vérifier si l'aliment existe encore dans le calendrier comme consommé
+        let existeDansCalendrier = false;
+        for (const [cle, donneesJour] of Object.entries(this.calendrierData)) {
+            for (const [moment, alimentsMoment] of Object.entries(donneesJour)) {
+                if (alimentsMoment.some(a => a.nom === nomAliment && a.consomme)) {
+                    existeDansCalendrier = true;
+                    break;
+                }
+            }
+            if (existeDansCalendrier) break;
+        }
+        
+        // Si l'aliment n'existe plus dans le calendrier, le retirer aussi de la liste des aliments goûtés
+        if (!existeDansCalendrier && this.alimentsGoutes.includes(nomAliment)) {
+            this.alimentsGoutes = this.alimentsGoutes.filter(aliment => aliment !== nomAliment);
+            localStorage.setItem('babyFoodAlimentsGoutes', JSON.stringify(this.alimentsGoutes));
+        }
         
         // Supprimer de l'historique
         const historique = this.chargerHistorique();
@@ -913,6 +982,38 @@ class BabyFoodTracker {
         this.fermerModalDeselection();
         
         // Synchronisation globale avec délai pour assurer que tout est bien sauvegardé
+        setTimeout(() => {
+            this.synchroniserToutesLesDonnees();
+        }, 50);
+        
+        // Notification de suppression
+        this.afficherNotificationSucces(`${nomAliment} retiré de la liste ! 🗑️`);
+    }
+
+    // NOUVELLE FONCTION : Supprimer un aliment de la liste des aliments goûtés
+    supprimerAlimentDeLaListe() {
+        const nomAliment = this.alimentActuel;
+        
+        // Supprimer de la liste des aliments goûtés
+        if (this.alimentsGoutes.includes(nomAliment)) {
+            this.alimentsGoutes = this.alimentsGoutes.filter(aliment => aliment !== nomAliment);
+            localStorage.setItem('babyFoodAlimentsGoutes', JSON.stringify(this.alimentsGoutes));
+        }
+        
+        // Supprimer l'évaluation s'il y en a une
+        if (this.evaluations[nomAliment]) {
+            delete this.evaluations[nomAliment];
+            this.sauvegarderEvaluations();
+            
+            // Supprimer de l'historique
+            const historique = this.chargerHistorique();
+            const historiqueFiltre = historique.filter(entree => entree.aliment !== nomAliment);
+            localStorage.setItem('babyFoodHistorique', JSON.stringify(historiqueFiltre));
+        }
+        
+        this.fermerModal();
+        
+        // Synchronisation globale
         setTimeout(() => {
             this.synchroniserToutesLesDonnees();
         }, 50);
@@ -942,7 +1043,7 @@ class BabyFoodTracker {
         const diffAuLundi = jourSemaine === 0 ? -6 : 1 - jourSemaine; // Dimanche = 0, donc -6 pour aller au lundi précédent
         lundiActuel.setDate(lundiActuel.getDate() + diffAuLundi);
         
-        // Calculer le lundi de la première semaine (1er juin 2025 ou le lundi le plus proche)
+        // Calculer le lundi de la première semaine (1er juin 2024 ou le lundi le plus proche)
         const premierLundi = new Date(this.dateDebutCalendrier);
         const jourSemaineDebut = premierLundi.getDay();
         const diffAuLundiDebut = jourSemaineDebut === 0 ? -6 : 1 - jourSemaineDebut;
@@ -953,8 +1054,13 @@ class BabyFoodTracker {
         const diffSemaines = Math.floor(diffTime / (1000 * 60 * 60 * 24 * 7));
         const semaineCalculee = diffSemaines + 1;
         
-        // Limiter entre 1 et 52 semaines
-        return Math.max(1, Math.min(52, semaineCalculee));
+        // S'assurer que la semaine est positive et raisonnable
+        if (semaineCalculee < 1) {
+            return 1;
+        }
+        
+        // Limiter à un maximum raisonnable (2 ans = 104 semaines)
+        return Math.min(semaineCalculee, 104);
     }
 
     obtenirDatesSemaine(numeroSemaine) {
@@ -1083,13 +1189,13 @@ class BabyFoodTracker {
             prevBtn.disabled = this.semaineActuelle <= 1;
         }
         if (nextBtn) {
-            nextBtn.disabled = this.semaineActuelle >= 52; // Limiter à 1 an
+            nextBtn.disabled = this.semaineActuelle >= 104; // Limiter à 2 ans
         }
     }
 
     naviguerSemaine(direction) {
         const nouvelleSemaine = this.semaineActuelle + direction;
-        if (nouvelleSemaine >= 1 && nouvelleSemaine <= 52) {
+        if (nouvelleSemaine >= 1 && nouvelleSemaine <= 104) {
             this.semaineActuelle = nouvelleSemaine;
             this.genererCalendrier();
         }
@@ -1283,8 +1389,33 @@ class BabyFoodTracker {
     fermerModalCalendrier() {
         document.getElementById('calendrierModal').classList.remove('active');
         document.body.style.overflow = '';
+        
+        // Réinitialiser tous les états
         this.jourActuel = null;
         this.alimentSelectionne = null;
+        
+        // Réinitialiser l'affichage de la modal
+        document.getElementById('alimentConfigSection').style.display = 'none';
+        document.getElementById('confirmCalendrierModal').style.display = 'none';
+        
+        // Réinitialiser la recherche
+        document.getElementById('alimentSearchInput').value = '';
+        
+        // Réinitialiser la sélection visuelle
+        document.querySelectorAll('.aliment-result-item').forEach(item => {
+            item.classList.remove('selected');
+        });
+        
+        // Réinitialiser les moments cochés
+        document.querySelectorAll('.moment-checkbox input').forEach(checkbox => {
+            checkbox.checked = false;
+        });
+        
+        // Réinitialiser la durée
+        document.getElementById('dureeNumber').textContent = '1';
+        
+        // Réafficher les aliments par défaut
+        this.afficherAlimentsRecherche();
     }
 
     afficherAlimentsRecherche(termRecherche = '') {
@@ -1444,23 +1575,15 @@ class BabyFoodTracker {
                     if (existeEncoreConsomme) break;
                 }
                 
-                // Si l'aliment n'existe plus nulle part comme consommé et qu'il n'a qu'une évaluation par défaut,
-                // retirer l'évaluation automatique
-                if (!existeEncoreConsomme && this.evaluations[nomAliment] === 3) {
+                // Si l'aliment n'existe plus nulle part comme consommé, retirer toute évaluation
+                if (!existeEncoreConsomme && this.evaluations[nomAliment]) {
                     delete this.evaluations[nomAliment];
                     this.sauvegarderEvaluations();
                     
-                    // Retirer de l'historique si c'était une évaluation automatique
+                    // Retirer de l'historique
                     const historique = this.chargerHistorique();
-                    const historiqueFiltre = historique.filter(entree => 
-                        !(entree.aliment === nomAliment && entree.note === 3)
-                    );
+                    const historiqueFiltre = historique.filter(entree => entree.aliment !== nomAliment);
                     localStorage.setItem('babyFoodHistorique', JSON.stringify(historiqueFiltre));
-                    
-                    // Synchroniser toutes les données
-                    setTimeout(() => {
-                        this.synchroniserToutesLesDonnees();
-                    }, 50);
                 }
             }
         }
@@ -1506,59 +1629,31 @@ class BabyFoodTracker {
             aliment.consomme = estConsomme;
             this.sauvegarderCalendrier();
             
-            // SYNCHRONISATION : Si l'aliment est coché dans le calendrier et n'a pas encore d'évaluation,
-            // l'ajouter automatiquement aux évaluations avec une note par défaut
-            if (estConsomme && !this.evaluations[nomAliment]) {
-                // Marquer comme goûté avec une note neutre (3 = 😊) par défaut
-                this.evaluations[nomAliment] = 3;
-                this.sauvegarderEvaluations();
-                
-                // Ajouter à l'historique
-                const historique = this.chargerHistorique();
-                historique.unshift({
-                    aliment: nomAliment,
-                    note: 3,
-                    date: new Date().toISOString()
-                });
-                
-                if (historique.length > 10) {
-                    historique.splice(10);
-                }
-                localStorage.setItem('babyFoodHistorique', JSON.stringify(historique));
-                
-                // Synchroniser toutes les données
-                setTimeout(() => {
-                    this.synchroniserToutesLesDonnees();
-                }, 50);
-            }
+            // NOUVELLE LOGIQUE : Plus d'évaluation automatique
+            // Cocher dans le calendrier = juste marquer comme goûté, sans note
             
-            // Si l'aliment est décoché et qu'il n'a d'évaluation que par défaut (note 3),
-            // on peut optionnellement le retirer des évaluations
-            if (!estConsomme && this.evaluations[nomAliment] === 3) {
-                // Vérifier si cet aliment existe ailleurs dans le calendrier
+            // Si l'aliment est décoché, on peut optionnellement retirer l'évaluation s'il n'existe nulle part ailleurs
+            if (!estConsomme && this.evaluations[nomAliment]) {
+                // Vérifier si cet aliment existe ailleurs dans le calendrier comme consommé
                 let existeAilleurs = false;
                 for (const [cle, donneesJour] of Object.entries(this.calendrierData)) {
-                    if (cle !== cleJour) {
-                        for (const [momentCle, alimentsMoment] of Object.entries(donneesJour)) {
-                            if (alimentsMoment.some(a => a.nom === nomAliment && a.consomme)) {
-                                existeAilleurs = true;
-                                break;
-                            }
+                    for (const [momentCle, alimentsMoment] of Object.entries(donneesJour)) {
+                        if (alimentsMoment.some(a => a.nom === nomAliment && a.consomme)) {
+                            existeAilleurs = true;
+                            break;
                         }
-                        if (existeAilleurs) break;
                     }
+                    if (existeAilleurs) break;
                 }
                 
-                // Si l'aliment n'existe nulle part ailleurs comme consommé, retirer l'évaluation par défaut
+                // Si l'aliment n'existe nulle part ailleurs comme consommé, retirer l'évaluation
                 if (!existeAilleurs) {
                     delete this.evaluations[nomAliment];
                     this.sauvegarderEvaluations();
                     
-                    // Retirer de l'historique si c'était une évaluation automatique
+                    // Retirer de l'historique
                     const historique = this.chargerHistorique();
-                    const historiqueFiltre = historique.filter(entree => 
-                        !(entree.aliment === nomAliment && entree.note === 3)
-                    );
+                    const historiqueFiltre = historique.filter(entree => entree.aliment !== nomAliment);
                     localStorage.setItem('babyFoodHistorique', JSON.stringify(historiqueFiltre));
                     
                     // Synchroniser toutes les données
@@ -1573,8 +1668,8 @@ class BabyFoodTracker {
             
             // Afficher une notification
             const message = estConsomme 
-                ? `✅ ${nomAliment} marqué comme consommé !`
-                : `⏸️ ${nomAliment} marqué comme non consommé`;
+                ? `✅ ${nomAliment} marqué comme goûté !`
+                : `⏸️ ${nomAliment} marqué comme non goûté`;
             this.afficherNotificationSucces(message);
         }
     }
@@ -1681,17 +1776,14 @@ class BabyFoodTracker {
                     if (existeEncoreConsomme) break;
                 }
                 
-                // Si l'aliment n'existe plus nulle part comme consommé et qu'il n'a qu'une évaluation par défaut,
-                // retirer l'évaluation automatique
-                if (!existeEncoreConsomme && this.evaluations[nomAliment] === 3) {
+                // Si l'aliment n'existe plus nulle part comme consommé, retirer toute évaluation
+                if (!existeEncoreConsomme && this.evaluations[nomAliment]) {
                     delete this.evaluations[nomAliment];
                     this.sauvegarderEvaluations();
                     
-                    // Retirer de l'historique si c'était une évaluation automatique
+                    // Retirer de l'historique
                     const historique = this.chargerHistorique();
-                    const historiqueFiltre = historique.filter(entree => 
-                        !(entree.aliment === nomAliment && entree.note === 3)
-                    );
+                    const historiqueFiltre = historique.filter(entree => entree.aliment !== nomAliment);
                     localStorage.setItem('babyFoodHistorique', JSON.stringify(historiqueFiltre));
                 }
             });
