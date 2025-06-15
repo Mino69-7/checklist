@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <title>🧪 Test Responsive iPhone</title>
+    
+    <!-- Styles -->
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="responsive-iphone.css">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        /* Styles de test pour visualiser les breakpoints */
+        .test-info {
+            position: fixed;
+            top: 10px;
+            left: 10px;
+            background: rgba(0,0,0,0.8);
+            color: white;
+            padding: 8px 12px;
+            border-radius: 8px;
+            font-size: 12px;
+            z-index: 9999;
+            font-family: monospace;
+        }
+        
+        .test-section {
+            margin: 20px 0;
+            padding: 20px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 16px;
+            backdrop-filter: blur(10px);
+        }
+        
+        .test-title {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 16px;
+            color: white;
+            text-align: center;
+        }
+        
+        .test-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 16px;
+            margin-top: 16px;
+        }
+        
+        .test-item {
+            background: white;
+            padding: 16px;
+            border-radius: 12px;
+            text-align: center;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        
+        .device-info {
+            background: rgba(255,255,255,0.9);
+            padding: 16px;
+            border-radius: 12px;
+            margin: 16px;
+            text-align: center;
+        }
+        
+        .breakpoint-indicator {
+            position: fixed;
+            bottom: 10px;
+            right: 10px;
+            background: #10b981;
+            color: white;
+            padding: 8px 12px;
+            border-radius: 8px;
+            font-size: 12px;
+            font-weight: 600;
+            z-index: 9999;
+        }
+        
+        /* Indicateurs de breakpoints */
+        .breakpoint-indicator::before {
+            content: "Inconnu";
+        }
+        
+        @media screen and (max-width: 430px) and (min-width: 415px) {
+            .breakpoint-indicator::before {
+                content: "iPhone Pro Max/Plus (430px)";
+            }
+            .breakpoint-indicator {
+                background: #8b5cf6;
+            }
+        }
+        
+        @media screen and (max-width: 414px) and (min-width: 376px) {
+            .breakpoint-indicator::before {
+                content: "iPhone Standard (390px)";
+            }
+            .breakpoint-indicator {
+                background: #0ea5e9;
+            }
+        }
+        
+        @media screen and (max-width: 375px) {
+            .breakpoint-indicator::before {
+                content: "iPhone SE/Petit (375px)";
+            }
+            .breakpoint-indicator {
+                background: #f59e0b;
+            }
+        }
+        
+        @media screen and (max-height: 500px) and (orientation: landscape) {
+            .breakpoint-indicator::before {
+                content: "Mode Paysage";
+            }
+            .breakpoint-indicator {
+                background: #ef4444;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="test-info">
+        Largeur: <span id="width"></span>px | 
+        Hauteur: <span id="height"></span>px |
+        Ratio: <span id="ratio"></span>
+    </div>
+    
+    <div class="breakpoint-indicator"></div>
+    
+    <div class="app-container">
+        <header class="header">
+            <div class="header-content">
+                <div class="header-top">
+                    <h1>🍎 Test Responsive iPhone 🍏</h1>
+                    <button class="settings-btn" id="settingsBtn">
+                        <svg viewBox="0 0 24 24" class="settings-icon">
+                            <path d="M12,15.5A3.5,3.5 0 0,1 8.5,12A3.5,3.5 0 0,1 12,8.5A3.5,3.5 0 0,1 15.5,12A3.5,3.5 0 0,1 12,15.5M19.43,12.97C19.47,12.65 19.5,12.33 19.5,12C19.5,11.67 19.47,11.34 19.43,11.03L21.54,9.37C21.73,9.22 21.78,8.95 21.66,8.73L19.66,5.27C19.54,5.05 19.27,4.96 19.05,5.05L16.56,6.05C16.04,5.66 15.5,5.32 14.87,5.07L14.5,2.42C14.46,2.18 14.25,2 14,2H10C9.75,2 9.54,2.18 9.5,2.42L9.13,5.07C8.5,5.32 7.96,5.66 7.44,6.05L4.95,5.05C4.73,4.96 4.46,5.05 4.34,5.27L2.34,8.73C2.22,8.95 2.27,9.22 2.46,9.37L4.57,11.03C4.53,11.34 4.5,11.67 4.5,12C4.5,12.33 4.53,12.65 4.57,12.97L2.46,14.63C2.27,14.78 2.22,15.05 2.34,15.27L4.34,18.73C4.46,18.95 4.73,19.03 4.95,18.95L7.44,17.94C7.96,18.34 8.5,18.68 9.13,18.93L9.5,21.58C9.54,21.82 9.75,22 10,22H14C14.25,22 14.46,21.82 14.5,21.58L14.87,18.93C15.5,18.68 16.04,18.34 16.56,17.94L19.05,18.95C19.27,19.03 19.54,18.95 19.66,18.73L21.66,15.27C21.78,15.05 21.73,14.78 21.54,14.63L19.43,12.97Z" fill="currentColor"/>
+                        </svg>
+                    </button>
+                </div>
+                <p class="subtitle">Test du responsive pour iPhone 12-16</p>
+                <div class="age-info">
+                    <span class="age-badge">📱 iPhone</span>
+                    <span class="safe-foods">Dynamic Island Compatible</span>
+                </div>
+                <div class="progress-container">
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 75%;"></div>
+                    </div>
+                    <span class="progress-text">75% testé</span>
+                </div>
+            </div>
+        </header>
+
+        <nav class="tab-navigation">
+            <button class="tab-btn active">📅 Calendrier</button>
+            <button class="tab-btn">🍓 Fruits</button>
+            <button class="tab-btn">🥕 Légumes</button>
+            <button class="tab-btn">⚠️ Prévention</button>
+            <button class="tab-btn">📊 Stats</button>
+        </nav>
+
+        <main class="main-content">
+            <div class="device-info">
+                <h3>📱 Informations de l'appareil</h3>
+                <p><strong>User Agent:</strong> <span id="userAgent"></span></p>
+                <p><strong>Viewport:</strong> <span id="viewport"></span></p>
+                <p><strong>Safe Area:</strong> <span id="safeArea"></span></p>
+                <p><strong>Device Pixel Ratio:</strong> <span id="dpr"></span></p>
+            </div>
+            
+            <div class="test-section">
+                <div class="test-title">🎯 Test du Header</div>
+                <p style="color: white; text-align: center;">
+                    Vérifiez que le titre et le bouton settings ne se chevauchent pas.<br>
+                    Le bouton doit être bien positionné à droite avec suffisamment d'espace.
+                </p>
+            </div>
+            
+            <div class="test-section">
+                <div class="test-title">🧭 Test de la Navigation</div>
+                <p style="color: white; text-align: center;">
+                    Les onglets doivent être bien espacés et facilement cliquables.<br>
+                    Minimum 44px de hauteur pour les zones de touch.
+                </p>
+            </div>
+            
+            <div class="test-section">
+                <div class="test-title">🍎 Test des Widgets</div>
+                <div class="widget-grid">
+                    <div class="food-widget">
+                        <div class="food-emoji">🍎</div>
+                        <div class="food-name">Pomme</div>
+                        <div class="food-benefits">Riche en fibres</div>
+                    </div>
+                    <div class="food-widget">
+                        <div class="food-emoji">🍌</div>
+                        <div class="food-name">Banane</div>
+                        <div class="food-benefits">Potassium</div>
+                    </div>
+                    <div class="food-widget">
+                        <div class="food-emoji">🥕</div>
+                        <div class="food-name">Carotte</div>
+                        <div class="food-benefits">Vitamine A</div>
+                    </div>
+                    <div class="food-widget">
+                        <div class="food-emoji">🥦</div>
+                        <div class="food-name">Brocoli</div>
+                        <div class="food-benefits">Vitamine C</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="test-section">
+                <div class="test-title">📅 Test du Calendrier</div>
+                <div class="ios-calendar-container">
+                    <div class="calendar-month-view">
+                        <div class="calendar-header">
+                            <button class="calendar-nav-btn">‹</button>
+                            <h2 class="calendar-title">Décembre 2024</h2>
+                            <button class="calendar-nav-btn">›</button>
+                        </div>
+                        
+                        <div class="calendar-weekdays">
+                            <div class="weekday">L</div>
+                            <div class="weekday">M</div>
+                            <div class="weekday">M</div>
+                            <div class="weekday">J</div>
+                            <div class="weekday">V</div>
+                            <div class="weekday">S</div>
+                            <div class="weekday">D</div>
+                        </div>
+                        
+                        <div class="calendar-grid">
+                            <div class="calendar-day other-month">
+                                <div class="day-number">25</div>
+                            </div>
+                            <div class="calendar-day other-month">
+                                <div class="day-number">26</div>
+                            </div>
+                            <div class="calendar-day other-month">
+                                <div class="day-number">27</div>
+                            </div>
+                            <div class="calendar-day other-month">
+                                <div class="day-number">28</div>
+                            </div>
+                            <div class="calendar-day other-month">
+                                <div class="day-number">29</div>
+                            </div>
+                            <div class="calendar-day other-month">
+                                <div class="day-number">30</div>
+                            </div>
+                            <div class="calendar-day">
+                                <div class="day-number">1</div>
+                            </div>
+                            <div class="calendar-day">
+                                <div class="day-number">2</div>
+                            </div>
+                            <div class="calendar-day">
+                                <div class="day-number">3</div>
+                            </div>
+                            <div class="calendar-day">
+                                <div class="day-number">4</div>
+                            </div>
+                            <div class="calendar-day">
+                                <div class="day-number">5</div>
+                            </div>
+                            <div class="calendar-day">
+                                <div class="day-number">6</div>
+                            </div>
+                            <div class="calendar-day">
+                                <div class="day-number">7</div>
+                            </div>
+                            <div class="calendar-day">
+                                <div class="day-number">8</div>
+                            </div>
+                            <div class="calendar-day">
+                                <div class="day-number">9</div>
+                            </div>
+                            <div class="calendar-day">
+                                <div class="day-number">10</div>
+                            </div>
+                            <div class="calendar-day">
+                                <div class="day-number">11</div>
+                            </div>
+                            <div class="calendar-day">
+                                <div class="day-number">12</div>
+                            </div>
+                            <div class="calendar-day">
+                                <div class="day-number">13</div>
+                            </div>
+                            <div class="calendar-day today">
+                                <div class="day-number">14</div>
+                                <div class="day-indicators">
+                                    <div class="day-indicator"></div>
+                                    <div class="day-indicator"></div>
+                                </div>
+                            </div>
+                            <div class="calendar-day has-events">
+                                <div class="day-number">15</div>
+                                <div class="day-indicators">
+                                    <div class="day-indicator"></div>
+                                </div>
+                            </div>
+                            <div class="calendar-day">
+                                <div class="day-number">16</div>
+                            </div>
+                            <div class="calendar-day">
+                                <div class="day-number">17</div>
+                            </div>
+                            <div class="calendar-day">
+                                <div class="day-number">18</div>
+                            </div>
+                            <div class="calendar-day">
+                                <div class="day-number">19</div>
+                            </div>
+                            <div class="calendar-day">
+                                <div class="day-number">20</div>
+                            </div>
+                            <div class="calendar-day">
+                                <div class="day-number">21</div>
+                            </div>
+                            <div class="calendar-day">
+                                <div class="day-number">22</div>
+                            </div>
+                            <div class="calendar-day">
+                                <div class="day-number">23</div>
+                            </div>
+                            <div class="calendar-day">
+                                <div class="day-number">24</div>
+                            </div>
+                            <div class="calendar-day">
+                                <div class="day-number">25</div>
+                            </div>
+                            <div class="calendar-day">
+                                <div class="day-number">26</div>
+                            </div>
+                            <div class="calendar-day">
+                                <div class="day-number">27</div>
+                            </div>
+                            <div class="calendar-day">
+                                <div class="day-number">28</div>
+                            </div>
+                            <div class="calendar-day">
+                                <div class="day-number">29</div>
+                            </div>
+                            <div class="calendar-day">
+                                <div class="day-number">30</div>
+                            </div>
+                            <div class="calendar-day">
+                                <div class="day-number">31</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="test-section">
+                <div class="test-title">🎛️ Test des Modales</div>
+                <div class="test-grid">
+                    <button class="test-item" onclick="showTestModal()">
+                        Tester Modal
+                    </button>
+                    <button class="test-item" onclick="showRatingModal()">
+                        Tester Rating
+                    </button>
+                    <button class="test-item" onclick="showSettingsModal()">
+                        Tester Settings
+                    </button>
+                </div>
+            </div>
+        </main>
+    </div>
+    
+    <!-- Modal de test -->
+    <div class="rating-modal" id="testModal">
+        <div class="modal-content">
+            <button class="close-modal" onclick="hideTestModal()">×</button>
+            <h3>🧪 Modal de Test</h3>
+            <div class="rating-options">
+                <div class="rating-btn">
+                    <div class="rating-emoji">😍</div>
+                    <div class="rating-label">Excellent</div>
+                </div>
+                <div class="rating-btn">
+                    <div class="rating-emoji">😊</div>
+                    <div class="rating-label">Bien</div>
+                </div>
+                <div class="rating-btn">
+                    <div class="rating-emoji">😐</div>
+                    <div class="rating-label">Moyen</div>
+                </div>
+                <div class="rating-btn">
+                    <div class="rating-emoji">😞</div>
+                    <div class="rating-label">Pas bien</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Mise à jour des informations en temps réel
+        function updateInfo() {
+            const width = window.innerWidth;
+            const height = window.innerHeight;
+            const ratio = (width / height).toFixed(2);
+            
+            document.getElementById('width').textContent = width;
+            document.getElementById('height').textContent = height;
+            document.getElementById('ratio').textContent = ratio;
+            
+            document.getElementById('userAgent').textContent = navigator.userAgent.substring(0, 50) + '...';
+            document.getElementById('viewport').textContent = `${width}x${height}`;
+            document.getElementById('safeArea').textContent = `Top: ${getComputedStyle(document.documentElement).getPropertyValue('env(safe-area-inset-top)')} | Bottom: ${getComputedStyle(document.documentElement).getPropertyValue('env(safe-area-inset-bottom)')}`;
+            document.getElementById('dpr').textContent = window.devicePixelRatio;
+        }
+        
+        // Fonctions pour les modales de test
+        function showTestModal() {
+            document.getElementById('testModal').classList.add('active');
+        }
+        
+        function hideTestModal() {
+            document.getElementById('testModal').classList.remove('active');
+        }
+        
+        function showRatingModal() {
+            alert('Modal de rating - Vérifiez que les boutons sont bien dimensionnés');
+        }
+        
+        function showSettingsModal() {
+            alert('Modal de settings - Vérifiez l\'espacement et la lisibilité');
+        }
+        
+        // Mise à jour initiale et lors du redimensionnement
+        updateInfo();
+        window.addEventListener('resize', updateInfo);
+        window.addEventListener('orientationchange', () => {
+            setTimeout(updateInfo, 100);
+        });
+        
+        // Test des interactions tactiles
+        document.querySelectorAll('.tab-btn, .settings-btn, .calendar-nav-btn, .food-widget').forEach(element => {
+            element.addEventListener('touchstart', function() {
+                this.style.transform = 'scale(0.95)';
+            });
+            
+            element.addEventListener('touchend', function() {
+                this.style.transform = '';
+            });
+        });
+    </script>
+</body>
+</html> 

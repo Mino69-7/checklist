@@ -80,13 +80,15 @@ body {
 .header {
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     color: white;
-    padding: env(safe-area-inset-top, 20px) 20px 30px;
+    padding: max(env(safe-area-inset-top), 20px) 20px 30px;
     text-align: center;
     position: relative;
     overflow: hidden;
     width: 100%;
     max-width: 100vw;
     box-sizing: border-box;
+    /* Support pour Dynamic Island */
+    padding-top: max(env(safe-area-inset-top), 44px);
 }
 
 .header::before {
@@ -188,9 +190,18 @@ body {
     position: relative;
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: space-between;
     margin-bottom: 8px;
     min-height: 48px;
+    width: 100%;
+    max-width: 100%;
+}
+
+.header-top h1 {
+    flex: 1;
+    text-align: center;
+    margin: 0;
+    padding: 0 60px; /* Espace pour le bouton settings */
 }
 
 .settings-btn {
@@ -198,6 +209,7 @@ body {
     right: 0;
     top: 50%;
     transform: translateY(-50%);
+    flex-shrink: 0;
     background: rgba(255,255,255,0.15);
     border: none;
     border-radius: 50%;
@@ -441,63 +453,85 @@ body {
 /* iPhone Pro Max / iPhone 16 Plus optimizations */
 @media screen and (max-width: 430px) {
     .header {
-        padding-top: max(env(safe-area-inset-top, 25px), 35px);
+        padding-top: max(env(safe-area-inset-top, 25px), 50px);
     }
     
     .header-content {
-        padding: 0 16px;
+        padding: 0 20px;
+        position: relative;
     }
     
     .header-top {
-        margin-bottom: 12px;
-        padding: 0 4px;
+        margin-bottom: 16px;
+        padding: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+        min-height: 48px;
     }
     
     .header h1 {
-        font-size: 20px;
-        line-height: 1.1;
-        max-width: calc(100% - 50px);
-        margin: 0 auto;
+        font-size: 22px;
+        line-height: 1.2;
+        margin: 0;
+        text-align: center;
+        flex: 1;
+        padding: 0 60px; /* Espace pour le bouton settings */
+        box-sizing: border-box;
     }
     
     .settings-btn {
-        width: 38px;
-        height: 38px;
+        width: 44px;
+        height: 44px;
         right: 0;
-        top: 0;
-        transform: none;
+        top: 50%;
+        transform: translateY(-50%);
         position: absolute;
+        border-radius: 22px;
+        background: rgba(255,255,255,0.15);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255,255,255,0.2);
+        display: flex;
+        align-items: center;
+        justify-content: center;
     }
     
     .settings-btn:hover {
-        transform: rotate(90deg) scale(1.05);
+        transform: translateY(-50%) scale(1.05) rotate(90deg);
+        background: rgba(255,255,255,0.25);
     }
     
     .settings-btn:active {
-        transform: rotate(90deg) scale(0.95);
+        transform: translateY(-50%) scale(0.95) rotate(90deg);
     }
     
     .settings-icon {
-        width: 18px;
-        height: 18px;
+        width: 20px;
+        height: 20px;
+        color: white;
     }
     
     .subtitle {
-        font-size: 14px;
+        font-size: 15px;
+        margin: 8px 0 16px 0;
     }
     
     .age-info {
-        gap: 8px;
+        gap: 10px;
         flex-wrap: wrap;
+        justify-content: center;
+        margin-bottom: 16px;
     }
     
     .age-badge {
-        font-size: 11px;
-        padding: 6px 10px;
+        font-size: 12px;
+        padding: 8px 12px;
+        border-radius: 20px;
     }
     
     .safe-foods {
-        font-size: 11px;
+        font-size: 12px;
     }
 }
 
@@ -1538,77 +1572,319 @@ body {
 .calendar-grid {
     display: grid;
     grid-template-columns: repeat(7, 1fr);
-    gap: 1px;
-    background: rgba(0, 0, 0, 0.05);
-    padding: 1px;
+    gap: 8px;
+    padding: 20px;
+    background: transparent;
 }
 
 .calendar-day {
-    background: var(--surface);
-    aspect-ratio: 1;
-    min-height: 60px;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: transparent;
     display: flex;
-    flex-direction: column;
     align-items: center;
-    justify-content: flex-start;
-    padding: 8px 4px;
+    justify-content: center;
     cursor: pointer;
-    transition: all 0.2s ease;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     position: relative;
-    border-radius: 2px;
+    margin: 0 auto;
+    border: none;
+    box-shadow: none;
 }
 
 .calendar-day:hover {
-    background: rgba(99, 102, 241, 0.05);
-    transform: scale(1.02);
+    background: rgba(99, 102, 241, 0.1);
+    transform: scale(1.1);
 }
 
 .calendar-day.other-month {
+    opacity: 0.3;
+}
+
+.calendar-day.other-month .day-number {
     color: var(--text-secondary);
-    opacity: 0.4;
 }
 
 .calendar-day.today {
     background: linear-gradient(135deg, var(--primary), #7c3aed);
     color: white;
     font-weight: 600;
-    box-shadow: 0 2px 8px rgba(99, 102, 241, 0.3);
+    box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
 }
 
 .calendar-day.today:hover {
-    transform: scale(1.05);
-    box-shadow: 0 4px 12px rgba(99, 102, 241, 0.4);
+    transform: scale(1.15);
+    box-shadow: 0 6px 20px rgba(99, 102, 241, 0.4);
+}
+
+.calendar-day.has-events {
+    background: rgba(99, 102, 241, 0.08);
+    border: 2px solid rgba(99, 102, 241, 0.2);
+}
+
+.calendar-day.has-events:hover {
+    background: rgba(99, 102, 241, 0.15);
+    border-color: rgba(99, 102, 241, 0.4);
+}
+
+.calendar-day.today.has-events {
+    background: linear-gradient(135deg, var(--primary), #7c3aed);
+    border: 2px solid rgba(255, 255, 255, 0.3);
 }
 
 .day-number {
     font-size: 16px;
     font-weight: 500;
-    margin-bottom: 4px;
     line-height: 1;
+    color: var(--text-primary);
+    position: relative;
+    z-index: 2;
 }
 
 .calendar-day.today .day-number {
     font-weight: 700;
+    color: white;
 }
 
 .day-indicators {
+    position: absolute;
+    bottom: 2px;
+    left: 50%;
+    transform: translateX(-50%);
     display: flex;
-    gap: 2px;
-    flex-wrap: wrap;
+    gap: 1px;
     justify-content: center;
-    max-width: 100%;
+    z-index: 1;
 }
 
 .day-indicator {
-    width: 6px;
-    height: 6px;
+    width: 3px;
+    height: 3px;
     border-radius: 50%;
     background: var(--primary);
-    opacity: 0.7;
+    opacity: 0.8;
 }
 
 .calendar-day.today .day-indicator {
-    background: rgba(255, 255, 255, 0.8);
+    background: rgba(255, 255, 255, 0.9);
+}
+
+/* Animation pour la transition vers la vue semaine */
+.calendar-grid.transitioning {
+    pointer-events: none;
+}
+
+.calendar-day.selected-week {
+    animation: moveToWeekView 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+.calendar-day.fade-out {
+    animation: fadeOutDay 0.4s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+@keyframes moveToWeekView {
+    0% {
+        transform: translateY(0) scale(1);
+    }
+    100% {
+        transform: translateY(-200px) scale(0.9);
+    }
+}
+
+@keyframes fadeOutDay {
+    0% {
+        opacity: 1;
+        transform: scale(1);
+    }
+    100% {
+        opacity: 0;
+        transform: scale(0.8);
+    }
+}
+
+/* Vue semaine */
+.calendar-week-view {
+    width: 100%;
+    background: var(--surface);
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.calendar-week-view.active {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.week-header {
+    padding: 20px 24px 16px;
+    background: linear-gradient(135deg, #f8fafc, #f1f5f9);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.week-navigation {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+.back-to-month-btn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: none;
+    border: none;
+    color: var(--primary);
+    font-size: 16px;
+    font-weight: 500;
+    cursor: pointer;
+    padding: 8px 12px;
+    border-radius: 8px;
+    transition: all 0.2s ease;
+}
+
+.back-to-month-btn:hover {
+    background: rgba(99, 102, 241, 0.1);
+}
+
+.back-arrow {
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.week-days-container {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    padding: 0 20px;
+}
+
+.week-day {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: transparent;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    border: 2px solid transparent;
+}
+
+.week-day:hover {
+    background: rgba(99, 102, 241, 0.08);
+    transform: scale(1.05);
+}
+
+/* Jour avec repas (priorité la plus basse) */
+.week-day.has-events {
+    background: rgba(99, 102, 241, 0.06);
+}
+
+.week-day.has-events:hover {
+    background: rgba(99, 102, 241, 0.12);
+}
+
+/* Jour actuel (priorité moyenne) - petit point discret */
+.week-day.today::after {
+    content: '';
+    position: absolute;
+    bottom: 4px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    background: var(--primary);
+    z-index: 3;
+}
+
+/* Jour sélectionné (priorité la plus haute) - contour animé */
+.week-day.selected {
+    border: 2px solid var(--primary);
+    background: rgba(99, 102, 241, 0.1);
+    transform: scale(1.08);
+    box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.2);
+    animation: selectedPulse 2s ease-in-out infinite;
+}
+
+.week-day.selected:hover {
+    transform: scale(1.1);
+}
+
+/* Combinaisons d'états */
+.week-day.today.has-events::after {
+    background: var(--primary);
+    box-shadow: 0 0 4px rgba(99, 102, 241, 0.5);
+}
+
+.week-day.selected.today::after {
+    background: white;
+    box-shadow: 0 0 4px rgba(255, 255, 255, 0.8);
+}
+
+.week-day.selected.has-events {
+    background: rgba(99, 102, 241, 0.15);
+}
+
+/* Animation subtile pour le jour sélectionné */
+@keyframes selectedPulse {
+    0%, 100% {
+        box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.2);
+    }
+    50% {
+        box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.1);
+    }
+}
+
+.week-day-number {
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 1;
+    color: var(--text-primary);
+    position: relative;
+    z-index: 2;
+}
+
+.week-day.selected .week-day-number {
+    font-weight: 600;
+    color: var(--primary);
+}
+
+.week-day.today .week-day-number {
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.week-day.selected.today .week-day-number {
+    font-weight: 700;
+    color: var(--primary);
+}
+
+.week-day-indicators {
+    position: absolute;
+    bottom: 2px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 1px;
+    justify-content: center;
+}
+
+.week-day-indicator {
+    width: 3px;
+    height: 3px;
+    border-radius: 50%;
+    background: var(--primary);
+    opacity: 0.8;
+}
+
+.week-day.today .week-day-indicator {
+    background: rgba(255, 255, 255, 0.9);
 }
 
 /* Vue détail jour */
@@ -3564,4 +3840,263 @@ button,
         top: 0px;
         right: 1px;
     }
-} 
+}
+
+/* Styles responsive pour la nouvelle interface calendrier iOS */
+@media (max-width: 768px) {
+    .calendar-grid {
+        gap: 6px;
+        padding: 16px;
+    }
+    
+    .calendar-day {
+        width: 40px;
+        height: 40px;
+    }
+    
+    .day-number {
+        font-size: 14px;
+    }
+    
+    .day-indicator {
+        width: 2px;
+        height: 2px;
+    }
+    
+    .week-header {
+        padding: 16px 20px 12px;
+    }
+    
+    .week-days-container {
+        gap: 10px;
+        padding: 0 16px;
+    }
+    
+    .week-day {
+        width: 40px;
+        height: 40px;
+    }
+    
+    .week-day-number {
+        font-size: 14px;
+    }
+    
+    .week-day.today::after {
+        width: 3px;
+        height: 3px;
+        bottom: 3px;
+    }
+    
+    .back-to-month-btn {
+        font-size: 15px;
+        padding: 7px 11px;
+    }
+}
+
+@media (max-width: 480px) {
+    .calendar-grid {
+        gap: 4px;
+        padding: 12px;
+    }
+    
+    .calendar-day {
+        width: 36px;
+        height: 36px;
+    }
+    
+    .day-number {
+        font-size: 13px;
+    }
+    
+    .week-header {
+        padding: 14px 16px 10px;
+    }
+    
+    .week-days-container {
+        gap: 8px;
+        padding: 0 12px;
+    }
+    
+    .week-day {
+        width: 36px;
+        height: 36px;
+    }
+    
+    .week-day-number {
+        font-size: 13px;
+    }
+    
+    .week-day.today::after {
+        width: 3px;
+        height: 3px;
+        bottom: 2px;
+    }
+    
+    .back-to-month-btn {
+        font-size: 14px;
+        padding: 6px 10px;
+    }
+    
+    .back-arrow {
+        font-size: 16px;
+    }
+}
+
+@media (max-width: 375px) {
+    .calendar-grid {
+        gap: 3px;
+        padding: 10px;
+    }
+    
+    .calendar-day {
+        width: 34px;
+        height: 34px;
+    }
+    
+    .day-number {
+        font-size: 12px;
+    }
+    
+    .week-days-container {
+        gap: 6px;
+        padding: 0 10px;
+    }
+    
+    .week-day {
+        width: 34px;
+        height: 34px;
+    }
+    
+    .week-day-number {
+        font-size: 12px;
+    }
+    
+    .week-day.today::after {
+        width: 2px;
+        height: 2px;
+        bottom: 2px;
+    }
+}
+
+/* Icônes personnalisées - Taille cohérente avec emojis Apple */
+.custom-icon {
+    width: 1.2em !important;
+    height: 1.2em !important;
+    display: inline-block;
+    vertical-align: middle;
+    filter: drop-shadow(0 1px 2px rgba(0,0,0,0.1));
+}
+
+/* Adaptations contextuelles pour différentes tailles */
+.food-widget .custom-icon {
+    width: 28px !important;
+    height: 28px !important;
+}
+
+.food-widget .food-emoji {
+    font-size: 28px;
+}
+
+.aliment-item .custom-icon {
+    width: 18px !important;
+    height: 18px !important;
+}
+
+.aliment-item .food-emoji {
+    font-size: 18px;
+}
+
+.calendar-popup .custom-icon {
+    width: 22px !important;
+    height: 22px !important;
+}
+
+.calendar-popup .food-emoji {
+    font-size: 22px;
+}
+
+.recent-emoji .custom-icon {
+    width: 20px !important;
+    height: 20px !important;
+}
+
+.recent-emoji {
+    font-size: 20px;
+}
+
+/* Styles pour les résultats de recherche d'aliments */
+.aliment-result-icon {
+    width: 24px !important;
+    height: 24px !important;
+}
+
+.aliment-result-emoji {
+    font-size: 24px;
+}
+
+/* Styles pour la sélection d'aliment */
+.selected-aliment-icon {
+    width: 32px !important;
+    height: 32px !important;
+}
+
+.selected-aliment-emoji {
+    font-size: 32px;
+}
+
+/* Amélioration de la lisibilité des icônes */
+.custom-icon {
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: crisp-edges;
+}
+
+/* Hover effects pour les icônes */
+.food-widget:hover .custom-icon,
+.aliment-item:hover .custom-icon {
+    filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2)) brightness(1.1);
+    transform: scale(1.05);
+    transition: all 0.2s ease;
+}
+
+/* Styles spécifiques pour les icônes dans le calendrier */
+.food-item-emoji-icon {
+    width: 20px !important;
+    height: 20px !important;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.aliment-icon {
+    width: 16px !important;
+    height: 16px !important;
+}
+
+.prevention-emoji {
+    width: 20px !important;
+    height: 20px !important;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+/* Styles pour les aliments consommés dans le calendrier */
+.aliment-item.consomme {
+    background: rgba(40, 167, 69, 0.1);
+    border-color: #28a745;
+}
+
+.aliment-item.consomme .aliment-checkbox {
+    background: #28a745;
+    border-color: #28a745;
+}
+
+.aliment-item.consomme .aliment-checkbox:after {
+    content: '✓';
+    color: white;
+    font-size: 12px;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+}

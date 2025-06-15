@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Cohérence Emojis - Calendrier</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        
+        .test-container {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        
+        .test-section {
+            margin-bottom: 40px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 15px;
+            border-left: 5px solid #007AFF;
+        }
+        
+        .test-title {
+            font-size: 20px;
+            font-weight: 700;
+            color: #1d1d1f;
+            margin-bottom: 15px;
+        }
+        
+        .comparison-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 15px;
+        }
+        
+        .context-demo {
+            background: white;
+            border-radius: 12px;
+            padding: 15px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        
+        .context-title {
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 14px;
+        }
+        
+        .demo-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 8px;
+            border-radius: 8px;
+            background: #fafafa;
+            margin-bottom: 8px;
+        }
+        
+        .demo-icon {
+            width: 24px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .demo-name {
+            font-size: 14px;
+            color: #333;
+        }
+        
+        .status-indicator {
+            margin-left: auto;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 10px;
+            font-weight: 600;
+        }
+        
+        .status-ok {
+            background: #d4edda;
+            color: #155724;
+        }
+        
+        .status-error {
+            background: #f8d7da;
+            color: #721c24;
+        }
+        
+        .test-aliments {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 10px;
+            margin-top: 15px;
+        }
+        
+        .test-aliment {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px;
+            background: white;
+            border-radius: 8px;
+            border: 1px solid #e1e1e1;
+        }
+        
+        .test-aliment-icon {
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .test-aliment-name {
+            font-size: 12px;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <h1 style="text-align: center; color: #1d1d1f; margin-bottom: 40px;">
+            🔄 Test Cohérence Emojis - Calendrier
+        </h1>
+        
+        <!-- Section 1: Comparaison des contextes -->
+        <div class="test-section">
+            <div class="test-title">
+                📱 Cohérence entre les Pages
+            </div>
+            <p>Vérification que les mêmes aliments utilisent les mêmes icônes partout.</p>
+            
+            <div class="comparison-grid">
+                <div class="context-demo">
+                    <div class="context-title">🍎 Page Fruits/Légumes</div>
+                    <div class="demo-item food-widget">
+                        <div class="demo-icon" id="widget-poivron-rouge"></div>
+                        <div class="demo-name">Poivron rouge</div>
+                        <div class="status-indicator status-ok">OK</div>
+                    </div>
+                    <div class="demo-item food-widget">
+                        <div class="demo-icon" id="widget-haricot-vert"></div>
+                        <div class="demo-name">Haricot vert</div>
+                        <div class="status-indicator status-ok">OK</div>
+                    </div>
+                    <div class="demo-item food-widget">
+                        <div class="demo-icon" id="widget-petit-pois"></div>
+                        <div class="demo-name">Petit pois</div>
+                        <div class="status-indicator status-ok">OK</div>
+                    </div>
+                </div>
+                
+                <div class="context-demo">
+                    <div class="context-title">📅 Popup Calendrier</div>
+                    <div class="demo-item aliment-result-item">
+                        <div class="demo-icon" id="popup-poivron-rouge"></div>
+                        <div class="demo-name">Poivron rouge</div>
+                        <div class="status-indicator status-ok">OK</div>
+                    </div>
+                    <div class="demo-item aliment-result-item">
+                        <div class="demo-icon" id="popup-haricot-vert"></div>
+                        <div class="demo-name">Haricot vert</div>
+                        <div class="status-indicator status-ok">OK</div>
+                    </div>
+                    <div class="demo-item aliment-result-item">
+                        <div class="demo-icon" id="popup-petit-pois"></div>
+                        <div class="demo-name">Petit pois</div>
+                        <div class="status-indicator status-ok">OK</div>
+                    </div>
+                </div>
+                
+                <div class="context-demo">
+                    <div class="context-title">🗓️ Calendrier Jour</div>
+                    <div class="demo-item">
+                        <div class="demo-icon" id="calendrier-poivron-rouge"></div>
+                        <div class="demo-name">Poivron rouge</div>
+                        <div class="status-indicator status-ok">OK</div>
+                    </div>
+                    <div class="demo-item">
+                        <div class="demo-icon" id="calendrier-haricot-vert"></div>
+                        <div class="demo-name">Haricot vert</div>
+                        <div class="status-indicator status-ok">OK</div>
+                    </div>
+                    <div class="demo-item">
+                        <div class="demo-icon" id="calendrier-petit-pois"></div>
+                        <div class="demo-name">Petit pois</div>
+                        <div class="status-indicator status-ok">OK</div>
+                    </div>
+                </div>
+                
+                <div class="context-demo">
+                    <div class="context-title">📊 Historique Récent</div>
+                    <div class="demo-item">
+                        <div class="demo-icon" id="historique-poivron-rouge"></div>
+                        <div class="demo-name">Poivron rouge</div>
+                        <div class="status-indicator status-ok">OK</div>
+                    </div>
+                    <div class="demo-item">
+                        <div class="demo-icon" id="historique-haricot-vert"></div>
+                        <div class="demo-name">Haricot vert</div>
+                        <div class="status-indicator status-ok">OK</div>
+                    </div>
+                    <div class="demo-item">
+                        <div class="demo-icon" id="historique-petit-pois"></div>
+                        <div class="demo-name">Petit pois</div>
+                        <div class="status-indicator status-ok">OK</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Section 2: Test des Poivrons -->
+        <div class="test-section">
+            <div class="test-title">
+                🫑 Test Spécifique - Poivrons
+            </div>
+            <p>Vérification que chaque poivron a sa couleur distincte.</p>
+            
+            <div class="test-aliments">
+                <div class="test-aliment">
+                    <div class="test-aliment-icon" id="test-poivron-rouge"></div>
+                    <div class="test-aliment-name">Poivron rouge</div>
+                </div>
+                <div class="test-aliment">
+                    <div class="test-aliment-icon" id="test-poivron-vert"></div>
+                    <div class="test-aliment-name">Poivron vert</div>
+                </div>
+                <div class="test-aliment">
+                    <div class="test-aliment-icon" id="test-poivron-jaune"></div>
+                    <div class="test-aliment-name">Poivron jaune</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Section 3: Test des Légumes Améliorés -->
+        <div class="test-section">
+            <div class="test-title">
+                🥬 Test Spécifique - Légumes Améliorés
+            </div>
+            <p>Vérification des nouvelles icônes plus reconnaissables.</p>
+            
+            <div class="test-aliments">
+                <div class="test-aliment">
+                    <div class="test-aliment-icon" id="test-haricot-vert"></div>
+                    <div class="test-aliment-name">Haricot vert</div>
+                </div>
+                <div class="test-aliment">
+                    <div class="test-aliment-icon" id="test-petit-pois"></div>
+                    <div class="test-aliment-name">Petit pois</div>
+                </div>
+                <div class="test-aliment">
+                    <div class="test-aliment-icon" id="test-betterave"></div>
+                    <div class="test-aliment-name">Betterave</div>
+                </div>
+                <div class="test-aliment">
+                    <div class="test-aliment-icon" id="test-radis"></div>
+                    <div class="test-aliment-name">Radis</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Section 4: Résultats du Test -->
+        <div class="test-section">
+            <div class="test-title">
+                ✅ Résultats du Test
+            </div>
+            <div id="test-results">
+                <p>🔄 Tests en cours...</p>
+            </div>
+        </div>
+    </div>
+    
+    <script src="icons.js"></script>
+    <script src="script.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('🧪 Démarrage des tests de cohérence...');
+            
+            // Vérifier que EmojiManager est disponible
+            if (typeof EmojiManager === 'undefined') {
+                console.error('❌ EmojiManager non trouvé !');
+                document.getElementById('test-results').innerHTML = '<p style="color: red;">❌ Erreur: EmojiManager non trouvé</p>';
+                return;
+            }
+            
+            // Tests des contextes différents
+            const alimentsTest = ['Poivron rouge', 'Haricot vert', 'Petit pois'];
+            
+            // 1. Page Fruits/Légumes (food-widget)
+            alimentsTest.forEach(aliment => {
+                const iconHtml = EmojiManager.getAlimentIcon(aliment);
+                const elementId = 'widget-' + aliment.toLowerCase().replace(/\s+/g, '-');
+                document.getElementById(elementId).innerHTML = iconHtml;
+            });
+            
+            // 2. Popup Calendrier (aliment-result)
+            alimentsTest.forEach(aliment => {
+                const iconHtml = EmojiManager.getAlimentIcon(aliment);
+                const finalIconHtml = iconHtml.includes('custom-icon') ? 
+                    iconHtml.replace('class="custom-icon"', 'class="aliment-result-icon"') : 
+                    iconHtml.replace('class="food-emoji"', 'class="aliment-result-emoji"');
+                const elementId = 'popup-' + aliment.toLowerCase().replace(/\s+/g, '-');
+                document.getElementById(elementId).innerHTML = finalIconHtml;
+            });
+            
+            // 3. Calendrier Jour (food-item-emoji)
+            alimentsTest.forEach(aliment => {
+                const iconHtml = EmojiManager.getAlimentIcon(aliment);
+                const finalIconHtml = iconHtml.includes('custom-icon') ? 
+                    iconHtml.replace('class="custom-icon"', 'class="food-item-emoji-icon"') : 
+                    iconHtml.replace('class="food-emoji"', 'class="food-item-emoji-icon"');
+                const elementId = 'calendrier-' + aliment.toLowerCase().replace(/\s+/g, '-');
+                document.getElementById(elementId).innerHTML = finalIconHtml;
+            });
+            
+            // 4. Historique Récent (recent-emoji)
+            alimentsTest.forEach(aliment => {
+                const iconHtml = EmojiManager.getAlimentIcon(aliment);
+                const finalIconHtml = iconHtml.includes('custom-icon') ? 
+                    iconHtml.replace('class="custom-icon"', 'class="recent-emoji"') : 
+                    iconHtml.replace('class="food-emoji"', 'class="recent-emoji"');
+                const elementId = 'historique-' + aliment.toLowerCase().replace(/\s+/g, '-');
+                document.getElementById(elementId).innerHTML = finalIconHtml;
+            });
+            
+            // Tests spécifiques des poivrons
+            ['Poivron rouge', 'Poivron vert', 'Poivron jaune'].forEach(poivron => {
+                const iconHtml = EmojiManager.getAlimentIcon(poivron);
+                const elementId = 'test-' + poivron.toLowerCase().replace(/\s+/g, '-');
+                document.getElementById(elementId).innerHTML = iconHtml;
+            });
+            
+            // Tests des légumes améliorés
+            ['Haricot vert', 'Petit pois', 'Betterave', 'Radis'].forEach(legume => {
+                const iconHtml = EmojiManager.getAlimentIcon(legume);
+                const elementId = 'test-' + legume.toLowerCase().replace(/\s+/g, '-');
+                document.getElementById(elementId).innerHTML = iconHtml;
+            });
+            
+            // Vérification de cohérence
+            let testsReussis = 0;
+            let testsTotal = 0;
+            const resultats = [];
+            
+            // Test 1: Vérifier que tous les poivrons ont des icônes personnalisées
+            testsTotal++;
+            const poivronsOk = ['Poivron rouge', 'Poivron vert', 'Poivron jaune'].every(poivron => {
+                return EmojiManager.hasCustomIcon(poivron);
+            });
+            if (poivronsOk) {
+                testsReussis++;
+                resultats.push('✅ Tous les poivrons ont des icônes personnalisées distinctes');
+            } else {
+                resultats.push('❌ Certains poivrons n\'ont pas d\'icônes personnalisées');
+            }
+            
+            // Test 2: Vérifier que haricot vert et petit pois ont des icônes personnalisées
+            testsTotal++;
+            const legumesOk = ['Haricot vert', 'Petit pois'].every(legume => {
+                return EmojiManager.hasCustomIcon(legume);
+            });
+            if (legumesOk) {
+                testsReussis++;
+                resultats.push('✅ Haricots verts et petits pois ont des icônes personnalisées');
+            } else {
+                resultats.push('❌ Haricots verts ou petits pois n\'ont pas d\'icônes personnalisées');
+            }
+            
+            // Test 3: Vérifier la cohérence des icônes
+            testsTotal++;
+            const coherenceOk = alimentsTest.every(aliment => {
+                const icon1 = EmojiManager.getAlimentIcon(aliment);
+                const icon2 = EmojiManager.getAlimentIcon(aliment);
+                return icon1 === icon2; // Même icône à chaque appel
+            });
+            if (coherenceOk) {
+                testsReussis++;
+                resultats.push('✅ Cohérence des icônes garantie');
+            } else {
+                resultats.push('❌ Incohérence détectée dans les icônes');
+            }
+            
+            // Afficher les résultats
+            const pourcentageReussite = Math.round((testsReussis / testsTotal) * 100);
+            const couleurResultat = pourcentageReussite === 100 ? '#28a745' : '#dc3545';
+            
+            document.getElementById('test-results').innerHTML = `
+                <div style="background: ${pourcentageReussite === 100 ? '#d4edda' : '#f8d7da'}; 
+                           color: ${couleurResultat}; 
+                           padding: 15px; 
+                           border-radius: 8px; 
+                           margin-bottom: 15px;">
+                    <h4 style="margin: 0 0 10px 0;">
+                        ${pourcentageReussite === 100 ? '🎉' : '⚠️'} 
+                        Résultat: ${testsReussis}/${testsTotal} tests réussis (${pourcentageReussite}%)
+                    </h4>
+                </div>
+                <ul style="list-style: none; padding: 0;">
+                    ${resultats.map(resultat => `<li style="padding: 5px 0;">${resultat}</li>`).join('')}
+                </ul>
+            `;
+            
+            console.log(`✅ Tests terminés: ${testsReussis}/${testsTotal} réussis`);
+        });
+    </script>
+</body>
+</html> 

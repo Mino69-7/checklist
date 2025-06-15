@@ -16,6 +16,7 @@
     
     <!-- Styles -->
     <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="responsive-iphone.css">
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700;800&display=swap" rel="stylesheet">
 </head>
 <body>
@@ -92,12 +93,75 @@
                         </div>
                     </div>
                     
-                    <!-- Vue détail jour -->
+                    <!-- Vue semaine -->
+                    <div class="calendar-week-view" id="calendarWeekView" style="display: none;">
+                        <div class="week-header">
+                            <div class="week-navigation">
+                                <button class="back-to-month-btn" id="backToMonth">
+                                    <span class="back-arrow">‹</span>
+                                    <span class="back-text" id="backMonthText">Juin 2025</span>
+                                </button>
+                            </div>
+                            <div class="week-days-container" id="weekDaysContainer">
+                                <!-- Les jours de la semaine seront générés ici -->
+                            </div>
+                        </div>
+                        
+                        <div class="day-content" id="weekDayContent">
+                            <div class="day-meals">
+                                <div class="meal-section" data-moment="matin">
+                                    <div class="meal-header">
+                                        <span class="meal-icon">🌅</span>
+                                        <span class="meal-title">Matin</span>
+                                        <button class="add-meal-btn" data-moment="matin">+</button>
+                                    </div>
+                                    <div class="meal-foods" id="weekMealMatin">
+                                        <!-- Aliments du matin -->
+                                    </div>
+                                </div>
+                                
+                                <div class="meal-section" data-moment="midi">
+                                    <div class="meal-header">
+                                        <span class="meal-icon">☀️</span>
+                                        <span class="meal-title">Midi</span>
+                                        <button class="add-meal-btn" data-moment="midi">+</button>
+                                    </div>
+                                    <div class="meal-foods" id="weekMealMidi">
+                                        <!-- Aliments du midi -->
+                                    </div>
+                                </div>
+                                
+                                <div class="meal-section" data-moment="gouter">
+                                    <div class="meal-header">
+                                        <span class="meal-icon">🍪</span>
+                                        <span class="meal-title">Goûter</span>
+                                        <button class="add-meal-btn" data-moment="gouter">+</button>
+                                    </div>
+                                    <div class="meal-foods" id="weekMealGouter">
+                                        <!-- Aliments du goûter -->
+                                    </div>
+                                </div>
+                                
+                                <div class="meal-section" data-moment="soir">
+                                    <div class="meal-header">
+                                        <span class="meal-icon">🌙</span>
+                                        <span class="meal-title">Soir</span>
+                                        <button class="add-meal-btn" data-moment="soir">+</button>
+                                    </div>
+                                    <div class="meal-foods" id="weekMealSoir">
+                                        <!-- Aliments du soir -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Vue détail jour (conservée pour compatibilité) -->
                     <div class="calendar-day-view" id="calendarDayView" style="display: none;">
                         <div class="day-view-header">
-                            <button class="back-to-month-btn" id="backToMonth">
+                            <button class="back-to-month-btn-old" id="backToMonthOld">
                                 <span class="back-arrow">‹</span>
-                                <span class="back-text" id="backMonthText">Juin 2025</span>
+                                <span class="back-text" id="backMonthTextOld">Juin 2025</span>
                             </button>
                             <div class="day-view-navigation">
                                 <button class="day-nav-btn" id="prevDay">‹</button>

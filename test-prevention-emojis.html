@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Emojis Prévention</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>🧪 Test Emojis Prévention</h1>
+        
+        <div class="test-section">
+            <h2>🚫 Aliments Interdits</h2>
+            <div id="forbidden-test"></div>
+        </div>
+        
+        <div class="test-section">
+            <h2>⚠️ Aliments à Éviter</h2>
+            <div id="avoid-test"></div>
+        </div>
+        
+        <div class="test-section">
+            <h2>⏰ Aliments à Introduire Plus Tard</h2>
+            <div id="later-test"></div>
+        </div>
+    </div>
+
+    <script src="icons.js"></script>
+    <script>
+        // Données de prévention (copie de script.js)
+        const preventionData = {
+            forbidden: [
+                { nom: "Miel", emoji: "🍯", raison: "Risque de botulisme infantile" },
+                { nom: "Lait de vache", emoji: "🥛", raison: "Difficile à digérer, carences" },
+                { nom: "Fromage au lait cru", emoji: "🧀", raison: "Risque de listériose" },
+                { nom: "Œuf cru", emoji: "🥚", raison: "Risque de salmonellose" },
+                { nom: "Poisson cru", emoji: "🍣", raison: "Risque bactérien et parasitaire" },
+                { nom: "Viande crue", emoji: "🥩", raison: "Risque de toxoplasmose" },
+                { nom: "Alcool", emoji: "🍷", raison: "Toxique pour le système nerveux" },
+                { nom: "Thé et café", emoji: "☕", raison: "Caféine néfaste pour bébé" },
+                { nom: "Édulcorants", emoji: "🧪", raison: "Substances chimiques non adaptées" }
+            ],
+            avoid: [
+                { nom: "Sel", emoji: "🧂", raison: "Reins immatures, hypertension" },
+                { nom: "Sucre blanc", emoji: "🍬", raison: "Caries, addiction au sucre" },
+                { nom: "Charcuterie", emoji: "🥓", raison: "Sel, nitrites, conservateurs" },
+                { nom: "Fruits de mer", emoji: "🦐", raison: "Allergies, métaux lourds" },
+                { nom: "Épices fortes", emoji: "🌶️", raison: "Irritation digestive" },
+                { nom: "Chocolat", emoji: "🍫", raison: "Théobromine, sucre, allergènes" },
+                { nom: "Noix entières", emoji: "🥜", raison: "Risque d'étouffement" },
+                { nom: "Bonbons durs", emoji: "🍭", raison: "Étouffement, sucre" },
+                { nom: "Pop-corn", emoji: "🍿", raison: "Risque d'étouffement" }
+            ],
+            later: [
+                { nom: "Agrumes", emoji: "🍊", raison: "Introduire vers 8-10 mois" },
+                { nom: "Fraise", emoji: "🍓", raison: "Allergène, attendre 8 mois" },
+                { nom: "Kiwi", emoji: "🥝", raison: "Acidité, vers 8-10 mois" },
+                { nom: "Tomate", emoji: "🍅", raison: "Acidité, vers 8 mois" },
+                { nom: "Épinards", emoji: "🥬", raison: "Nitrates, vers 8 mois" },
+                { nom: "Betteraves", emoji: "🥕", raison: "Nitrates, vers 8 mois" },
+                { nom: "Légumineuses", emoji: "🫘", raison: "Difficiles à digérer, vers 8 mois" },
+                { nom: "Céréales avec gluten", emoji: "🍞", raison: "Introduire vers 6 mois progressivement" },
+                { nom: "Produits laitiers", emoji: "🧀", raison: "Yaourt vers 6 mois, fromage vers 8 mois" }
+            ]
+        };
+
+        // Fonction de test (copie de script.js avec logique de cohérence)
+        function creerItemPreventionTest(aliment, cssClass, index) {
+            const div = document.createElement('div');
+            div.className = `prevention-item ${cssClass}`;
+            div.style.animationDelay = `${index * 0.1}s`;
+            
+            // Mapping des noms de prévention vers les noms du système d'emojis pour cohérence
+            const mappingNoms = {
+                'Betteraves': 'Betterave',
+                'Agrumes': 'Orange',
+                'Légumineuses': 'Haricot rouge',
+                'Céréales avec gluten': 'Blé',
+                'Produits laitiers': 'Fromage',
+                'Fruits de mer': 'Crevette',
+                'Épices fortes': 'Piment',
+                'Noix entières': 'Noix',
+                'Bonbons durs': 'Bonbon',
+                'Sucre blanc': 'Sucre',
+                'Fromage au lait cru': 'Fromage',
+                'Œuf cru': 'Œuf',
+                'Poisson cru': 'Poisson',
+                'Viande crue': 'Viande',
+                'Thé et café': 'Café',
+                'Édulcorants': 'Sucre'
+            };
+            
+            let preventionIconHtml;
+            let sourceInfo;
+            
+            // Si l'aliment a un mapping vers notre système d'emojis, l'utiliser pour cohérence
+            if (mappingNoms[aliment.nom]) {
+                const nomPourEmoji = mappingNoms[aliment.nom];
+                const preventionIcon = EmojiManager.getAlimentIcon(nomPourEmoji);
+                
+                // Vérifier si c'est le fallback pomme (indique que l'aliment n'existe pas dans notre système)
+                if (preventionIcon.includes('🍎')) {
+                    // Utiliser l'emoji original des données de prévention
+                    preventionIconHtml = `<span class="prevention-emoji">${aliment.emoji}</span>`;
+                    sourceInfo = `Emoji original: ${aliment.emoji} (${nomPourEmoji} non trouvé dans système)`;
+                } else {
+                    // Utiliser l'emoji/icône du système pour cohérence
+                    preventionIconHtml = preventionIcon.includes('custom-icon') ? 
+                        preventionIcon.replace('class="custom-icon"', 'class="prevention-emoji"') : 
+                        preventionIcon.replace('class="food-emoji"', 'class="prevention-emoji"');
+                    sourceInfo = `Système EmojiManager: ${aliment.nom} → ${nomPourEmoji} (${preventionIcon.includes('custom-icon') ? 'icône personnalisée' : 'emoji Apple'})`;
+                }
+            } else {
+                // Utiliser directement l'emoji défini dans les données de prévention
+                preventionIconHtml = `<span class="prevention-emoji">${aliment.emoji}</span>`;
+                sourceInfo = `Emoji original: ${aliment.emoji} (pas de mapping)`;
+            }
+            
+            div.innerHTML = `
+                ${preventionIconHtml}
+                <div class="prevention-info">
+                    <div class="prevention-name">${aliment.nom}</div>
+                    <div class="prevention-reason">${aliment.raison}</div>
+                    <div class="test-info">${sourceInfo}</div>
+                </div>
+            `;
+            
+            return div;
+        }
+
+        // Générer les tests
+        function genererTests() {
+            // Test forbidden
+            const forbiddenContainer = document.getElementById('forbidden-test');
+            preventionData.forbidden.forEach((aliment, index) => {
+                const item = creerItemPreventionTest(aliment, 'forbidden', index);
+                forbiddenContainer.appendChild(item);
+            });
+
+            // Test avoid
+            const avoidContainer = document.getElementById('avoid-test');
+            preventionData.avoid.forEach((aliment, index) => {
+                const item = creerItemPreventionTest(aliment, 'avoid', index);
+                avoidContainer.appendChild(item);
+            });
+
+            // Test later
+            const laterContainer = document.getElementById('later-test');
+            preventionData.later.forEach((aliment, index) => {
+                const item = creerItemPreventionTest(aliment, 'later', index);
+                laterContainer.appendChild(item);
+            });
+        }
+
+        // Lancer les tests au chargement
+        document.addEventListener('DOMContentLoaded', genererTests);
+    </script>
+
+    <style>
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .test-section {
+            margin: 30px 0;
+            padding: 20px;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+        }
+        
+        .test-info {
+            font-size: 12px;
+            color: #666;
+            margin-top: 5px;
+            font-style: italic;
+        }
+        
+        .prevention-item {
+            display: flex;
+            align-items: center;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 8px;
+            background: #f9f9f9;
+        }
+        
+        .prevention-emoji {
+            font-size: 24px;
+            margin-right: 15px;
+            min-width: 30px;
+        }
+        
+        .prevention-info {
+            flex: 1;
+        }
+        
+        .prevention-name {
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        
+        .prevention-reason {
+            color: #666;
+            font-size: 14px;
+        }
+        
+        .forbidden {
+            border-left: 4px solid #ff4444;
+        }
+        
+        .avoid {
+            border-left: 4px solid #ff8800;
+        }
+        
+        .later {
+            border-left: 4px solid #0088ff;
+        }
+    </style>
+</body>
+</html> 

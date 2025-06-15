@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Système Emojis/Icônes Unifié</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #f5f5f7;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 20px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .section {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .aliment-card {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px;
+            border: 1px solid #e1e1e1;
+            border-radius: 8px;
+            background: #fafafa;
+            transition: all 0.2s ease;
+        }
+        
+        .aliment-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+        
+        .aliment-icon {
+            font-size: 24px;
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .custom-icon {
+            width: 24px;
+            height: 24px;
+        }
+        
+        .aliment-name {
+            font-weight: 500;
+            color: #333;
+        }
+        
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .stat-card {
+            text-align: center;
+            padding: 15px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 8px;
+        }
+        
+        .stat-number {
+            font-size: 2em;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        
+        .legend {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            margin-top: 20px;
+        }
+        
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 12px;
+            border-radius: 6px;
+            background: #f0f0f0;
+        }
+        
+        .emoji-indicator {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #34c759;
+        }
+        
+        .custom-indicator {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #ff9500;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>🍎 Test Système Emojis/Icônes Unifié</h1>
+        <p>Vérification de la cohérence visuelle - Style Apple iOS</p>
+    </div>
+
+    <div class="section">
+        <h2>📊 Statistiques du Système</h2>
+        <div class="stats" id="stats"></div>
+        
+        <div class="legend">
+            <div class="legend-item">
+                <div class="emoji-indicator"></div>
+                <span>Emoji Apple iOS</span>
+            </div>
+            <div class="legend-item">
+                <div class="custom-indicator"></div>
+                <span>Icône Personnalisée</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="section">
+        <h2>🍓 Fruits</h2>
+        <div class="grid" id="fruits-grid"></div>
+    </div>
+
+    <div class="section">
+        <h2>🥕 Légumes</h2>
+        <div class="grid" id="legumes-grid"></div>
+    </div>
+
+    <script src="icons.js"></script>
+    <script src="script.js"></script>
+    <script>
+        // Test du système d'emojis/icônes
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('🧪 Test du système EmojiManager...');
+            
+            // Vérifier que EmojiManager est disponible
+            if (typeof EmojiManager === 'undefined') {
+                console.error('❌ EmojiManager non trouvé !');
+                return;
+            }
+            
+            console.log('✅ EmojiManager chargé');
+            
+            // Obtenir tous les aliments avec leurs icônes
+            const allIcons = EmojiManager.getAllAlimentsWithIcons();
+            console.log('📋 Aliments trouvés:', Object.keys(allIcons).length);
+            
+            // Statistiques
+            let emojiCount = 0;
+            let customCount = 0;
+            
+            Object.values(allIcons).forEach(item => {
+                if (item.type === 'emoji') emojiCount++;
+                if (item.type === 'custom') customCount++;
+            });
+            
+            // Afficher les statistiques
+            document.getElementById('stats').innerHTML = `
+                <div class="stat-card">
+                    <div class="stat-number">${Object.keys(allIcons).length}</div>
+                    <div>Total Aliments</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">${emojiCount}</div>
+                    <div>Emojis Apple</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">${customCount}</div>
+                    <div>Icônes Personnalisées</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">${Math.round((emojiCount + customCount) / Object.keys(allIcons).length * 100)}%</div>
+                    <div>Couverture</div>
+                </div>
+            `;
+            
+            // Afficher les fruits
+            const fruitsGrid = document.getElementById('fruits-grid');
+            alimentsData.fruits.forEach(fruit => {
+                const iconData = allIcons[fruit.nom];
+                if (iconData) {
+                    const card = document.createElement('div');
+                    card.className = 'aliment-card';
+                    card.innerHTML = `
+                        <div class="aliment-icon">${iconData.html}</div>
+                        <div class="aliment-name">${fruit.nom}</div>
+                    `;
+                    fruitsGrid.appendChild(card);
+                }
+            });
+            
+            // Afficher les légumes
+            const legumesGrid = document.getElementById('legumes-grid');
+            alimentsData.legumes.forEach(legume => {
+                const iconData = allIcons[legume.nom];
+                if (iconData) {
+                    const card = document.createElement('div');
+                    card.className = 'aliment-card';
+                    card.innerHTML = `
+                        <div class="aliment-icon">${iconData.html}</div>
+                        <div class="aliment-name">${legume.nom}</div>
+                    `;
+                    legumesGrid.appendChild(card);
+                }
+            });
+            
+            // Tests de l'API
+            console.log('🧪 Tests API EmojiManager:');
+            console.log('Pomme (emoji):', EmojiManager.getAlimentIcon('Pomme'));
+            console.log('Betterave (custom):', EmojiManager.getAlimentIcon('Betterave'));
+            console.log('Pomme emoji seul:', EmojiManager.getAlimentEmoji('Pomme'));
+            console.log('Betterave a icône custom:', EmojiManager.hasCustomIcon('Betterave'));
+            console.log('Pomme a icône custom:', EmojiManager.hasCustomIcon('Pomme'));
+            
+            console.log('✅ Tests terminés avec succès !');
+        });
+    </script>
+</body>
+</html> 

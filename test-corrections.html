@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test des Corrections d'Icônes</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        
+        .test-container {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .test-section {
+            margin-bottom: 40px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 15px;
+            border-left: 5px solid #007AFF;
+        }
+        
+        .test-title {
+            font-size: 24px;
+            font-weight: 700;
+            color: #1d1d1f;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .test-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
+        }
+        
+        .test-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 15px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+        }
+        
+        .test-item:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 16px rgba(0,0,0,0.15);
+        }
+        
+        .test-icon {
+            font-size: 28px;
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .test-name {
+            font-weight: 600;
+            color: #1d1d1f;
+            flex: 1;
+        }
+        
+        .test-status {
+            padding: 4px 8px;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+        
+        .status-fixed {
+            background: #d4edda;
+            color: #155724;
+        }
+        
+        .status-improved {
+            background: #cce5ff;
+            color: #004085;
+        }
+        
+        .comparison {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+            margin: 10px 0;
+        }
+        
+        .before, .after {
+            text-align: center;
+            padding: 15px;
+            border-radius: 10px;
+            flex: 1;
+        }
+        
+        .before {
+            background: #ffe6e6;
+            border: 2px solid #ff9999;
+        }
+        
+        .after {
+            background: #e6ffe6;
+            border: 2px solid #99ff99;
+        }
+        
+        .arrow {
+            font-size: 24px;
+            color: #007AFF;
+        }
+        
+        .size-demo {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin: 10px 0;
+            padding: 15px;
+            background: white;
+            border-radius: 10px;
+        }
+        
+        .size-label {
+            font-weight: 600;
+            min-width: 100px;
+        }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <h1 style="text-align: center; color: #1d1d1f; margin-bottom: 40px;">
+            🔧 Test des Corrections d'Icônes
+        </h1>
+        
+        <!-- Section 1: Corrections des Poivrons -->
+        <div class="test-section">
+            <div class="test-title">
+                🫑 Correction des Poivrons - Logique Cohérente
+            </div>
+            <p><strong>Problème résolu :</strong> L'emoji Apple 🫑 était vert mais utilisé pour tous les poivrons. Maintenant chaque couleur a sa propre icône personnalisée.</p>
+            
+            <div class="comparison">
+                <div class="before">
+                    <h4>❌ Avant</h4>
+                    <div>🫑 Poivron rouge</div>
+                    <div>🫑 Poivron vert</div>
+                    <div>🫑 Poivron jaune</div>
+                    <small>Tous identiques et verts !</small>
+                </div>
+                <div class="arrow">→</div>
+                <div class="after">
+                    <h4>✅ Après</h4>
+                    <div id="poivron-rouge-test"></div>
+                    <div id="poivron-vert-test"></div>
+                    <div id="poivron-jaune-test"></div>
+                    <small>Couleurs distinctes et réalistes !</small>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Section 2: Amélioration Haricots Verts -->
+        <div class="test-section">
+            <div class="test-title">
+                🫛 Haricots Verts - Plus Reconnaissables
+            </div>
+            <p><strong>Problème résolu :</strong> L'ancienne icône était trop petite et illisible. Nouvelle version avec graines visibles dans la gousse.</p>
+            
+            <div class="comparison">
+                <div class="before">
+                    <h4>❌ Avant</h4>
+                    <div style="font-size: 28px;">🟢</div>
+                    <small>Trop petit, pas reconnaissable</small>
+                </div>
+                <div class="arrow">→</div>
+                <div class="after">
+                    <h4>✅ Après</h4>
+                    <div id="haricot-vert-test"></div>
+                    <small>Gousse avec graines visibles</small>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Section 3: Amélioration Petits Pois -->
+        <div class="test-section">
+            <div class="test-title">
+                🟢 Petits Pois - Fini l'Effet Dé
+            </div>
+            <p><strong>Problème résolu :</strong> L'ancienne icône ressemblait à un dé. Nouvelle version avec vraies graines de pois rondes.</p>
+            
+            <div class="comparison">
+                <div class="before">
+                    <h4>❌ Avant</h4>
+                    <div style="font-size: 28px;">🟢</div>
+                    <small>Ressemblait à un dé vert</small>
+                </div>
+                <div class="arrow">→</div>
+                <div class="after">
+                    <h4>✅ Après</h4>
+                    <div id="petit-pois-test"></div>
+                    <small>Graines rondes dans gousse</small>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Section 4: Test des Tailles -->
+        <div class="test-section">
+            <div class="test-title">
+                📏 Cohérence des Tailles
+            </div>
+            <p><strong>Problème résolu :</strong> Les icônes personnalisées sont maintenant à la même échelle que les emojis Apple.</p>
+            
+            <div class="size-demo">
+                <div class="size-label">Widget (28px):</div>
+                <div class="food-widget" style="display: inline-flex; align-items: center; gap: 10px;">
+                    <span class="food-emoji">🍎</span>
+                    <span id="haricot-widget-test"></span>
+                    <span class="food-emoji">🥕</span>
+                </div>
+            </div>
+            
+            <div class="size-demo">
+                <div class="size-label">Liste (18px):</div>
+                <div class="aliment-item" style="display: inline-flex; align-items: center; gap: 8px;">
+                    <span class="food-emoji">🍌</span>
+                    <span id="pois-item-test"></span>
+                    <span class="food-emoji">🍊</span>
+                </div>
+            </div>
+            
+            <div class="size-demo">
+                <div class="size-label">Popup (22px):</div>
+                <div class="calendar-popup" style="display: inline-flex; align-items: center; gap: 10px;">
+                    <span class="food-emoji">🍇</span>
+                    <span id="poivron-popup-test"></span>
+                    <span class="food-emoji">🍓</span>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Section 5: Test Complet -->
+        <div class="test-section">
+            <div class="test-title">
+                ✅ Résumé des Corrections
+            </div>
+            <div class="test-grid">
+                <div class="test-item">
+                    <div class="test-icon" id="poivron-rouge-final"></div>
+                    <div class="test-name">Poivron rouge</div>
+                    <div class="test-status status-fixed">CORRIGÉ</div>
+                </div>
+                <div class="test-item">
+                    <div class="test-icon" id="poivron-vert-final"></div>
+                    <div class="test-name">Poivron vert</div>
+                    <div class="test-status status-fixed">CORRIGÉ</div>
+                </div>
+                <div class="test-item">
+                    <div class="test-icon" id="poivron-jaune-final"></div>
+                    <div class="test-name">Poivron jaune</div>
+                    <div class="test-status status-fixed">CORRIGÉ</div>
+                </div>
+                <div class="test-item">
+                    <div class="test-icon" id="haricot-vert-final"></div>
+                    <div class="test-name">Haricot vert</div>
+                    <div class="test-status status-improved">AMÉLIORÉ</div>
+                </div>
+                <div class="test-item">
+                    <div class="test-icon" id="petit-pois-final"></div>
+                    <div class="test-name">Petit pois</div>
+                    <div class="test-status status-improved">AMÉLIORÉ</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script src="icons.js"></script>
+    <script>
+        // Test des corrections
+        document.addEventListener('DOMContentLoaded', function() {
+            // Tests des poivrons
+            document.getElementById('poivron-rouge-test').innerHTML = EmojiManager.getAlimentIcon('Poivron rouge') + ' Poivron rouge';
+            document.getElementById('poivron-vert-test').innerHTML = EmojiManager.getAlimentIcon('Poivron vert') + ' Poivron vert';
+            document.getElementById('poivron-jaune-test').innerHTML = EmojiManager.getAlimentIcon('Poivron jaune') + ' Poivron jaune';
+            
+            // Tests des légumes améliorés
+            document.getElementById('haricot-vert-test').innerHTML = EmojiManager.getAlimentIcon('Haricot vert');
+            document.getElementById('petit-pois-test').innerHTML = EmojiManager.getAlimentIcon('Petit pois');
+            
+            // Tests des tailles
+            document.getElementById('haricot-widget-test').innerHTML = EmojiManager.getAlimentIcon('Haricot vert');
+            document.getElementById('pois-item-test').innerHTML = EmojiManager.getAlimentIcon('Petit pois');
+            document.getElementById('poivron-popup-test').innerHTML = EmojiManager.getAlimentIcon('Poivron rouge');
+            
+            // Tests finaux
+            document.getElementById('poivron-rouge-final').innerHTML = EmojiManager.getAlimentIcon('Poivron rouge');
+            document.getElementById('poivron-vert-final').innerHTML = EmojiManager.getAlimentIcon('Poivron vert');
+            document.getElementById('poivron-jaune-final').innerHTML = EmojiManager.getAlimentIcon('Poivron jaune');
+            document.getElementById('haricot-vert-final').innerHTML = EmojiManager.getAlimentIcon('Haricot vert');
+            document.getElementById('petit-pois-final').innerHTML = EmojiManager.getAlimentIcon('Petit pois');
+            
+            // Statistiques
+            console.log('🔧 Corrections appliquées avec succès !');
+            console.log('📊 Statistiques:', EmojiManager.getStats());
+        });
+    </script>
+</body>
+</html> 

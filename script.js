@@ -5,88 +5,89 @@ const alimentsData = {
         { nom: "Banane", emoji: "🍌", bienfaits: "Potassium et énergie" },
         { nom: "Poire", emoji: "🍐", bienfaits: "Digestion facile, fibres" },
         { nom: "Pêche", emoji: "🍑", bienfaits: "Vitamine A et C" },
-        { nom: "Abricot", emoji: "🟠", bienfaits: "Bêta-carotène" },
-        { nom: "Prune", emoji: "🟤", bienfaits: "Fibres et antioxydants" },
+        { nom: "Abricot", emoji: "🍑", bienfaits: "Bêta-carotène" }, // Utilise l'emoji pêche car pas d'abricot spécifique
+        { nom: "Prune", emoji: "🟣", bienfaits: "Fibres et antioxydants" }, // Icône personnalisée
 
-        { nom: "Framboise", emoji: "🔴", bienfaits: "Antioxydants puissants" },
+        { nom: "Framboise", emoji: "🫐", bienfaits: "Antioxydants puissants" }, // Icône personnalisée
         { nom: "Myrtille", emoji: "🫐", bienfaits: "Mémoire et vision" },
-        { nom: "Mûre", emoji: "⚫", bienfaits: "Vitamine K et fibres" },
+        { nom: "Mûre", emoji: "🫐", bienfaits: "Vitamine K et fibres" }, // Icône personnalisée
         { nom: "Cerise", emoji: "🍒", bienfaits: "Anti-inflammatoire" },
         { nom: "Raisin", emoji: "🍇", bienfaits: "Énergie naturelle" },
         { nom: "Orange", emoji: "🍊", bienfaits: "Vitamine C boost" },
-        { nom: "Mandarine", emoji: "🟠", bienfaits: "Vitamine C douce" },
-        { nom: "Clémentine", emoji: "🟡", bienfaits: "Facile à digérer" },
+        { nom: "Mandarine", emoji: "🍊", bienfaits: "Vitamine C douce" }, // Utilise orange car similaire
+        { nom: "Clémentine", emoji: "🍊", bienfaits: "Facile à digérer" }, // Utilise orange car similaire
         { nom: "Citron", emoji: "🍋", bienfaits: "Vitamine C intense" },
-        { nom: "Pamplemousse", emoji: "🩷", bienfaits: "Antioxydants" },
+        { nom: "Pamplemousse", emoji: "🍊", bienfaits: "Antioxydants" }, // Utilise icône personnalisée
         { nom: "Kiwi", emoji: "🥝", bienfaits: "Vitamine C record" },
         { nom: "Ananas", emoji: "🍍", bienfaits: "Enzymes digestives" },
         { nom: "Mangue", emoji: "🥭", bienfaits: "Vitamine A et E" },
-        { nom: "Papaye", emoji: "🧡", bienfaits: "Digestion optimale" },
+        { nom: "Papaye", emoji: "🥭", bienfaits: "Digestion optimale" }, // Utilise icône personnalisée
         { nom: "Melon", emoji: "🍈", bienfaits: "Hydratation douce" },
         { nom: "Pastèque", emoji: "🍉", bienfaits: "Hydratation intense" },
         { nom: "Avocat", emoji: "🥑", bienfaits: "Bonnes graisses" },
-        { nom: "Figue", emoji: "🟤", bienfaits: "Calcium naturel" },
-        { nom: "Datte", emoji: "🟫", bienfaits: "Énergie concentrée" },
+        { nom: "Figue", emoji: "🟣", bienfaits: "Calcium naturel" }, // Utilise icône personnalisée
+        { nom: "Datte", emoji: "🟫", bienfaits: "Énergie concentrée" }, // Utilise icône personnalisée
         { nom: "Noix de coco", emoji: "🥥", bienfaits: "Électrolytes" },
-        { nom: "Grenade", emoji: "🔴", bienfaits: "Super antioxydants" },
-        { nom: "Cranberry", emoji: "🔴", bienfaits: "Voies urinaires" },
-        { nom: "Cassis", emoji: "⚫", bienfaits: "Vitamine C intense" },
-        { nom: "Groseille", emoji: "🔴", bienfaits: "Acide folique" },
-        { nom: "Litchi", emoji: "🤍", bienfaits: "Vitamine C exotique" },
-        { nom: "Fruit de la passion", emoji: "🟡", bienfaits: "Vitamine A" },
-        { nom: "Carambole", emoji: "⭐", bienfaits: "Vitamine C légère" },
-        { nom: "Goyave", emoji: "🟢", bienfaits: "Vitamine C record" },
-        { nom: "Physalis", emoji: "🟡", bienfaits: "Antioxydants rares" },
+        { nom: "Grenade", emoji: "🟣", bienfaits: "Super antioxydants" }, // Utilise icône personnalisée
+        { nom: "Cranberry", emoji: "🫐", bienfaits: "Voies urinaires" }, // Utilise myrtille car similaire
+        { nom: "Cassis", emoji: "🫐", bienfaits: "Vitamine C intense" }, // Utilise myrtille car similaire
+        { nom: "Groseille", emoji: "🍒", bienfaits: "Acide folique" }, // Utilise cerise car similaire
+        { nom: "Litchi", emoji: "🟣", bienfaits: "Vitamine C exotique" }, // Utilise icône personnalisée
+        { nom: "Fruit de la passion", emoji: "🟡", bienfaits: "Vitamine A" }, // Utilise icône personnalisée
+        { nom: "Carambole", emoji: "⭐", bienfaits: "Vitamine C légère" }, // Utilise icône personnalisée
+        { nom: "Goyave", emoji: "🟢", bienfaits: "Vitamine C record" }, // Utilise icône personnalisée
+        { nom: "Physalis", emoji: "🟡", bienfaits: "Antioxydants rares" }, // Utilise icône personnalisée
         { nom: "Nectarine", emoji: "🍑", bienfaits: "Peau lisse, vitamine A" },
-        { nom: "Mirabelle", emoji: "🟡", bienfaits: "Douce et sucrée" },
-        { nom: "Quetsche", emoji: "🟣", bienfaits: "Fibres douces" },
-        { nom: "Reine-claude", emoji: "🟢", bienfaits: "Digestion facile" }
+        { nom: "Mirabelle", emoji: "🍑", bienfaits: "Douce et sucrée" }, // Utilise pêche car similaire
+        { nom: "Quetsche", emoji: "🟣", bienfaits: "Fibres douces" }, // Utilise icône personnalisée
+        { nom: "Reine-claude", emoji: "🍑", bienfaits: "Digestion facile" } // Utilise pêche car similaire
     ],
     legumes: [
         { nom: "Carotte", emoji: "🥕", bienfaits: "Bêta-carotène, vision" },
         { nom: "Courgette", emoji: "🥒", bienfaits: "Douce et digestible" },
         { nom: "Haricot vert", emoji: "🫛", bienfaits: "Fibres et vitamines" },
-        { nom: "Petit pois", emoji: "🟢", bienfaits: "Protéines végétales" },
+        { nom: "Petit pois", emoji: "🫛", bienfaits: "Protéines végétales" }, // Utilise haricot car similaire
         { nom: "Brocoli", emoji: "🥦", bienfaits: "Vitamine K et C" },
-        { nom: "Chou-fleur", emoji: "🤍", bienfaits: "Vitamine C et folates" },
+        { nom: "Chou-fleur", emoji: "🥦", bienfaits: "Vitamine C et folates" }, // Utilise icône personnalisée
 
         { nom: "Potiron", emoji: "🎃", bienfaits: "Bêta-carotène doux" },
-        { nom: "Courge butternut", emoji: "🎃", bienfaits: "Vitamines A et C" },
+        { nom: "Courge butternut", emoji: "🎃", bienfaits: "Vitamines A et C" }, // Utilise icône personnalisée
         { nom: "Patate douce", emoji: "🍠", bienfaits: "Glucides complexes" },
 
-        { nom: "Panais", emoji: "🤍", bienfaits: "Fibres et potassium" },
-        { nom: "Navet", emoji: "🟡", bienfaits: "Vitamine C douce" },
-        { nom: "Rutabaga", emoji: "🟤", bienfaits: "Vitamine C et fibres" },
-        { nom: "Céleri-rave", emoji: "🤍", bienfaits: "Potassium et fibres" },
-        { nom: "Fenouil", emoji: "🤍", bienfaits: "Digestion apaisante" },
-        { nom: "Endive", emoji: "🤍", bienfaits: "Fibres et vitamine K" },
-        { nom: "Mâche", emoji: "🍃", bienfaits: "Oméga-3 végétaux" },
+        { nom: "Panais", emoji: "🥕", bienfaits: "Fibres et potassium" }, // Utilise icône personnalisée
+        { nom: "Navet", emoji: "🥕", bienfaits: "Vitamine C douce" }, // Utilise icône personnalisée
+        { nom: "Rutabaga", emoji: "🥔", bienfaits: "Vitamine C et fibres" }, // Utilise icône personnalisée
+        { nom: "Céleri-rave", emoji: "🥔", bienfaits: "Potassium et fibres" }, // Utilise icône personnalisée
+        { nom: "Fenouil", emoji: "🥬", bienfaits: "Digestion apaisante" }, // Utilise icône personnalisée
+        { nom: "Endive", emoji: "🥬", bienfaits: "Fibres et vitamine K" }, // Utilise icône personnalisée
+        { nom: "Mâche", emoji: "🥬", bienfaits: "Oméga-3 végétaux" }, // Utilise icône personnalisée
         { nom: "Laitue", emoji: "🥬", bienfaits: "Hydratation et fibres" },
-        { nom: "Roquette", emoji: "🍃", bienfaits: "Vitamine K intense" },
-        { nom: "Cresson", emoji: "🍃", bienfaits: "Fer et vitamine C" },
-        { nom: "Artichaut", emoji: "🫒", bienfaits: "Fibres et antioxydants" },
-        { nom: "Asperge", emoji: "🥬", bienfaits: "Acide folique" },
+        { nom: "Roquette", emoji: "🥬", bienfaits: "Vitamine K intense" }, // Utilise icône personnalisée
+        { nom: "Cresson", emoji: "🥬", bienfaits: "Fer et vitamine C" }, // Utilise icône personnalisée
+        { nom: "Artichaut", emoji: "🫒", bienfaits: "Fibres et antioxydants" }, // Utilise icône personnalisée
+        { nom: "Asperge", emoji: "🥬", bienfaits: "Acide folique" }, // Utilise icône personnalisée
         { nom: "Aubergine", emoji: "🍆", bienfaits: "Antioxydants violets" },
         { nom: "Concombre", emoji: "🥒", bienfaits: "Hydratation pure" },
 
-        { nom: "Poivron rouge", emoji: "🫑", bienfaits: "Vitamine C max" },
-        { nom: "Poivron jaune", emoji: "🟡", bienfaits: "Caroténoïdes" },
-        { nom: "Poivron vert", emoji: "🟢", bienfaits: "Vitamine C fraîche" },
-        { nom: "Radis", emoji: "🔴", bienfaits: "Vitamine C piquante" },
-        { nom: "Chou rouge", emoji: "🟣", bienfaits: "Anthocyanes" },
+        { nom: "Poivron rouge", emoji: "🔴", bienfaits: "Vitamine C max" }, // Utilise icône personnalisée rouge
+        { nom: "Poivron jaune", emoji: "🟡", bienfaits: "Caroténoïdes" }, // Utilise icône personnalisée jaune
+        { nom: "Poivron vert", emoji: "🟢", bienfaits: "Vitamine C fraîche" }, // Utilise icône personnalisée verte
+        { nom: "Radis", emoji: "🥕", bienfaits: "Vitamine C piquante" }, // Utilise icône personnalisée
+        { nom: "Chou rouge", emoji: "🥬", bienfaits: "Anthocyanes" }, // Utilise icône personnalisée
         { nom: "Chou vert", emoji: "🥬", bienfaits: "Vitamine K et C" },
-        { nom: "Chou de Bruxelles", emoji: "🥬", bienfaits: "Vitamine K record" },
-        { nom: "Chou chinois", emoji: "🥬", bienfaits: "Doux et digestible" },
-        { nom: "Blette", emoji: "🍃", bienfaits: "Magnésium et fer" },
-        { nom: "Poireau", emoji: "🧅", bienfaits: "Fibres prébiotiques" },
+        { nom: "Chou de Bruxelles", emoji: "🥬", bienfaits: "Vitamine K record" }, // Utilise icône personnalisée
+        { nom: "Chou chinois", emoji: "🥬", bienfaits: "Doux et digestible" }, // Utilise icône personnalisée
+        { nom: "Blette", emoji: "🥬", bienfaits: "Magnésium et fer" }, // Utilise icône personnalisée
+        { nom: "Poireau", emoji: "🧅", bienfaits: "Fibres prébiotiques" }, // Utilise icône personnalisée
         { nom: "Oignon", emoji: "🧅", bienfaits: "Antioxydants soufrés" },
-        { nom: "Échalote", emoji: "🟣", bienfaits: "Saveur douce" },
+        { nom: "Échalote", emoji: "🧅", bienfaits: "Saveur douce" }, // Utilise icône personnalisée
         { nom: "Ail", emoji: "🧄", bienfaits: "Antibactérien naturel" },
         { nom: "Champignon de Paris", emoji: "🍄", bienfaits: "Protéines et sélénium" },
         { nom: "Champignon shiitaké", emoji: "🍄", bienfaits: "Système immunitaire" },
         { nom: "Maïs", emoji: "🌽", bienfaits: "Énergie et fibres" },
         { nom: "Gingembre", emoji: "🫚", bienfaits: "Anti-nausée naturel" },
-        { nom: "Topinambour", emoji: "🥔", bienfaits: "Prébiotiques naturels" }
+        { nom: "Topinambour", emoji: "🥔", bienfaits: "Prébiotiques naturels" }, // Utilise icône personnalisée
+        { nom: "Betterave", emoji: "🥕", bienfaits: "Nitrates naturels" } // Utilise icône personnalisée
     ],
     prevention: {
         forbidden: [
@@ -116,8 +117,8 @@ const alimentsData = {
             { nom: "Fraise", emoji: "🍓", raison: "Allergène, attendre 8 mois" },
             { nom: "Kiwi", emoji: "🥝", raison: "Acidité, vers 8-10 mois" },
             { nom: "Tomate", emoji: "🍅", raison: "Acidité, vers 8 mois" },
-            { nom: "Épinards", emoji: "🍃", raison: "Nitrates, vers 8 mois" },
-            { nom: "Betteraves", emoji: "🔴", raison: "Nitrates, vers 8 mois" },
+            { nom: "Épinards", emoji: "🥬", raison: "Nitrates, vers 8 mois" },
+            { nom: "Betteraves", emoji: "🥕", raison: "Nitrates, vers 8 mois" }, // Utilise icône personnalisée
             { nom: "Légumineuses", emoji: "🫘", raison: "Difficiles à digérer, vers 8 mois" },
             { nom: "Céréales avec gluten", emoji: "🍞", raison: "Introduire vers 6 mois progressivement" },
             { nom: "Produits laitiers", emoji: "🧀", raison: "Yaourt vers 6 mois, fromage vers 8 mois" }
@@ -500,8 +501,7 @@ class BabyFoodTracker {
             div.classList.add('tried');
         }
 
-        const customIcon = getAlimentIcon(aliment.nom);
-        const iconHtml = customIcon ? customIcon : `<span class="food-emoji">${aliment.emoji}</span>`;
+        const iconHtml = EmojiManager.getAlimentIcon(aliment.nom);
         
         // Afficher l'emoji de notation seulement si l'aliment est goûté ET évalué
         const noteDisplay = (estGoute && estEvalue) ? this.genererAffichageNote(evaluation) : '';
@@ -710,8 +710,14 @@ class BabyFoodTracker {
             const emojis = ['✅', '😖', '😐', '😊', '😍']; // 0 = goûté (✅), 1-4 = notes
             const ratingText = entree.note === 0 ? 'Goûté' : emojis[entree.note];
             
+            // Utiliser directement le nom de l'aliment de l'historique pour obtenir l'icône
+            const alimentIcon = EmojiManager.getAlimentIcon(entree.aliment);
+            const recentIconHtml = alimentIcon.includes('custom-icon') ? 
+                alimentIcon.replace('class="custom-icon"', 'class="recent-emoji"') : 
+                alimentIcon.replace('class="food-emoji"', 'class="recent-emoji"');
+            
             div.innerHTML = `
-                <span class="recent-emoji">${aliment ? aliment.emoji : '🍎'}</span>
+                ${recentIconHtml}
                 <div class="recent-info">
                     <div class="recent-name">${entree.aliment}</div>
                     <div class="recent-date">${dateFormatee}</div>
@@ -881,8 +887,50 @@ class BabyFoodTracker {
         div.className = `prevention-item ${cssClass}`;
         div.style.animationDelay = `${index * 0.1}s`;
         
+        // Mapping des noms de prévention vers les noms du système d'emojis pour cohérence
+        const mappingNoms = {
+            'Betteraves': 'Betterave',
+            'Agrumes': 'Orange',
+            'Légumineuses': 'Haricot rouge',
+            'Céréales avec gluten': 'Blé',
+            'Produits laitiers': 'Fromage',
+            'Fruits de mer': 'Crevette',
+            'Épices fortes': 'Piment',
+            'Noix entières': 'Noix',
+            'Bonbons durs': 'Bonbon',
+            'Sucre blanc': 'Sucre',
+            'Fromage au lait cru': 'Fromage',
+            'Œuf cru': 'Œuf',
+            'Poisson cru': 'Poisson',
+            'Viande crue': 'Viande',
+            'Thé et café': 'Café',
+            'Édulcorants': 'Sucre'
+        };
+        
+        let preventionIconHtml;
+        
+        // Si l'aliment a un mapping vers notre système d'emojis, l'utiliser pour cohérence
+        if (mappingNoms[aliment.nom]) {
+            const nomPourEmoji = mappingNoms[aliment.nom];
+            const preventionIcon = EmojiManager.getAlimentIcon(nomPourEmoji);
+            
+            // Vérifier si c'est le fallback pomme (indique que l'aliment n'existe pas dans notre système)
+            if (preventionIcon.includes('🍎')) {
+                // Utiliser l'emoji original des données de prévention
+                preventionIconHtml = `<span class="prevention-emoji">${aliment.emoji}</span>`;
+            } else {
+                // Utiliser l'emoji/icône du système pour cohérence
+                preventionIconHtml = preventionIcon.includes('custom-icon') ? 
+                    preventionIcon.replace('class="custom-icon"', 'class="prevention-emoji"') : 
+                    preventionIcon.replace('class="food-emoji"', 'class="prevention-emoji"');
+            }
+        } else {
+            // Utiliser directement l'emoji défini dans les données de prévention
+            preventionIconHtml = `<span class="prevention-emoji">${aliment.emoji}</span>`;
+        }
+        
         div.innerHTML = `
-            <span class="prevention-emoji">${aliment.emoji}</span>
+            ${preventionIconHtml}
             <div class="prevention-info">
                 <div class="prevention-name">${aliment.nom}</div>
                 <div class="prevention-reason">${aliment.raison}</div>
@@ -1265,11 +1313,13 @@ class BabyFoodTracker {
             this.selectedDate = null;
         }
         if (!this.viewMode) {
-            this.viewMode = 'month'; // 'month' ou 'day'
+            this.viewMode = 'month'; // 'month', 'week' ou 'day'
         }
 
         if (this.viewMode === 'month') {
             this.genererVueMensuelle();
+        } else if (this.viewMode === 'week') {
+            this.genererVueSemaine();
         } else {
             this.genererVueJour();
         }
@@ -1277,9 +1327,14 @@ class BabyFoodTracker {
 
     genererVueMensuelle() {
         const monthView = document.getElementById('calendarMonthView');
+        const weekView = document.getElementById('calendarWeekView');
         const dayView = document.getElementById('calendarDayView');
         
         if (monthView) monthView.style.display = 'block';
+        if (weekView) {
+            weekView.style.display = 'none';
+            weekView.classList.remove('active');
+        }
         if (dayView) dayView.style.display = 'none';
 
         // Mettre à jour le titre du mois
@@ -1289,8 +1344,202 @@ class BabyFoodTracker {
             titleElement.textContent = this.currentDate.toLocaleDateString('fr-FR', options);
         }
 
-        // Générer la grille du calendrier
+        // Nettoyer les classes d'animation précédentes
+        this.nettoyerAnimationsCalendrier();
+
+        // Générer la grille du calendrier avec événements réactivés
         this.genererGrilleCalendrier();
+    }
+
+    nettoyerAnimationsCalendrier() {
+        const calendarGrid = document.querySelector('.calendar-grid');
+        if (calendarGrid) {
+            calendarGrid.classList.remove('transitioning');
+            
+            // Nettoyer toutes les classes d'animation sur les jours
+            const allDays = calendarGrid.querySelectorAll('.calendar-day');
+            allDays.forEach(dayEl => {
+                dayEl.classList.remove('selected-week', 'fade-out');
+                // Réactiver les interactions
+                dayEl.style.pointerEvents = '';
+                dayEl.style.opacity = '';
+                dayEl.style.transform = '';
+            });
+        }
+    }
+
+    genererVueSemaine() {
+        const monthView = document.getElementById('calendarMonthView');
+        const weekView = document.getElementById('calendarWeekView');
+        const dayView = document.getElementById('calendarDayView');
+        
+        if (monthView) monthView.style.display = 'none';
+        if (weekView) {
+            weekView.style.display = 'block';
+            // Animation d'entrée
+            setTimeout(() => {
+                weekView.classList.add('active');
+            }, 50);
+        }
+        if (dayView) dayView.style.display = 'none';
+
+        // Mettre à jour le texte de retour au mois
+        const backMonthText = document.getElementById('backMonthText');
+        if (backMonthText) {
+            const options = { year: 'numeric', month: 'long' };
+            backMonthText.textContent = this.currentDate.toLocaleDateString('fr-FR', options);
+        }
+
+        // Générer les jours de la semaine
+        this.genererJoursSemaine();
+        
+        // Générer le contenu du jour sélectionné
+        this.genererContenuJourSemaine();
+    }
+
+    genererJoursSemaine() {
+        const container = document.getElementById('weekDaysContainer');
+        if (!container) return;
+        
+        container.innerHTML = '';
+        
+        const weekDays = this.obtenirJoursSemaine(this.selectedDate);
+        const today = new Date();
+        
+        weekDays.forEach(date => {
+            const dayElement = document.createElement('div');
+            dayElement.className = 'week-day';
+            
+            const isToday = this.estAujourdhui(date);
+            const isSelected = this.isSameDay(date, this.selectedDate);
+            const dateKey = this.obtenirCleCalendrier(date);
+            const hasEvents = this.verifierAlimentsJour(dateKey);
+            
+            if (isToday) {
+                dayElement.classList.add('today');
+            }
+            
+            if (isSelected) {
+                dayElement.classList.add('selected');
+            }
+            
+            if (hasEvents) {
+                dayElement.classList.add('has-events');
+            }
+            
+            // Numéro du jour
+            const dayNumber = document.createElement('div');
+            dayNumber.className = 'week-day-number';
+            dayNumber.textContent = date.getDate();
+            dayElement.appendChild(dayNumber);
+            
+            // Indicateurs
+            const indicators = this.creerIndicateursJourSemaine(dateKey);
+            if (indicators.children.length > 0) {
+                dayElement.appendChild(indicators);
+            }
+            
+            // Gestionnaire de clic
+            dayElement.addEventListener('click', () => {
+                this.selectionnerJourSemaine(date);
+            });
+            
+            container.appendChild(dayElement);
+        });
+    }
+
+    creerIndicateursJourSemaine(dateKey) {
+        const indicatorsContainer = document.createElement('div');
+        indicatorsContainer.className = 'week-day-indicators';
+        
+        const jourData = this.calendrierData[dateKey];
+        
+        if (jourData) {
+            let totalAliments = 0;
+            ['matin', 'midi', 'gouter', 'soir'].forEach(moment => {
+                if (jourData[moment] && jourData[moment].length > 0) {
+                    totalAliments += jourData[moment].length;
+                }
+            });
+            
+            // Limiter à 4 indicateurs maximum
+            const nombreIndicateurs = Math.min(totalAliments, 4);
+            for (let i = 0; i < nombreIndicateurs; i++) {
+                const indicator = document.createElement('div');
+                indicator.className = 'week-day-indicator';
+                indicatorsContainer.appendChild(indicator);
+            }
+        }
+        
+        return indicatorsContainer;
+    }
+
+    selectionnerJourSemaine(date) {
+        this.selectedDate = new Date(date);
+        
+        // Mettre à jour l'affichage des jours de la semaine
+        const weekDays = document.querySelectorAll('.week-day');
+        weekDays.forEach(dayEl => {
+            dayEl.classList.remove('selected');
+        });
+        
+        // Marquer le jour sélectionné
+        const weekDaysArray = this.obtenirJoursSemaine(this.selectedDate);
+        const selectedIndex = weekDaysArray.findIndex(weekDay => 
+            this.isSameDay(weekDay, date)
+        );
+        
+        if (selectedIndex !== -1 && weekDays[selectedIndex]) {
+            weekDays[selectedIndex].classList.add('selected');
+            
+            // Animation subtile de sélection
+            weekDays[selectedIndex].style.transform = 'scale(1.08)';
+            setTimeout(() => {
+                if (weekDays[selectedIndex]) {
+                    weekDays[selectedIndex].style.transform = '';
+                }
+            }, 200);
+        }
+        
+        // Mettre à jour le contenu du jour
+        this.genererContenuJourSemaine();
+    }
+
+    genererContenuJourSemaine() {
+        if (!this.selectedDate) return;
+        
+        const dateKey = this.obtenirCleCalendrier(this.selectedDate);
+        const jourData = this.obtenirDonneesJour(this.selectedDate);
+        
+        // Mettre à jour chaque moment de la journée
+        ['matin', 'midi', 'gouter', 'soir'].forEach(moment => {
+            const container = document.getElementById(`weekMeal${moment.charAt(0).toUpperCase() + moment.slice(1)}`);
+            if (container) {
+                container.innerHTML = '';
+                
+                if (jourData[moment] && jourData[moment].length > 0) {
+                    jourData[moment].forEach(aliment => {
+                        const alimentElement = this.creerElementAliment(aliment, dateKey, moment);
+                        container.appendChild(alimentElement);
+                    });
+                }
+            }
+        });
+        
+        // Configurer les boutons d'ajout
+        this.configurerBoutonsAjoutSemaine();
+    }
+
+    configurerBoutonsAjoutSemaine() {
+        const boutons = document.querySelectorAll('.calendar-week-view .add-meal-btn');
+        boutons.forEach(bouton => {
+            bouton.onclick = (e) => {
+                e.preventDefault();
+                const moment = bouton.getAttribute('data-moment');
+                const dateKey = this.obtenirCleCalendrier(this.selectedDate);
+                this.ouvrirModalAjoutAliment(dateKey, moment);
+            };
+        });
     }
 
     genererGrilleCalendrier() {
@@ -1339,6 +1588,12 @@ class BabyFoodTracker {
             dayElement.classList.add('today');
         }
 
+        // Vérifier s'il y a des aliments pour ce jour
+        const hasEvents = this.verifierAlimentsJour(dateKey);
+        if (hasEvents) {
+            dayElement.classList.add('has-events');
+        }
+
         // Numéro du jour
         const dayNumber = document.createElement('div');
         dayNumber.className = 'day-number';
@@ -1349,10 +1604,10 @@ class BabyFoodTracker {
         const indicators = this.creerIndicateursJour(dateKey);
         dayElement.appendChild(indicators);
 
-        // Event listener pour ouvrir la vue détail
+        // Event listener pour transition vers vue semaine
         dayElement.addEventListener('click', () => {
             if (isCurrentMonth) {
-                this.ouvrirVueJour(date);
+                this.transitionVersVueSemaine(date);
             }
         });
 
@@ -1389,6 +1644,85 @@ class BabyFoodTracker {
         return date.getDate() === today.getDate() &&
                date.getMonth() === today.getMonth() &&
                date.getFullYear() === today.getFullYear();
+    }
+
+    verifierAlimentsJour(dateKey) {
+        const jourData = this.calendrierData[dateKey];
+        if (!jourData) return false;
+        
+        // Vérifier s'il y a des aliments dans au moins un moment de la journée
+        return ['matin', 'midi', 'gouter', 'soir'].some(moment => 
+            jourData[moment] && jourData[moment].length > 0
+        );
+    }
+
+    transitionVersVueSemaine(date) {
+        this.selectedDate = new Date(date);
+        
+        // Obtenir la semaine du jour sélectionné
+        const weekDays = this.obtenirJoursSemaine(date);
+        
+        // Animation de transition
+        const calendarGrid = document.querySelector('.calendar-grid');
+        if (calendarGrid) {
+            calendarGrid.classList.add('transitioning');
+            
+            // Désactiver temporairement les interactions pendant la transition
+            const allDays = calendarGrid.querySelectorAll('.calendar-day');
+            allDays.forEach((dayEl, index) => {
+                dayEl.style.pointerEvents = 'none';
+                
+                const dayDate = this.obtenirDateFromIndex(index);
+                const isInSelectedWeek = weekDays.some(weekDay => 
+                    this.isSameDay(weekDay, dayDate)
+                );
+                
+                if (isInSelectedWeek) {
+                    dayEl.classList.add('selected-week');
+                } else {
+                    dayEl.classList.add('fade-out');
+                }
+            });
+            
+            // Transition vers la vue semaine après l'animation
+            setTimeout(() => {
+                this.viewMode = 'week';
+                this.genererCalendrierIOS();
+            }, 600);
+        }
+    }
+
+    obtenirJoursSemaine(date) {
+        const startOfWeek = new Date(date);
+        const day = startOfWeek.getDay();
+        const diff = startOfWeek.getDate() - day + (day === 0 ? -6 : 1); // Lundi = début de semaine
+        startOfWeek.setDate(diff);
+        
+        const weekDays = [];
+        for (let i = 0; i < 7; i++) {
+            const weekDay = new Date(startOfWeek);
+            weekDay.setDate(startOfWeek.getDate() + i);
+            weekDays.push(weekDay);
+        }
+        
+        return weekDays;
+    }
+
+    obtenirDateFromIndex(index) {
+        // Calculer la date basée sur l'index dans la grille
+        const firstDay = new Date(this.currentDate.getFullYear(), this.currentDate.getMonth(), 1);
+        const startDate = new Date(firstDay);
+        const dayOfWeek = firstDay.getDay();
+        const mondayOffset = dayOfWeek === 0 ? -6 : 1 - dayOfWeek;
+        startDate.setDate(firstDay.getDate() + mondayOffset + index);
+        
+        return startDate;
+    }
+
+    isSameDay(date1, date2) {
+        return date1.getDate() === date2.getDate() &&
+               date1.getMonth() === date2.getMonth() &&
+               date1.getFullYear() === date2.getFullYear();
     }
 
     ouvrirVueJour(date) {
@@ -1458,13 +1792,12 @@ class BabyFoodTracker {
         const emoji = document.createElement('div');
         emoji.className = 'food-item-emoji';
         
-        // Trouver l'aliment dans les données pour récupérer l'emoji
-        const alimentData = this.trouverAliment(aliment.nom);
-        if (alimentData && alimentData.emoji) {
-            emoji.textContent = alimentData.emoji;
-        } else {
-            emoji.innerHTML = this.obtenirIconeAliment(aliment.nom);
-        }
+        // Utiliser le système unifié EmojiManager
+        const iconHtml = EmojiManager.getAlimentIcon(aliment.nom);
+        const finalIconHtml = iconHtml.includes('custom-icon') ? 
+            iconHtml.replace('class="custom-icon"', 'class="food-item-emoji-icon"') : 
+            iconHtml.replace('class="food-emoji"', 'class="food-item-emoji-icon"');
+        emoji.innerHTML = finalIconHtml;
         
         foodItem.appendChild(emoji);
 
@@ -1673,9 +2006,10 @@ class BabyFoodTracker {
     }
 
     genererAlimentItem(aliment, cleJour, moment) {
-        const alimentData = this.trouverAliment(aliment.nom);
-        const customIcon = getAlimentIcon(aliment.nom);
-        const iconHtml = customIcon ? customIcon.replace('class="custom-icon"', 'class="custom-icon aliment-icon"') : `<span class="aliment-emoji">${alimentData ? alimentData.emoji : '🍎'}</span>`;
+        const iconHtml = EmojiManager.getAlimentIcon(aliment.nom);
+        const finalIconHtml = iconHtml.includes('custom-icon') ? 
+            iconHtml.replace('class="custom-icon"', 'class="custom-icon aliment-icon"') : 
+            iconHtml.replace('class="food-emoji"', 'class="aliment-emoji"');
         
         // Vérifier si l'aliment a été consommé ce jour/moment
         const estConsomme = aliment.consomme || false;
@@ -1686,7 +2020,7 @@ class BabyFoodTracker {
                 <div class="aliment-check">
                     <input type="checkbox" class="aliment-checkbox" ${estConsomme ? 'checked' : ''} title="Marquer comme consommé">
                 </div>
-                ${iconHtml}
+                ${finalIconHtml}
                 <div class="aliment-info">
                     <span class="aliment-nom">${aliment.nom}</span>
                     <span class="aliment-duree">${aliment.duree}j</span>
@@ -1774,12 +2108,14 @@ class BabyFoodTracker {
         );
 
         container.innerHTML = alimentsFiltres.map(aliment => {
-            const customIcon = getAlimentIcon(aliment.nom);
-            const iconHtml = customIcon ? customIcon.replace('class="custom-icon"', 'class="aliment-result-icon"') : `<span class="aliment-result-emoji">${aliment.emoji}</span>`;
+            const iconHtml = EmojiManager.getAlimentIcon(aliment.nom);
+            const finalIconHtml = iconHtml.includes('custom-icon') ? 
+                iconHtml.replace('class="custom-icon"', 'class="aliment-result-icon"') : 
+                iconHtml.replace('class="food-emoji"', 'class="aliment-result-emoji"');
             
             return `
                 <div class="aliment-result-item" data-aliment="${aliment.nom}">
-                    ${iconHtml}
+                    ${finalIconHtml}
                     <div class="aliment-result-nom">${aliment.nom}</div>
                 </div>
             `;
@@ -1813,11 +2149,13 @@ class BabyFoodTracker {
         if (!this.alimentSelectionne) return;
 
         const container = document.getElementById('selectedAliment');
-        const customIcon = getAlimentIcon(this.alimentSelectionne.nom);
-        const iconHtml = customIcon ? customIcon.replace('class="custom-icon"', 'class="selected-aliment-icon"') : `<span class="selected-aliment-emoji">${this.alimentSelectionne.emoji}</span>`;
+        const iconHtml = EmojiManager.getAlimentIcon(this.alimentSelectionne.nom);
+        const finalIconHtml = iconHtml.includes('custom-icon') ? 
+            iconHtml.replace('class="custom-icon"', 'class="selected-aliment-icon"') : 
+            iconHtml.replace('class="food-emoji"', 'class="selected-aliment-emoji"');
         
         container.innerHTML = `
-            ${iconHtml}
+            ${finalIconHtml}
             <div class="selected-aliment-nom">${this.alimentSelectionne.nom}</div>
             <div class="selected-aliment-bienfaits">${this.alimentSelectionne.bienfaits}</div>
         `;
@@ -2002,6 +2340,11 @@ class BabyFoodTracker {
             // Mettre à jour visuellement l'élément
             this.mettreAJourAffichageConsommation(nomAliment, cleJour, moment, estConsomme);
             
+            // Synchroniser les statistiques et l'historique en temps réel
+            setTimeout(() => {
+                this.synchroniserToutesLesDonnees();
+            }, 50);
+            
             // Afficher une notification
             const message = estConsomme 
                 ? `✅ ${nomAliment} marqué comme goûté !`
@@ -2011,6 +2354,22 @@ class BabyFoodTracker {
     }
 
     mettreAJourAffichageConsommation(nomAliment, cleJour, moment, estConsomme) {
+        // Mettre à jour dans la vue semaine (vue principale)
+        const alimentItem = document.querySelector(`.aliment-item[data-aliment="${nomAliment}"][data-jour="${cleJour}"][data-moment="${moment}"]`);
+        if (alimentItem) {
+            const checkbox = alimentItem.querySelector('.aliment-checkbox');
+            if (checkbox) {
+                checkbox.checked = estConsomme;
+                
+                // Mettre à jour les classes visuelles
+                if (estConsomme) {
+                    alimentItem.classList.add('consomme');
+                } else {
+                    alimentItem.classList.remove('consomme');
+                }
+            }
+        }
+        
         // Mettre à jour dans la vue jour si elle est active
         if (this.viewMode === 'day') {
             const foodItem = document.querySelector(`.food-item[data-aliment="${nomAliment}"][data-moment="${moment}"]`);
@@ -2034,6 +2393,12 @@ class BabyFoodTracker {
         // Mettre à jour les indicateurs dans la vue mensuelle
         if (this.viewMode === 'month') {
             this.genererGrilleCalendrier();
+        }
+        
+        // Forcer la mise à jour de l'affichage du calendrier
+        if (this.categorieActive === 'calendrier') {
+            // Régénérer seulement la partie nécessaire pour éviter de perdre l'état des événements
+            this.mettreAJourAffichageCalendrier();
         }
     }
 
@@ -2171,9 +2536,20 @@ class BabyFoodTracker {
     }
 
     retournerVueMensuelle() {
-        this.viewMode = 'month';
-        this.selectedDate = null;
-        this.genererVueMensuelle();
+        // Animation de sortie pour la vue semaine
+        const weekView = document.getElementById('calendarWeekView');
+        if (weekView && weekView.style.display !== 'none') {
+            weekView.classList.remove('active');
+            setTimeout(() => {
+                this.viewMode = 'month';
+                this.selectedDate = null;
+                this.genererCalendrierIOS(); // Utiliser la fonction principale pour tout réinitialiser
+            }, 400);
+        } else {
+            this.viewMode = 'month';
+            this.selectedDate = null;
+            this.genererCalendrierIOS(); // Utiliser la fonction principale pour tout réinitialiser
+        }
     }
 
     naviguerJour(direction) {
