@@ -68,25 +68,90 @@
             </div>
 
             <div class="category-section active" id="calendrier">
-                <div class="calendrier-container">
-                    <div class="calendrier-header">
-                        <h2>📅 Planification alimentaire</h2>
-                        <p class="calendrier-subtitle">Organisez les repas de bébé sur 4 semaines</p>
+                <div class="ios-calendar-container">
+                    <!-- Vue mensuelle -->
+                    <div class="calendar-month-view" id="calendarMonthView">
+                        <div class="calendar-header">
+                            <button class="calendar-nav-btn" id="prevMonth">‹</button>
+                            <h2 class="calendar-title" id="calendarTitle">Juin 2025</h2>
+                            <button class="calendar-nav-btn" id="nextMonth">›</button>
+                        </div>
                         
-                        <div class="semaine-navigation">
-                            <button class="nav-semaine-btn" id="prevSemaine">‹</button>
-                            <div class="semaine-info">
-                                <span class="semaine-label">Semaine</span>
-                                <span class="semaine-numero" id="semaineActuelle">1</span>
-                                <span class="semaine-dates" id="semaineDates">4-10 Nov</span>
-                            </div>
-                            <button class="nav-semaine-btn" id="nextSemaine">›</button>
+                        <div class="calendar-weekdays">
+                            <div class="weekday">L</div>
+                            <div class="weekday">M</div>
+                            <div class="weekday">M</div>
+                            <div class="weekday">J</div>
+                            <div class="weekday">V</div>
+                            <div class="weekday">S</div>
+                            <div class="weekday">D</div>
+                        </div>
+                        
+                        <div class="calendar-grid" id="calendarGrid">
+                            <!-- Sera généré par JavaScript -->
                         </div>
                     </div>
-
-                    <div class="calendrier-content">
-                        <div class="calendrier-semaine" id="calendrierSemaine">
-                            <!-- Sera généré par JavaScript -->
+                    
+                    <!-- Vue détail jour -->
+                    <div class="calendar-day-view" id="calendarDayView" style="display: none;">
+                        <div class="day-view-header">
+                            <button class="back-to-month-btn" id="backToMonth">
+                                <span class="back-arrow">‹</span>
+                                <span class="back-text" id="backMonthText">Juin 2025</span>
+                            </button>
+                            <div class="day-view-navigation">
+                                <button class="day-nav-btn" id="prevDay">‹</button>
+                                <h3 class="day-title" id="dayTitle">Lundi 9 juin</h3>
+                                <button class="day-nav-btn" id="nextDay">›</button>
+                            </div>
+                        </div>
+                        
+                        <div class="day-content" id="dayContent">
+                            <div class="day-meals">
+                                <div class="meal-section" data-moment="matin">
+                                    <div class="meal-header">
+                                        <span class="meal-icon">🌅</span>
+                                        <span class="meal-title">Matin</span>
+                                        <button class="add-meal-btn" data-moment="matin">+</button>
+                                    </div>
+                                    <div class="meal-foods" id="mealMatin">
+                                        <!-- Aliments du matin -->
+                                    </div>
+                                </div>
+                                
+                                <div class="meal-section" data-moment="midi">
+                                    <div class="meal-header">
+                                        <span class="meal-icon">☀️</span>
+                                        <span class="meal-title">Midi</span>
+                                        <button class="add-meal-btn" data-moment="midi">+</button>
+                                    </div>
+                                    <div class="meal-foods" id="mealMidi">
+                                        <!-- Aliments du midi -->
+                                    </div>
+                                </div>
+                                
+                                <div class="meal-section" data-moment="gouter">
+                                    <div class="meal-header">
+                                        <span class="meal-icon">🍪</span>
+                                        <span class="meal-title">Goûter</span>
+                                        <button class="add-meal-btn" data-moment="gouter">+</button>
+                                    </div>
+                                    <div class="meal-foods" id="mealGouter">
+                                        <!-- Aliments du goûter -->
+                                    </div>
+                                </div>
+                                
+                                <div class="meal-section" data-moment="soir">
+                                    <div class="meal-header">
+                                        <span class="meal-icon">🌙</span>
+                                        <span class="meal-title">Soir</span>
+                                        <button class="add-meal-btn" data-moment="soir">+</button>
+                                    </div>
+                                    <div class="meal-foods" id="mealSoir">
+                                        <!-- Aliments du soir -->
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>

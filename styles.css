@@ -1455,161 +1455,79 @@ body {
     }
 }
 
-/* ===== CALENDRIER STYLES ===== */
+/* ===== CALENDRIER iOS STYLES ===== */
 
-.calendrier-container {
+.ios-calendar-container {
     padding: 0;
     width: 100%;
     max-width: 100%;
     margin: 0 auto;
     box-sizing: border-box;
-}
-
-.calendrier-header {
-    text-align: center;
-    margin: 0 auto 24px auto;
-    padding: 24px;
-    background: linear-gradient(135deg, #e0f2fe, #e8f5e8);
-    border-radius: var(--radius);
-    border-left: 4px solid var(--primary);
-    width: 100%;
-    max-width: 100%;
-    box-sizing: border-box;
-    position: relative;
-    left: 0;
-    right: 0;
-}
-
-.calendrier-header h2 {
-    color: var(--primary);
-    margin-bottom: 8px;
-    font-size: 24px;
-    font-weight: 700;
-}
-
-.calendrier-subtitle {
-    color: var(--text-secondary);
-    font-size: 16px;
-    margin: 0 0 20px 0;
-}
-
-.semaine-navigation {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 16px;
-    margin-top: 16px;
-}
-
-.nav-semaine-btn {
-    width: 48px;
-    height: 48px;
-    border-radius: 50%;
-    border: 2px solid var(--primary);
     background: var(--surface);
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+}
+
+/* Vue mensuelle */
+.calendar-month-view {
+    width: 100%;
+    background: var(--surface);
+}
+
+.calendar-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px 24px;
+    background: linear-gradient(135deg, #f8fafc, #f1f5f9);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.calendar-title {
+    font-size: 22px;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin: 0;
+    letter-spacing: -0.5px;
+}
+
+.calendar-nav-btn {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    border: none;
+    background: rgba(99, 102, 241, 0.1);
     color: var(--primary);
-    font-size: 24px;
-    font-weight: bold;
+    font-size: 18px;
+    font-weight: 600;
     cursor: pointer;
-    transition: all 0.3s ease;
+    transition: all 0.2s ease;
     display: flex;
     align-items: center;
     justify-content: center;
 }
 
-.nav-semaine-btn:hover {
+.calendar-nav-btn:hover {
     background: var(--primary);
     color: white;
-    transform: scale(1.1);
+    transform: scale(1.05);
 }
 
-.nav-semaine-btn:active {
+.calendar-nav-btn:active {
     transform: scale(0.95);
 }
 
-.nav-semaine-btn:disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
-    transform: none;
-}
-
-.nav-semaine-btn:disabled:hover {
-    background: var(--surface);
-    color: var(--primary);
-}
-
-.semaine-info {
-    background: linear-gradient(135deg, var(--primary), var(--primary-light));
-    color: white;
-    padding: 16px 24px;
-    border-radius: var(--radius);
-    text-align: center;
-    min-width: 180px;
-    box-shadow: var(--shadow);
-}
-
-.semaine-label {
-    font-size: 12px;
-    font-weight: 500;
-    opacity: 0.9;
-    display: block;
-}
-
-.semaine-numero {
-    font-size: 28px;
-    font-weight: 800;
-    display: block;
-    line-height: 1;
-    margin: 4px 0;
-}
-
-.semaine-dates {
-    font-size: 14px;
-    font-weight: 500;
-    opacity: 0.9;
-    display: block;
-}
-
-.calendrier-content {
-    background: var(--surface);
-    border-radius: var(--radius);
-    box-shadow: var(--shadow);
-    overflow: hidden;
-}
-
-.calendrier-semaine {
+.calendar-weekdays {
     display: grid;
     grid-template-columns: repeat(7, 1fr);
-    gap: 1px;
-    background: var(--border);
+    background: rgba(0, 0, 0, 0.02);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
 }
 
-.calendrier-jour {
-    background: var(--surface);
-    min-height: 180px;
+.weekday {
     padding: 12px 8px;
-    display: flex;
-    flex-direction: column;
-    position: relative;
-    transition: all 0.3s ease;
-}
-
-.calendrier-jour:hover {
-    background: rgba(99, 102, 241, 0.02);
-}
-
-.jour-header {
     text-align: center;
-    margin-bottom: 12px;
-    border-bottom: 1px solid var(--border);
-    padding-bottom: 8px;
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
-.jour-nom {
     font-size: 12px;
     font-weight: 600;
     color: var(--text-secondary);
@@ -1617,40 +1535,433 @@ body {
     letter-spacing: 0.5px;
 }
 
-.jour-date {
-    font-size: 16px;
-    font-weight: 700;
-    color: var(--text-primary);
-    margin-top: 2px;
+.calendar-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 1px;
+    background: rgba(0, 0, 0, 0.05);
+    padding: 1px;
 }
 
-.jour-content {
-    flex: 1;
+.calendar-day {
+    background: var(--surface);
+    aspect-ratio: 1;
+    min-height: 60px;
     display: flex;
     flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 8px 4px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    position: relative;
+    border-radius: 2px;
+}
+
+.calendar-day:hover {
+    background: rgba(99, 102, 241, 0.05);
+    transform: scale(1.02);
+}
+
+.calendar-day.other-month {
+    color: var(--text-secondary);
+    opacity: 0.4;
+}
+
+.calendar-day.today {
+    background: linear-gradient(135deg, var(--primary), #7c3aed);
+    color: white;
+    font-weight: 600;
+    box-shadow: 0 2px 8px rgba(99, 102, 241, 0.3);
+}
+
+.calendar-day.today:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 12px rgba(99, 102, 241, 0.4);
+}
+
+.day-number {
+    font-size: 16px;
+    font-weight: 500;
+    margin-bottom: 4px;
+    line-height: 1;
+}
+
+.calendar-day.today .day-number {
+    font-weight: 700;
+}
+
+.day-indicators {
+    display: flex;
+    gap: 2px;
+    flex-wrap: wrap;
+    justify-content: center;
+    max-width: 100%;
+}
+
+.day-indicator {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--primary);
+    opacity: 0.7;
+}
+
+.calendar-day.today .day-indicator {
+    background: rgba(255, 255, 255, 0.8);
+}
+
+/* Vue détail jour */
+.calendar-day-view {
+    width: 100%;
+    background: var(--surface);
+    min-height: 500px;
+}
+
+.day-view-header {
+    padding: 20px 24px;
+    background: linear-gradient(135deg, #f8fafc, #f1f5f9);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.back-to-month-btn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: none;
+    border: none;
+    color: var(--primary);
+    font-size: 16px;
+    font-weight: 500;
+    cursor: pointer;
+    padding: 8px 12px;
+    border-radius: 8px;
+    transition: all 0.2s ease;
+    margin-bottom: 16px;
+}
+
+.back-to-month-btn:hover {
+    background: rgba(99, 102, 241, 0.1);
+}
+
+.back-arrow {
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.day-view-navigation {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.day-nav-btn {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    border: none;
+    background: rgba(99, 102, 241, 0.1);
+    color: var(--primary);
+    font-size: 18px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.day-nav-btn:hover {
+    background: var(--primary);
+    color: white;
+    transform: scale(1.05);
+}
+
+.day-title {
+    font-size: 20px;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin: 0;
+    letter-spacing: -0.3px;
+}
+
+.day-content {
+    padding: 24px;
+}
+
+.day-meals {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.meal-section {
+    background: rgba(0, 0, 0, 0.02);
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.meal-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 20px;
+    background: var(--surface);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.meal-icon {
+    font-size: 20px;
+    margin-right: 12px;
+}
+
+.meal-title {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--text-primary);
+    flex: 1;
+}
+
+.add-meal-btn {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    border: none;
+    background: var(--primary);
+    color: white;
+    font-size: 18px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.add-meal-btn:hover {
+    background: var(--primary-dark);
+    transform: scale(1.1);
+}
+
+.meal-foods {
+    padding: 16px 20px;
+    min-height: 60px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.meal-foods:empty::after {
+    content: "Aucun aliment prévu";
+    color: var(--text-secondary);
+    font-style: italic;
+    text-align: center;
+    padding: 20px;
+}
+
+.food-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 16px;
+    background: var(--surface);
+    border-radius: 8px;
+    border: 1px solid rgba(0, 0, 0, 0.05);
+    transition: all 0.2s ease;
+}
+
+.food-item:hover {
+    background: rgba(99, 102, 241, 0.05);
+    border-color: var(--primary);
+}
+
+.food-item.consumed {
+    background: rgba(16, 185, 129, 0.1);
+    border-color: #10b981;
+}
+
+.food-item-emoji {
+    font-size: 20px;
+    width: 24px;
+    text-align: center;
+}
+
+.food-item-info {
+    flex: 1;
+}
+
+.food-item-name {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 2px;
+}
+
+.food-item-duration {
+    font-size: 12px;
+    color: var(--text-secondary);
+}
+
+.food-item-actions {
+    display: flex;
+    align-items: center;
     gap: 8px;
 }
 
-.moment-repas {
-    background: rgba(99, 102, 241, 0.05);
-    border-radius: var(--radius-sm);
-    padding: 8px;
-    border-left: 3px solid var(--primary);
-    transition: all 0.3s ease;
+.food-checkbox {
+    width: 20px;
+    height: 20px;
+    border-radius: 4px;
+    border: 2px solid var(--border);
+    background: var(--surface);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
-.moment-repas:hover {
-    background: rgba(99, 102, 241, 0.1);
-    transform: translateX(2px);
+.food-checkbox.checked {
+    background: #10b981;
+    border-color: #10b981;
+    color: white;
 }
 
-.moment-title {
-    font-size: 10px;
+.food-checkbox.checked::after {
+    content: "✓";
+    font-size: 12px;
     font-weight: 600;
-    color: var(--primary);
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    margin-bottom: 4px;
+}
+
+.food-delete-btn {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    border: none;
+    background: #ef4444;
+    color: white;
+    font-size: 12px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0.7;
+}
+
+.food-delete-btn:hover {
+    opacity: 1;
+    transform: scale(1.1);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .calendar-header {
+        padding: 16px 20px;
+    }
+    
+    .calendar-title {
+        font-size: 20px;
+    }
+    
+    .calendar-nav-btn {
+        width: 32px;
+        height: 32px;
+        font-size: 16px;
+    }
+    
+    .calendar-day {
+        min-height: 50px;
+        padding: 6px 4px;
+    }
+    
+    .day-number {
+        font-size: 14px;
+    }
+    
+    .day-indicator {
+        width: 4px;
+        height: 4px;
+    }
+    
+    .day-view-header {
+        padding: 16px 20px;
+    }
+    
+    .day-title {
+        font-size: 18px;
+    }
+    
+    .day-content {
+        padding: 20px;
+    }
+    
+    .meal-header {
+        padding: 12px 16px;
+    }
+    
+    .meal-foods {
+        padding: 12px 16px;
+    }
+}
+
+@media (max-width: 480px) {
+    .ios-calendar-container {
+        border-radius: 12px;
+        margin: 0 8px;
+    }
+    
+    .calendar-header {
+        padding: 12px 16px;
+    }
+    
+    .calendar-title {
+        font-size: 18px;
+    }
+    
+    .weekday {
+        padding: 8px 4px;
+        font-size: 11px;
+    }
+    
+    .calendar-day {
+        min-height: 45px;
+        padding: 4px 2px;
+    }
+    
+    .day-number {
+        font-size: 13px;
+    }
+    
+    .day-content {
+        padding: 16px;
+    }
+    
+    .day-meals {
+        gap: 16px;
+    }
+    
+    .meal-section {
+        border-radius: 8px;
+    }
+    
+    .food-item {
+        padding: 10px 12px;
+        gap: 10px;
+    }
+    
+    .food-item-emoji {
+        font-size: 18px;
+    }
+    
+    .food-item-name {
+        font-size: 13px;
+    }
+    
+    .food-item-duration {
+        font-size: 11px;
+    }
 }
 
 .aliments-list {
