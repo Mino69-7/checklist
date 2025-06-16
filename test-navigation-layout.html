@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Navigation Layout - Tous formats</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="responsive-iphone.css">
+    <link rel="stylesheet" href="responsive-iphone-large.css">
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+            background: #f5f5f5;
+        }
+        
+        .test-container {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .test-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: #333;
+        }
+        
+        .test-description {
+            color: #666;
+            margin-bottom: 15px;
+            font-size: 14px;
+        }
+        
+        .mockup {
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            padding: 10px;
+            background: white;
+            margin: 10px 0;
+        }
+        
+        .device-info {
+            background: #007AFF;
+            color: white;
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-size: 12px;
+            margin-bottom: 10px;
+            display: inline-block;
+        }
+        
+        /* Simuler différentes tailles d'écran */
+        .iphone-13 { max-width: 390px; }
+        .iphone-plus { max-width: 428px; }
+        .ipad-mini { max-width: 768px; }
+        .ipad-pro { max-width: 1024px; }
+        .desktop { max-width: 1200px; }
+        
+        .expected-layout {
+            background: #e8f5e8;
+            border-left: 4px solid #4CAF50;
+            padding: 10px;
+            margin: 10px 0;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Test Navigation Layout - Responsive Tous Formats</h1>
+    <p><strong>Test complet</strong> : Vérification du comportement de la navigation sur tous les appareils</p>
+
+    <!-- iPhone 13 (référence) -->
+    <div class="test-container">
+        <div class="test-title">📱 iPhone 13 - 390px (Référence)</div>
+        <div class="expected-layout">
+            <strong>Attendu :</strong> Navigation sur une seule ligne, 5 onglets équilibrés
+        </div>
+        <div class="mockup iphone-13">
+            <div class="device-info">iPhone 13 - 390px</div>
+            <div class="main-container">
+                <nav class="tab-navigation">
+                    <button class="tab-btn active" data-category="calendar">📅 Calendrier</button>
+                    <button class="tab-btn" data-category="fruits">🍎 Fruits</button>
+                    <button class="tab-btn" data-category="legumes">🥕 Légumes</button>
+                    <button class="tab-btn" data-category="prevention">⚠️ Prévention</button>
+                    <button class="tab-btn" data-category="stats">📊 Stats</button>
+                </nav>
+            </div>
+        </div>
+    </div>
+
+    <!-- iPhone 14/15/16 Plus/Pro Max -->
+    <div class="test-container">
+        <div class="test-title">📱 iPhone Plus/Pro Max - 428px+</div>
+        <div class="expected-layout">
+            <strong>Attendu :</strong> 4 premiers onglets sur ligne 1 (2x2), Stats seul en ligne 2
+        </div>
+        <div class="mockup iphone-plus">
+            <div class="device-info">iPhone 15 Plus - 430px</div>
+            <div class="main-container">
+                <nav class="tab-navigation">
+                    <button class="tab-btn active" data-category="calendar">📅 Calendrier</button>
+                    <button class="tab-btn" data-category="fruits">🍎 Fruits</button>
+                    <button class="tab-btn" data-category="legumes">🥕 Légumes</button>
+                    <button class="tab-btn" data-category="prevention">⚠️ Prévention</button>
+                    <button class="tab-btn" data-category="stats">📊 Stats</button>
+                </nav>
+            </div>
+        </div>
+    </div>
+
+    <!-- iPad Mini -->
+    <div class="test-container">
+        <div class="test-title">📱 iPad Mini - 768px</div>
+        <div class="expected-layout">
+            <strong>Attendu :</strong> Retour à UNE seule ligne, 5 onglets équilibrés (comme desktop)
+        </div>
+        <div class="mockup ipad-mini">
+            <div class="device-info">iPad Mini - 768px</div>
+            <div class="main-container">
+                <nav class="tab-navigation">
+                    <button class="tab-btn active" data-category="calendar">📅 Calendrier</button>
+                    <button class="tab-btn" data-category="fruits">🍎 Fruits</button>
+                    <button class="tab-btn" data-category="legumes">🥕 Légumes</button>
+                    <button class="tab-btn" data-category="prevention">⚠️ Prévention</button>
+                    <button class="tab-btn" data-category="stats">📊 Stats</button>
+                </nav>
+            </div>
+        </div>
+    </div>
+
+    <!-- iPad Pro -->
+    <div class="test-container">
+        <div class="test-title">💻 iPad Pro - 1024px</div>
+        <div class="expected-layout">
+            <strong>Attendu :</strong> Une seule ligne optimisée, onglets plus grands et espacés
+        </div>
+        <div class="mockup ipad-pro">
+            <div class="device-info">iPad Pro - 1024px</div>
+            <div class="main-container">
+                <nav class="tab-navigation">
+                    <button class="tab-btn active" data-category="calendar">📅 Calendrier</button>
+                    <button class="tab-btn" data-category="fruits">🍎 Fruits</button>
+                    <button class="tab-btn" data-category="legumes">🥕 Légumes</button>
+                    <button class="tab-btn" data-category="prevention">⚠️ Prévention</button>
+                    <button class="tab-btn" data-category="stats">📊 Stats</button>
+                </nav>
+            </div>
+        </div>
+    </div>
+
+    <!-- Desktop -->
+    <div class="test-container">
+        <div class="test-title">🖥️ Desktop - 1200px+</div>
+        <div class="expected-layout">
+            <strong>Attendu :</strong> Une seule ligne centrée, onglets grand format
+        </div>
+        <div class="mockup desktop">
+            <div class="device-info">Desktop - 1200px</div>
+            <div class="main-container">
+                <nav class="tab-navigation">
+                    <button class="tab-btn active" data-category="calendar">📅 Calendrier</button>
+                    <button class="tab-btn" data-category="fruits">🍎 Fruits</button>
+                    <button class="tab-btn" data-category="legumes">🥕 Légumes</button>
+                    <button class="tab-btn" data-category="prevention">⚠️ Prévention</button>
+                    <button class="tab-btn" data-category="stats">📊 Stats</button>
+                </nav>
+            </div>
+        </div>
+    </div>
+
+    <!-- Guide de test -->
+    <div class="test-container">
+        <div class="test-title">🧪 Guide de Test</div>
+        <div class="test-description">
+            <strong>Comment tester :</strong><br>
+            1. Ouvrir les outils développeur (F12)<br>
+            2. Activer le mode responsive (Ctrl+Shift+M)<br>
+            3. Tester les breakpoints suivants :<br>
+            • <strong>390px</strong> : iPhone 13 - 1 ligne normale<br>
+            • <strong>430px</strong> : iPhone Plus - Stats en 2ème ligne<br>
+            • <strong>768px</strong> : iPad Mini - retour 1 ligne<br>
+            • <strong>1024px</strong> : iPad Pro - 1 ligne optimisée<br>
+            • <strong>1200px+</strong> : Desktop - 1 ligne centrée<br><br>
+            
+            <strong>Points de validation :</strong><br>
+            ✅ iPhone 13 : Rendu parfait préservé<br>
+            ✅ iPhone Plus : Stats seul en ligne 2<br>
+            ✅ iPad/Desktop : Tous onglets sur 1 ligne<br>
+            ✅ Transitions fluides entre tailles<br>
+        </div>
+    </div>
+
+    <script>
+        // Afficher la taille d'écran actuelle
+        function updateScreenSize() {
+            const width = window.innerWidth;
+            let device = "Inconnu";
+            
+            if (width <= 414) device = "iPhone 13 et plus petits";
+            else if (width <= 430) device = "iPhone Plus/Pro Max";
+            else if (width <= 767) device = "Transition";
+            else if (width <= 1023) device = "iPad Mini/Standard";
+            else device = "iPad Pro/Desktop";
+            
+            document.title = `Navigation Test - ${width}px (${device})`;
+        }
+        
+        updateScreenSize();
+        window.addEventListener('resize', updateScreenSize);
+        
+        console.log("Test Navigation Layout chargé - Redimensionnez la fenêtre pour tester");
+    </script>
+</body>
+</html> 

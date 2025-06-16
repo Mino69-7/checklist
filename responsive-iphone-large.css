@@ -1,0 +1,317 @@
+/* ===== RESPONSIVE POUR GRANDS FORMATS IPHONE ===== */
+/* Correction des problèmes sur iPhone 14/15/16 Plus et Pro Max (430px et plus) */
+/* Préservation du rendu parfait sur iPhone 13 (390px) */
+
+/* ===== 1. CORRECTION NAVIGATION POUR GRANDS FORMATS ===== */
+
+/* iPhone 14/15/16 Plus et Pro Max : 430px et plus large */
+/* REPRODUCTION du comportement iPhone 13 : Stats en seconde ligne */
+@media screen and (min-width: 428px) {
+    .tab-navigation {
+        padding: 8px 12px !important;
+        margin: 0 24px !important;
+        margin-top: -24px !important;
+        width: calc(100% - 48px) !important;
+        box-shadow: 0 8px 32px rgba(0,0,0,0.12) !important;
+        border-radius: 22px !important;
+        background: rgba(255, 255, 255, 0.95) !important;
+        backdrop-filter: blur(10px) !important;
+        display: flex !important;
+        flex-wrap: wrap !important; /* Permettre le retour à la ligne comme iPhone 13 */
+        justify-content: space-between !important;
+        align-items: center !important;
+        gap: 6px !important; /* Espacement entre les boutons */
+    }
+    
+    .tab-btn {
+        /* 4 boutons sur la première ligne : 2 colonnes de 2 */
+        flex: 1 1 calc(50% - 3px) !important;
+        min-width: calc(50% - 3px) !important;
+        font-size: 14px !important; /* Plus grand car plus d'espace disponible */
+        font-weight: 600 !important;
+        padding: 12px 8px !important; /* Plus d'espace vertical */
+        border-radius: 16px !important;
+        min-height: 44px !important; /* Hauteur optimisée */
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        text-align: center !important;
+        white-space: nowrap !important;
+        overflow: hidden !important;
+        text-overflow: ellipsis !important;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+        margin: 0 !important;
+    }
+    
+    /* Stats en seconde ligne, prend toute la largeur comme iPhone 13 */
+    .tab-btn[data-category="stats"] {
+        flex: 1 1 100% !important; /* Toute la largeur */
+        order: 5 !important; /* Placé à la fin (en bas) */
+        font-size: 14px !important; /* Même taille que les autres maintenant */
+        padding: 12px 8px !important;
+        margin-top: 2px !important; /* Petit espace avec la ligne du dessus */
+        min-width: 100% !important;
+    }
+    
+    .tab-btn.active {
+        background: var(--primary) !important;
+        color: white !important;
+        transform: scale(1.02) !important;
+        box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3) !important;
+    }
+}
+
+/* ===== 2. CORRECTION TITRE CALENDRIER FOND VIOLET ===== */
+
+/* Supprimer le fond violet uniquement sur les grands formats */
+@media screen and (min-width: 428px) {
+    .calendar-header {
+        background: transparent !important;
+        background-color: transparent !important;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.05) !important;
+        padding: 20px 24px !important;
+    }
+    
+    .calendar-title {
+        font-size: 22px !important;
+        font-weight: 600 !important;
+        color: var(--text-primary) !important;
+        margin: 0 !important;
+        letter-spacing: -0.5px !important;
+        background: transparent !important;
+        text-align: center !important;
+    }
+    
+    /* S'assurer que le conteneur calendrier a un fond blanc/transparent */
+    .ios-calendar-container {
+        background: var(--surface, white) !important;
+        border-radius: 20px !important;
+        overflow: hidden !important;
+        box-shadow: 0 8px 32px rgba(0,0,0,0.1) !important;
+    }
+    
+    .calendar-month-view {
+        background: transparent !important;
+    }
+}
+
+/* ===== 3. SUPPRESSION ESPACE VIDE BAS CALENDRIER ===== */
+
+/* Optimisation de l'espace en bas du calendrier pour grands formats */
+@media screen and (min-width: 428px) {
+    .calendar-grid {
+        padding: 24px 20px 16px 20px !important; /* Réduction du padding bottom */
+        margin-bottom: 0 !important;
+    }
+    
+    .ios-calendar-container {
+        margin-bottom: 20px !important; /* Réduction de la marge bottom */
+    }
+    
+    .main-content {
+        padding-bottom: 20px !important; /* Réduction du padding bottom global */
+    }
+    
+    /* Optimisation des jours du calendrier */
+    .calendar-day {
+        width: 44px !important;
+        height: 44px !important;
+        margin: 2px auto !important; /* Réduction des marges entre les jours */
+    }
+    
+    /* Suppression des espaces inutiles dans la vue semaine */
+    .week-days-container {
+        padding: 0 20px 16px 20px !important; /* Réduction du padding bottom */
+        margin-bottom: 0 !important;
+    }
+    
+    .week-day {
+        margin: 0 auto 0 auto !important; /* Suppression marge bottom */
+    }
+}
+
+/* ===== 4. OPTIMISATIONS GÉNÉRALES POUR GRANDS FORMATS ===== */
+
+@media screen and (min-width: 428px) {
+    /* Optimisation du header pour éviter l'overflow */
+    .header {
+        padding: var(--safe-area-top) 24px 32px !important;
+        min-height: calc(140px + var(--safe-area-top)) !important;
+    }
+    
+    /* Optimisation des widgets pour utiliser l'espace disponible */
+    .widget-grid {
+        grid-template-columns: repeat(2, 1fr) !important;
+        gap: 18px !important;
+        padding: 20px !important;
+        margin-bottom: 0 !important;
+    }
+    
+    .food-widget {
+        min-height: 145px !important;
+        padding: 18px !important;
+        border-radius: 20px !important;
+    }
+    
+    /* Amélioration du positionnement des settings */
+    .settings-btn {
+        position: absolute !important;
+        right: 0 !important;
+        top: 50% !important;
+        transform: translateY(-50%) !important;
+        width: 44px !important;
+        height: 44px !important;
+        border-radius: 22px !important;
+    }
+}
+
+/* ===== 5. CORRECTIONS SPÉCIFIQUES DYNAMIC ISLAND ===== */
+
+@media screen and (min-width: 428px) and (min-height: 850px) {
+    /* iPhone Pro Max avec Dynamic Island */
+    .header {
+        padding-top: calc(var(--safe-area-top) + 8px) !important;
+    }
+    
+    body {
+        padding-top: env(safe-area-inset-top) !important;
+    }
+}
+
+/* ===== 6. PRÉSERVATION EXACTE DU RENDU iPHONE 13 ===== */
+
+/* iPhone 13 et formats similaires : préservation totale */
+@media screen and (max-width: 414px) and (min-width: 375px) {
+    /* Aucune modification - préservation du CSS existant */
+    .tab-navigation {
+        /* Hérite des styles existants parfaits */
+    }
+    
+    .calendar-header {
+        /* Hérite des styles existants parfaits */
+    }
+    
+    .calendar-grid {
+        /* Hérite des styles existants parfaits */
+    }
+}
+
+/* ===== 7. HARMONISATION RESPONSIVE FLUIDE ===== */
+
+/* Transition fluide entre les tailles pour éviter les cassures */
+@media screen and (min-width: 415px) and (max-width: 427px) {
+    /* Zone de transition - reproduction progressive du layout iPhone 13 */
+    .tab-navigation {
+        padding: 7px 10px !important;
+        margin: 0 22px !important;
+        flex-wrap: wrap !important; /* Commencer le wrap en transition */
+        gap: 4px !important;
+    }
+    
+    .tab-btn {
+        flex: 1 1 calc(50% - 2px) !important; /* Commencer la transition vers 2x2 */
+        font-size: 13px !important;
+        padding: 10px 6px !important;
+        min-height: 42px !important;
+    }
+    
+    /* Stats commence à aller en bas en transition */
+    .tab-btn[data-category="stats"] {
+        flex: 1 1 100% !important;
+        order: 5 !important;
+        margin-top: 1px !important;
+    }
+    
+    .calendar-grid {
+        padding: 22px 20px 18px 20px !important;
+    }
+}
+
+/* ===== 8. CORRECTIONS FINALES POUR COHÉRENCE ===== */
+
+@media screen and (min-width: 428px) {
+    /* S'assurer que les modals et popups s'adaptent bien */
+    .modal-content,
+    .calendrier-modal-content,
+    .deselect-content,
+    .settings-content {
+        max-width: calc(100vw - 40px) !important;
+        margin: 0 20px !important;
+    }
+    
+    /* Optimisation des boutons de navigation calendrier */
+    .calendar-nav-btn {
+        width: 38px !important;
+        height: 38px !important;
+        font-size: 16px !important;
+    }
+    
+    /* Correction des indicateurs de jour */
+    .day-indicator {
+        width: 3px !important;
+        height: 3px !important;
+    }
+    
+    /* Amélioration de l'espacement des weekdays */
+    .weekday {
+        padding: 12px 6px !important;
+        font-size: 11px !important;
+    }
+}
+
+/* ===== 9. RESTAURATION DESKTOP ET TABLETTE ===== */
+
+/* iPad et ordinateurs : retour au layout 1 ligne (tous les onglets sur une ligne) */
+@media screen and (min-width: 768px) {
+    .tab-navigation {
+        max-width: 600px !important;
+        margin: 0 auto !important;
+        margin-top: -24px !important;
+        flex-wrap: nowrap !important; /* Une seule ligne sur desktop/tablette */
+        justify-content: space-between !important;
+        gap: 8px !important;
+    }
+    
+    .tab-btn {
+        flex: 1 !important; /* Répartition égale sur une ligne */
+        min-width: auto !important;
+        font-size: 14px !important;
+        padding: 12px 16px !important;
+        min-height: 48px !important;
+    }
+    
+    /* Stats retourne sur la même ligne que les autres */
+    .tab-btn[data-category="stats"] {
+        flex: 1 !important; /* Même taille que les autres */
+        order: initial !important; /* Ordre normal */
+        margin-top: 0 !important; /* Pas de marge supplémentaire */
+        min-width: auto !important;
+        font-size: 14px !important;
+        padding: 12px 16px !important;
+    }
+    
+    .widget-grid {
+        grid-template-columns: repeat(3, 1fr) !important;
+        max-width: 800px !important;
+        margin: 0 auto !important;
+    }
+}
+
+/* iPad Pro et très grands écrans : optimisation supplémentaire */
+@media screen and (min-width: 1024px) {
+    .tab-navigation {
+        max-width: 700px !important;
+        gap: 12px !important;
+    }
+    
+    .tab-btn {
+        font-size: 16px !important;
+        padding: 14px 20px !important;
+        min-height: 52px !important;
+    }
+    
+    .tab-btn[data-category="stats"] {
+        font-size: 16px !important;
+        padding: 14px 20px !important;
+    }
+} 

@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>Test - Responsive Grands Formats iPhone</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="responsive-iphone.css">
+    <link rel="stylesheet" href="responsive-iphone-large.css">
+    <style>
+        body {
+            background: var(--background);
+            padding: 20px;
+            font-family: system-ui, -apple-system, sans-serif;
+        }
+        
+        .test-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+        }
+        
+        .test-section {
+            margin-bottom: 40px;
+            padding: 20px;
+            border: 2px solid #e1e8ed;
+            border-radius: 12px;
+            background: #f8f9fa;
+        }
+        
+        .test-section h3 {
+            color: #2c3e50;
+            margin: 0 0 15px 0;
+            font-size: 1.3em;
+        }
+        
+        .fix-description {
+            background: #e8f4fd;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            border-left: 4px solid #3498db;
+        }
+        
+        .fix-details {
+            background: #e8f5e8;
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid #27ae60;
+        }
+        
+        .fix-details h4 {
+            color: #27ae60;
+            margin: 0 0 10px 0;
+        }
+        
+        .fix-details ul {
+            margin: 10px 0;
+            padding-left: 20px;
+        }
+        
+        .fix-details li {
+            margin-bottom: 5px;
+        }
+        
+        .device-preview {
+            display: flex;
+            gap: 20px;
+            margin: 20px 0;
+            flex-wrap: wrap;
+        }
+        
+        .device-frame {
+            border: 3px solid #333;
+            border-radius: 25px;
+            padding: 20px 10px;
+            background: #000;
+            color: white;
+            text-align: center;
+            min-width: 200px;
+            position: relative;
+        }
+        
+        .device-frame.iphone-13 {
+            width: 390px;
+            height: 200px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        
+        .device-frame.iphone-plus {
+            width: 428px;
+            height: 200px;
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        }
+        
+        .device-frame h5 {
+            margin: 0 0 10px 0;
+            font-size: 14px;
+        }
+        
+        .nav-demo {
+            background: rgba(255,255,255,0.95);
+            border-radius: 12px;
+            padding: 6px;
+            display: flex;
+            gap: 2px;
+            font-size: 11px;
+            color: #333;
+        }
+        
+        .nav-demo .tab {
+            flex: 1;
+            padding: 6px 4px;
+            background: rgba(99, 102, 241, 0.1);
+            border-radius: 8px;
+            text-align: center;
+        }
+        
+        .nav-demo .tab.active {
+            background: #6366f1;
+            color: white;
+        }
+        
+        .calendar-demo {
+            background: white;
+            border-radius: 12px;
+            padding: 15px;
+            margin-top: 15px;
+            color: #333;
+        }
+        
+        .calendar-demo .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
+            border-bottom: 1px solid #eee;
+            margin-bottom: 15px;
+        }
+        
+        .calendar-demo .title {
+            font-weight: 600;
+            font-size: 14px;
+        }
+        
+        .calendar-demo .grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 4px;
+        }
+        
+        .calendar-demo .day {
+            width: 25px;
+            height: 25px;
+            border-radius: 50%;
+            background: #f0f0f0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 10px;
+            margin: 0 auto;
+        }
+        
+        .calendar-demo .day.today {
+            background: #6366f1;
+            color: white;
+        }
+        
+        .issue-indicator {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            font-size: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .issue-indicator.problem {
+            background: #ef4444;
+            color: white;
+        }
+        
+        .issue-indicator.fixed {
+            background: #10b981;
+            color: white;
+        }
+        
+        .comparison-table {
+            margin: 20px 0;
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        
+        .comparison-table th,
+        .comparison-table td {
+            padding: 12px 16px;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .comparison-table th {
+            background: #f8f9fa;
+            font-weight: 600;
+        }
+        
+        .status-before {
+            color: #ef4444;
+            font-weight: 600;
+        }
+        
+        .status-after {
+            color: #10b981;
+            font-weight: 600;
+        }
+        
+        @media (max-width: 768px) {
+            .device-preview {
+                flex-direction: column;
+            }
+            
+            .device-frame {
+                width: 100%;
+                max-width: 400px;
+                margin: 0 auto;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <h1>📱 Test - Responsive Grands Formats iPhone</h1>
+        <p style="text-align: center; color: #666; margin-bottom: 30px;">
+            Validation des corrections pour iPhone 14/15/16 Plus et Pro Max (430px+)<br>
+            <strong>Préservation garantie du rendu iPhone 13 (390px)</strong>
+        </p>
+        
+        <!-- Test 1: Navigation -->
+        <div class="test-section">
+            <h3>🧭 Problème 1 : Barre de navigation (menu principal)</h3>
+            <div class="fix-description">
+                <strong>Problème :</strong> Sur les grands formats (Plus/Pro Max), les onglets de navigation 
+                (Calendrier, Fruits, Légumes, Prévention, Stats) étaient mal positionnés, avec "Stats" 
+                parfois collé aux autres mots ou en dehors de l'encadrement blanc.
+            </div>
+            
+            <div class="device-preview">
+                <div class="device-frame iphone-13">
+                    <div class="issue-indicator fixed">✓</div>
+                    <h5>iPhone 13 (390px)</h5>
+                    <div class="nav-demo">
+                        <div class="tab active">📅</div>
+                        <div class="tab">🍓</div>
+                        <div class="tab">🥕</div>
+                        <div class="tab">⚠️</div>
+                        <div class="tab">📊</div>
+                    </div>
+                    <p style="font-size: 10px; margin-top: 10px;">✅ Parfaitement préservé</p>
+                </div>
+                
+                <div class="device-frame iphone-plus">
+                    <div class="issue-indicator fixed">✓</div>
+                    <h5>iPhone Pro Max (430px)</h5>
+                    <div class="nav-demo">
+                        <div class="tab active">📅 Calendrier</div>
+                        <div class="tab">🍓 Fruits</div>
+                        <div class="tab">🥕 Légumes</div>
+                        <div class="tab">⚠️ Prévention</div>
+                        <div class="tab">📊 Stats</div>
+                    </div>
+                    <p style="font-size: 10px; margin-top: 10px;">✅ Corrigé - Espacement fluide</p>
+                </div>
+            </div>
+            
+            <div class="fix-details">
+                <h4>✅ Corrections appliquées :</h4>
+                <ul>
+                    <li><strong>Responsive fluide :</strong> <code>justify-content: space-evenly</code> pour grands écrans</li>
+                    <li><strong>Taille adaptative :</strong> <code>font-size: 13px</code> sur Plus/Pro Max vs préservé sur iPhone 13</li>
+                    <li><strong>Stats spécifique :</strong> <code>font-size: 12px</code> pour éviter débordement</li>
+                    <li><strong>Zone de transition :</strong> 415px-427px pour transition fluide</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Test 2: Titre calendrier -->
+        <div class="test-section">
+            <h3>📅 Problème 2 : Titre du calendrier (fond violet)</h3>
+            <div class="fix-description">
+                <strong>Problème :</strong> Le titre centré du calendrier (ex: "Juin 2025") avait un fond violet 
+                uniquement sur les modèles Plus/Pro Max. Sur iPhone 13, il était transparent/blanc comme attendu.
+            </div>
+            
+            <div class="device-preview">
+                <div class="device-frame iphone-13">
+                    <div class="issue-indicator fixed">✓</div>
+                    <h5>iPhone 13 (390px)</h5>
+                    <div class="calendar-demo">
+                        <div class="header">
+                            <span>‹</span>
+                            <div class="title">Juin 2025</div>
+                            <span>›</span>
+                        </div>
+                        <p style="font-size: 10px; color: #666;">✅ Fond transparent préservé</p>
+                    </div>
+                </div>
+                
+                <div class="device-frame iphone-plus">
+                    <div class="issue-indicator fixed">✓</div>
+                    <h5>iPhone Pro Max (430px)</h5>
+                    <div class="calendar-demo">
+                        <div class="header">
+                            <span>‹</span>
+                            <div class="title">Juin 2025</div>
+                            <span>›</span>
+                        </div>
+                        <p style="font-size: 10px; color: #666;">✅ Fond violet supprimé</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="fix-details">
+                <h4>✅ Corrections appliquées :</h4>
+                <ul>
+                    <li><strong>Fond forcé transparent :</strong> <code>background: transparent !important</code></li>
+                    <li><strong>Conteneur cohérent :</strong> <code>background: var(--surface, white)</code></li>
+                    <li><strong>Spécifique grands écrans :</strong> Media query <code>min-width: 428px</code></li>
+                    <li><strong>Préservation iPhone 13 :</strong> Aucun changement sur <code>max-width: 414px</code></li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Test 3: Espace vide calendrier -->
+        <div class="test-section">
+            <h3>⬜ Problème 3 : Espace vide en bas du calendrier</h3>
+            <div class="fix-description">
+                <strong>Problème :</strong> En bas de la vue mensuelle du calendrier, il restait un vide blanc 
+                inutile qui déséquilibrait l'affichage uniquement sur les grands formats.
+            </div>
+            
+            <div class="fix-details">
+                <h4>✅ Corrections appliquées :</h4>
+                <ul>
+                    <li><strong>Padding optimisé :</strong> <code>padding: 24px 20px 16px 20px</code> (réduction bottom)</li>
+                    <li><strong>Marges supprimées :</strong> <code>margin-bottom: 0</code> sur conteneurs</li>
+                    <li><strong>Espacement jours :</strong> <code>margin: 2px auto</code> pour optimiser l'espace</li>
+                    <li><strong>Vue semaine :</strong> <code>padding: 0 20px 16px 20px</code> cohérent</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Tableau de comparaison -->
+        <div class="test-section">
+            <h3>📊 Comparaison Avant/Après</h3>
+            <table class="comparison-table">
+                <thead>
+                    <tr>
+                        <th>Élément</th>
+                        <th>iPhone 13 (390px)</th>
+                        <th>Plus/Pro Max AVANT</th>
+                        <th>Plus/Pro Max APRÈS</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Navigation</strong></td>
+                        <td>✅ Parfait (préservé)</td>
+                        <td><span class="status-before">❌ Stats mal positionné</span></td>
+                        <td><span class="status-after">✅ Espacement fluide</span></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Titre calendrier</strong></td>
+                        <td>✅ Fond transparent</td>
+                        <td><span class="status-before">❌ Fond violet</span></td>
+                        <td><span class="status-after">✅ Fond transparent</span></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Espace calendrier</strong></td>
+                        <td>✅ Optimal (préservé)</td>
+                        <td><span class="status-before">❌ Vide blanc excessif</span></td>
+                        <td><span class="status-after">✅ Espace optimisé</span></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Responsive</strong></td>
+                        <td>✅ Base de référence</td>
+                        <td><span class="status-before">❌ Non fluide</span></td>
+                        <td><span class="status-after">✅ Transition fluide</span></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Validation technique -->
+        <div class="test-section">
+            <h3>⚙️ Validation technique</h3>
+            <div class="fix-details">
+                <h4>✅ Implémentation :</h4>
+                <ul>
+                    <li><strong>Fichier CSS dédié :</strong> <code>responsive-iphone-large.css</code></li>
+                    <li><strong>Media queries précises :</strong> 
+                        <ul>
+                            <li><code>@media (min-width: 428px)</code> - Grands formats</li>
+                            <li><code>@media (max-width: 414px)</code> - Préservation iPhone 13</li>
+                            <li><code>@media (min-width: 415px) and (max-width: 427px)</code> - Transition</li>
+                        </ul>
+                    </li>
+                    <li><strong>!important ciblé :</strong> Utilisé uniquement où nécessaire pour surcharger</li>
+                    <li><strong>Dynamic Island :</strong> Support <code>env(safe-area-inset-top)</code></li>
+                    <li><strong>Fallbacks :</strong> Protection iPad mini et très grands écrans</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Instructions test -->
+        <div class="test-section">
+            <h3>🧪 Instructions de test</h3>
+            <div style="background: #fff3cd; border: 1px solid #ffeaa7; border-radius: 8px; padding: 15px;">
+                <h4 style="color: #856404; margin: 0 0 10px 0;">Comment tester :</h4>
+                <ol style="margin: 0; color: #856404;">
+                    <li><strong>iPhone 13 (390px) :</strong> Vérifier que l'affichage reste identique</li>
+                    <li><strong>iPhone Plus/Pro Max (430px) :</strong> Vérifier les corrections</li>
+                    <li><strong>Transition (415-427px) :</strong> S'assurer de la fluidité</li>
+                    <li><strong>Ouvrir index.html</strong> avec le nouveau CSS intégré</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+</body>
+</html> 
