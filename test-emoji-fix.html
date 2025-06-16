@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test - Correction emojis food-widgets "tried"</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="responsive-iphone.css">
+    <style>
+        body {
+            background: var(--background);
+            padding: 20px;
+            font-family: system-ui, -apple-system, sans-serif;
+        }
+        
+        .test-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+        }
+        
+        .test-section {
+            margin-bottom: 30px;
+            padding: 20px;
+            border: 2px solid #e5e7eb;
+            border-radius: 8px;
+        }
+        
+        .test-section h3 {
+            margin-top: 0;
+            color: #1f2937;
+            border-bottom: 2px solid #3b82f6;
+            padding-bottom: 8px;
+        }
+        
+        .test-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 16px;
+            margin-top: 20px;
+        }
+        
+        .test-description {
+            background: #f3f4f6;
+            padding: 12px;
+            border-radius: 6px;
+            margin-bottom: 15px;
+            font-size: 14px;
+            color: #4b5563;
+        }
+        
+        .emoji-preview {
+            display: inline-block;
+            font-size: 24px;
+            margin: 0 8px;
+            vertical-align: middle;
+        }
+        
+        .status-indicator {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            margin-right: 8px;
+            vertical-align: middle;
+        }
+        
+        .status-ok { background: #10b981; }
+        .status-error { background: #ef4444; }
+        
+        .instruction {
+            background: #dbeafe;
+            border: 1px solid #3b82f6;
+            border-radius: 6px;
+            padding: 12px;
+            margin: 15px 0;
+            font-size: 14px;
+        }
+        
+        .instruction strong {
+            color: #1e40af;
+        }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <h1>🧪 Test - Correction emojis food-widgets "tried"</h1>
+        
+        <div class="instruction">
+            <strong>📱 Test iPhone :</strong> Ouvrez ce fichier sur iPhone 13 ou iPhone avec Safari pour vérifier que les emojis restent visibles dans tous les cas.
+        </div>
+        
+        <!-- Section 1: Food-widgets normaux -->
+        <div class="test-section">
+            <h3>🟢 Food-widgets normaux (non goûtés)</h3>
+            <div class="test-description">
+                <span class="status-indicator status-ok"></span>
+                Ces aliments ne sont pas encore goûtés. Les emojis doivent être visibles normalement.
+            </div>
+            
+            <div class="test-grid">
+                <div class="food-widget">
+                    <span class="food-emoji">🍎</span>
+                    <h3 class="food-name">Pomme</h3>
+                    <p class="food-benefits">Riche en fibres et vitamines</p>
+                </div>
+                
+                <div class="food-widget">
+                    <img src="icons/carotte.svg" class="custom-icon" alt="Carotte">
+                    <h3 class="food-name">Carotte</h3>
+                    <p class="food-benefits">Source de bêta-carotène</p>
+                </div>
+                
+                <div class="food-widget">
+                    <span class="food-emoji">🥑</span>
+                    <h3 class="food-name">Avocat</h3>
+                    <p class="food-benefits">Graisses saines pour le développement</p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Section 2: Food-widgets "tried" -->
+        <div class="test-section">
+            <h3>✅ Food-widgets "tried" (goûtés)</h3>
+            <div class="test-description">
+                <span class="status-indicator status-ok"></span>
+                Ces aliments ont été goûtés depuis le calendrier. Les emojis doivent rester parfaitement visibles avec la bordure verte.
+            </div>
+            
+            <div class="test-grid">
+                <div class="food-widget tried">
+                    <span class="food-emoji">🍌</span>
+                    <h3 class="food-name">Banane</h3>
+                    <p class="food-benefits">Potassium et énergie naturelle</p>
+                </div>
+                
+                <div class="food-widget tried">
+                    <img src="icons/courge.svg" class="custom-icon" alt="Courge">
+                    <h3 class="food-name">Courge</h3>
+                    <p class="food-benefits">Vitamines A et C</p>
+                </div>
+                
+                <div class="food-widget tried">
+                    <span class="food-emoji">🥕</span>
+                    <h3 class="food-name">Carotte cuite</h3>
+                    <p class="food-benefits">Digestion facilitée</p>
+                </div>
+                
+                <div class="food-widget tried">
+                    <img src="icons/brocoli.svg" class="custom-icon" alt="Brocoli">
+                    <h3 class="food-name">Brocoli</h3>
+                    <p class="food-benefits">Fer et vitamines du groupe B</p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Section 3: Food-widgets "tried" avec évaluations -->
+        <div class="test-section">
+            <h3>⭐ Food-widgets "tried" avec évaluations</h3>
+            <div class="test-description">
+                <span class="status-indicator status-ok"></span>
+                Ces aliments ont été goûtés ET évalués. Les emojis doivent rester visibles avec la note en coin.
+            </div>
+            
+            <div class="test-grid">
+                <div class="food-widget tried">
+                    <div class="rating-display-corner">
+                        <span class="rating-emoji-corner">😍</span>
+                    </div>
+                    <span class="food-emoji">🍓</span>
+                    <h3 class="food-name">Fraise</h3>
+                    <p class="food-benefits">Vitamine C et antioxydants</p>
+                </div>
+                
+                <div class="food-widget tried">
+                    <div class="rating-display-corner">
+                        <span class="rating-emoji-corner">😊</span>
+                    </div>
+                    <img src="icons/courgette.svg" class="custom-icon" alt="Courgette">
+                    <h3 class="food-name">Courgette</h3>
+                    <p class="food-benefits">Légère et facile à digérer</p>
+                </div>
+                
+                <div class="food-widget tried">
+                    <div class="rating-display-corner">
+                        <span class="rating-emoji-corner">😐</span>
+                    </div>
+                    <span class="food-emoji">🥒</span>
+                    <h3 class="food-name">Concombre</h3>
+                    <p class="food-benefits">Hydratation et fraîcheur</p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Résumé des corrections -->
+        <div class="test-section" style="background: #f0fdf4; border-color: #10b981;">
+            <h3 style="color: #059669; border-color: #10b981;">📋 Résumé des corrections appliquées</h3>
+            
+            <div style="margin: 15px 0;">
+                <h4 style="color: #059669; margin-bottom: 8px;">✅ Corrections CSS principales :</h4>
+                <ul style="color: #065f46; line-height: 1.6;">
+                    <li><strong>Visibilité forcée :</strong> <code>opacity: 1 !important; visibility: visible !important;</code></li>
+                    <li><strong>Affichage garanti :</strong> <code>display: block !important;</code></li>
+                    <li><strong>Tailles fixes :</strong> Emojis Apple 32px, icônes personnalisées 32px</li>
+                    <li><strong>Responsive iPhone :</strong> 28px (≤430px), 26px (375-390px), 24px (≤375px)</li>
+                    <li><strong>Effets hover maintenus :</strong> Scale 1.1x et filtre brightness</li>
+                </ul>
+            </div>
+            
+            <div style="margin: 15px 0;">
+                <h4 style="color: #059669; margin-bottom: 8px;">🎯 Problème résolu :</h4>
+                <p style="color: #065f46; margin-bottom: 8px;">
+                    Lorsqu'un aliment était marqué comme "consommé" dans le calendrier, 
+                    l'emoji/icône pouvait disparaître ou changer d'apparence dans les pages fruits/légumes.
+                </p>
+                <p style="color: #065f46;">
+                    <strong>Solution :</strong> Règles CSS spécifiques avec <code>!important</code> 
+                    pour garantir l'affichage des emojis dans les <code>.food-widget.tried</code>
+                </p>
+            </div>
+        </div>
+        
+        <div class="instruction">
+            <strong>🔄 Test de synchronisation :</strong> 
+            1. Marquez un aliment comme consommé dans le calendrier<br>
+            2. Allez dans la page fruits ou légumes<br>
+            3. Vérifiez que l'emoji reste parfaitement visible avec la bordure verte<br>
+            4. Décochez l'aliment du calendrier<br>
+            5. Vérifiez que l'emoji redevient normal (bordure grise)
+        </div>
+    </div>
+    
+    <script>
+        // Script pour simuler l'interaction avec les food-widgets
+        document.addEventListener('DOMContentLoaded', function() {
+            const widgets = document.querySelectorAll('.food-widget');
+            
+            widgets.forEach(widget => {
+                widget.addEventListener('click', function() {
+                    console.log('Clicked:', widget.querySelector('.food-name').textContent);
+                    
+                    // Simuler l'ajout/suppression de la classe "tried"
+                    if (widget.classList.contains('tried')) {
+                        widget.classList.remove('tried');
+                        console.log('Removed "tried" class');
+                    } else {
+                        widget.classList.add('tried');
+                        console.log('Added "tried" class');
+                    }
+                });
+            });
+            
+            // Test de conformité des emojis
+            setTimeout(() => {
+                console.log('🧪 Test de conformité des emojis:');
+                
+                const triedWidgets = document.querySelectorAll('.food-widget.tried');
+                let allEmojisVisible = true;
+                
+                triedWidgets.forEach((widget, index) => {
+                    const emoji = widget.querySelector('.food-emoji');
+                    const icon = widget.querySelector('.custom-icon');
+                    
+                    const element = emoji || icon;
+                    if (element) {
+                        const style = window.getComputedStyle(element);
+                        const opacity = parseFloat(style.opacity);
+                        const visibility = style.visibility;
+                        const display = style.display;
+                        
+                        const isVisible = opacity > 0 && visibility === 'visible' && display !== 'none';
+                        
+                        console.log(`Widget ${index + 1}:`, {
+                            type: emoji ? 'emoji' : 'icon',
+                            opacity: opacity,
+                            visibility: visibility,
+                            display: display,
+                            isVisible: isVisible
+                        });
+                        
+                        if (!isVisible) allEmojisVisible = false;
+                    }
+                });
+                
+                if (allEmojisVisible) {
+                    console.log('✅ Tous les emojis des food-widgets "tried" sont visibles !');
+                } else {
+                    console.log('❌ Certains emojis ne sont pas visibles');
+                }
+            }, 1000);
+        });
+    </script>
+</body>
+</html> 

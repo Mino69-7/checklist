@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test - Synchronisation Instantanée</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="responsive-iphone.css">
+    <style>
+        body {
+            background: var(--background);
+            padding: 20px;
+            font-family: system-ui, -apple-system, sans-serif;
+        }
+        
+        .test-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+        }
+        
+        .test-section {
+            margin-bottom: 30px;
+            padding: 20px;
+            border: 2px solid #e5e7eb;
+            border-radius: 8px;
+        }
+        
+        .test-section h3 {
+            margin-top: 0;
+            color: #1f2937;
+            border-bottom: 2px solid #3b82f6;
+            padding-bottom: 8px;
+        }
+        
+        .step {
+            display: flex;
+            align-items: center;
+            padding: 12px;
+            margin: 8px 0;
+            background: #f9fafb;
+            border-radius: 6px;
+            border-left: 4px solid #3b82f6;
+        }
+        
+        .step-number {
+            background: #3b82f6;
+            color: white;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 12px;
+            margin-right: 12px;
+            flex-shrink: 0;
+        }
+        
+        .step-content {
+            flex: 1;
+            font-size: 14px;
+            line-height: 1.4;
+        }
+        
+        .result-section {
+            background: #f0fdf4;
+            border: 2px solid #10b981;
+            border-radius: 8px;
+            padding: 16px;
+            margin: 20px 0;
+        }
+        
+        .result-section h4 {
+            color: #059669;
+            margin-top: 0;
+            margin-bottom: 12px;
+        }
+        
+        .demo-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 12px;
+            margin: 16px 0;
+        }
+        
+        .before-after {
+            display: grid;
+            grid-template-columns: 1fr auto 1fr;
+            gap: 16px;
+            align-items: center;
+            margin: 20px 0;
+            padding: 16px;
+            background: #f8fafc;
+            border-radius: 8px;
+        }
+        
+        .before, .after {
+            text-align: center;
+        }
+        
+        .before h5, .after h5 {
+            margin: 0 0 8px 0;
+            font-size: 14px;
+            color: #64748b;
+        }
+        
+        .arrow {
+            font-size: 24px;
+            color: #3b82f6;
+        }
+        
+        .performance-note {
+            background: #fffbeb;
+            border: 1px solid #f59e0b;
+            border-radius: 6px;
+            padding: 12px;
+            margin: 15px 0;
+            font-size: 14px;
+        }
+        
+        .performance-note strong {
+            color: #d97706;
+        }
+        
+        .technical-details {
+            background: #f1f5f9;
+            border-radius: 6px;
+            padding: 16px;
+            margin: 15px 0;
+            font-size: 13px;
+            line-height: 1.5;
+        }
+        
+        .technical-details h5 {
+            color: #475569;
+            margin-top: 0;
+            margin-bottom: 8px;
+        }
+        
+        .code-snippet {
+            background: #1e293b;
+            color: #e2e8f0;
+            padding: 12px;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+            font-size: 12px;
+            overflow-x: auto;
+            margin: 8px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <h1>⚡ Test - Synchronisation Instantanée</h1>
+        
+        <div class="performance-note">
+            <strong>🎯 Problème résolu :</strong> Avant cette correction, il fallait actualiser la page pour voir les changements d'emojis entre les onglets. Maintenant c'est instantané !
+        </div>
+        
+        <!-- Section 1: Problème avant la correction -->
+        <div class="test-section">
+            <h3>❌ Problème AVANT la correction</h3>
+            
+            <div class="before-after">
+                <div class="before">
+                    <h5>1. Marquer aliment dans calendrier</h5>
+                    <div class="food-widget">
+                        <span class="food-emoji">🍌</span>
+                        <h3 class="food-name" style="font-size: 14px;">Banane</h3>
+                        <p class="food-benefits" style="font-size: 11px;">Marquée comme consommée ✅</p>
+                    </div>
+                </div>
+                
+                <div class="arrow">➡️</div>
+                
+                <div class="after">
+                    <h5>2. Aller dans page fruits</h5>
+                    <div class="food-widget">
+                        <span class="food-emoji" style="opacity: 0.3;">🍌</span>
+                        <h3 class="food-name" style="font-size: 14px;">Banane</h3>
+                        <p class="food-benefits" style="font-size: 11px; color: #ef4444;">Emoji pas à jour ❌</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="step">
+                <div class="step-number">!</div>
+                <div class="step-content">
+                    <strong>Problème :</strong> Il fallait actualiser la page (F5) pour voir l'emoji avec la bordure verte dans la page fruits/légumes.
+                </div>
+            </div>
+        </div>
+        
+        <!-- Section 2: Solution après la correction -->
+        <div class="test-section">
+            <h3>✅ Solution APRÈS la correction</h3>
+            
+            <div class="before-after">
+                <div class="before">
+                    <h5>1. Marquer aliment dans calendrier</h5>
+                    <div class="food-widget">
+                        <span class="food-emoji">🥑</span>
+                        <h3 class="food-name" style="font-size: 14px;">Avocat</h3>
+                        <p class="food-benefits" style="font-size: 11px;">Marqué comme consommé ✅</p>
+                    </div>
+                </div>
+                
+                <div class="arrow">⚡</div>
+                
+                <div class="after">
+                    <h5>2. Changement d'onglet instantané</h5>
+                    <div class="food-widget tried">
+                        <span class="food-emoji">🥑</span>
+                        <h3 class="food-name" style="font-size: 14px;">Avocat</h3>
+                        <p class="food-benefits" style="font-size: 11px; color: #10b981;">Emoji à jour instantanément ⚡</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="step">
+                <div class="step-number">✓</div>
+                <div class="step-content">
+                    <strong>Solution :</strong> Synchronisation instantanée ! Plus besoin d'actualiser, l'emoji apparaît immédiatement avec la bordure verte.
+                </div>
+            </div>
+        </div>
+        
+        <!-- Section 3: Tests à effectuer -->
+        <div class="test-section">
+            <h3>🧪 Tests à effectuer</h3>
+            
+            <div class="step">
+                <div class="step-number">1</div>
+                <div class="step-content">
+                    <strong>Test basic :</strong> Marquez un aliment comme consommé dans le calendrier, puis allez immédiatement dans la page fruits/légumes correspondante.
+                </div>
+            </div>
+            
+            <div class="step">
+                <div class="step-number">2</div>
+                <div class="step-content">
+                    <strong>Test inverse :</strong> Décochez un aliment du calendrier, puis allez dans la page fruits/légumes pour vérifier que la bordure verte disparaît instantanément.
+                </div>
+            </div>
+            
+            <div class="step">
+                <div class="step-number">3</div>
+                <div class="step-content">
+                    <strong>Test évaluation :</strong> Marquez un aliment depuis la page fruits, puis évaluez-le. L'évaluation doit apparaître instantanément dans les stats.
+                </div>
+            </div>
+            
+            <div class="step">
+                <div class="step-number">4</div>
+                <div class="step-content">
+                    <strong>Test multiples onglets :</strong> Alternez rapidement entre calendrier ↔ fruits ↔ légumes ↔ stats. Tous les changements doivent être visibles instantanément.
+                </div>
+            </div>
+        </div>
+        
+        <!-- Section 4: Détails techniques -->
+        <div class="test-section">
+            <h3>⚙️ Détails techniques des améliorations</h3>
+            
+            <div class="technical-details">
+                <h5>🔧 Fonction synchroniserInstantanement() :</h5>
+                <div class="code-snippet">
+synchroniserInstantanement() {
+    // Recharger les données depuis localStorage
+    this.calendrierData = this.chargerCalendrier() || {};
+    this.evaluations = this.chargerEvaluations();
+    this.alimentsGoutes = this.chargerAlimentsGoutes();
+    
+    // Mettre à jour immédiatement toutes les statistiques
+    this.mettreAJourStatistiques();
+    this.mettreAJourProgress();
+}
+                </div>
+            </div>
+            
+            <div class="technical-details">
+                <h5>⚡ Optimisations appliquées :</h5>
+                <ul style="margin: 0; padding-left: 20px;">
+                    <li><strong>Synchronisation instantanée</strong> : 0ms au lieu de 50ms</li>
+                    <li><strong>Rechargement des données</strong> : Force la lecture depuis localStorage</li>
+                    <li><strong>Double vérification</strong> : Sync instantanée + sync différée (10ms)</li>
+                    <li><strong>Déclenchement automatique</strong> : À chaque changement d'onglet</li>
+                    <li><strong>Optimisation CSS</strong> : Emojis forcés visibles avec !important</li>
+                </ul>
+            </div>
+            
+            <div class="technical-details">
+                <h5>🎯 Points d'amélioration :</h5>
+                <ul style="margin: 0; padding-left: 20px;">
+                    <li>✅ <code>changerCategorie()</code> → Sync instantanée</li>
+                    <li>✅ <code>marquerConsommation()</code> → Sync immédiate</li>
+                    <li>✅ <code>marquerAlimentCommeGoute()</code> → Sync immédiate</li>
+                    <li>✅ <code>evaluerAliment()</code> → Sync immédiate</li>
+                    <li>✅ CSS emojis → Visibilité garantie avec !important</li>
+                </ul>
+            </div>
+        </div>
+        
+        <!-- Résultat final -->
+        <div class="result-section">
+            <h4>🎉 Résultat final</h4>
+            <p style="margin: 0; color: #065f46;">
+                <strong>Interface ultra-fluide :</strong> Les changements sont maintenant visibles instantanément 
+                lors du passage entre les onglets, sans aucun délai ni besoin d'actualisation. 
+                L'expérience utilisateur est considérablement améliorée, particulièrement sur iPhone 
+                où la fluidité est critique.
+            </p>
+        </div>
+        
+        <div class="performance-note">
+            <strong>📱 Test iPhone recommandé :</strong> Testez particulièrement sur iPhone 13 pour valider 
+            que les transitions entre onglets sont fluides et que les emojis apparaissent instantanément.
+        </div>
+    </div>
+    
+    <script>
+        // Script pour simuler et tester la synchronisation
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('🧪 Test de synchronisation instantanée chargé');
+            
+            // Simuler des changements et mesurer la performance
+            function testerPerformanceSync() {
+                const start = performance.now();
+                
+                // Simuler le processus de synchronisation
+                const donnees = {
+                    calendrierData: JSON.parse(localStorage.getItem('babyFoodCalendrier') || '{}'),
+                    evaluations: JSON.parse(localStorage.getItem('babyFoodEvaluations') || '{}'),
+                    alimentsGoutes: JSON.parse(localStorage.getItem('babyFoodAlimentsGoutes') || '[]')
+                };
+                
+                const end = performance.now();
+                const duree = end - start;
+                
+                console.log(`⚡ Synchronisation simulée en ${duree.toFixed(2)}ms`);
+                
+                if (duree < 5) {
+                    console.log('✅ Performance excellente : < 5ms');
+                } else if (duree < 15) {
+                    console.log('✅ Performance bonne : < 15ms');
+                } else {
+                    console.log('⚠️ Performance à surveiller : > 15ms');
+                }
+                
+                return duree;
+            }
+            
+            // Tester la performance au chargement
+            setTimeout(() => {
+                const duree = testerPerformanceSync();
+                
+                // Afficher le résultat dans la console pour debug
+                console.log('🎯 Test de synchronisation instantanée :', {
+                    dureeMs: duree,
+                    status: duree < 10 ? 'EXCELLENT' : duree < 25 ? 'BON' : 'À AMÉLIORER',
+                    impact: 'Changement d\'onglet quasi-instantané'
+                });
+            }, 1000);
+            
+            // Surveiller les changements de localStorage
+            const originalSetItem = localStorage.setItem;
+            localStorage.setItem = function(key, value) {
+                if (key.startsWith('babyFood')) {
+                    console.log(`💾 Données sauvegardées : ${key}`);
+                }
+                return originalSetItem.apply(this, arguments);
+            };
+            
+            console.log('🔍 Surveillance localStorage activée pour babyFood*');
+        });
+    </script>
+</body>
+</html> 

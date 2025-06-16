@@ -841,219 +841,429 @@
     }
 }
 
-/* 3. CORRECTION MODAL CALENDRIER - BOUTONS VISIBLES */
+/* 3. CORRECTION MODAL - BOUTON AJOUTER VISIBLE */
 @media (max-width: 768px) {
     .calendrier-modal-content {
-        max-height: 85vh !important;
-        display: flex !important;
-        flex-direction: column !important;
+        margin: 0;
+        max-width: 100%;
+        max-height: 85vh;
+        border-radius: 16px 16px 0 0;
+        display: flex;
+        flex-direction: column;
+    }
+    
+    .calendrier-modal {
+        align-items: flex-end;
+        padding: 0;
     }
     
     .calendrier-modal-body {
-        max-height: calc(85vh - 140px) !important;
-        flex: 1 !important;
-        overflow-y: auto !important;
+        padding: 20px;
+        max-height: calc(85vh - 140px);
+        flex: 1;
+        overflow-y: auto;
     }
     
     .calendrier-modal-footer {
-        flex-shrink: 0 !important;
-        margin-top: auto !important;
-        background: rgba(255, 255, 255, 0.95) !important;
-        backdrop-filter: blur(10px) !important;
-        border-top: 1px solid rgba(0,0,0,0.1) !important;
-        padding: 16px 20px 20px !important;
-        position: sticky !important;
-        bottom: 0 !important;
-        z-index: 10 !important;
+        flex-shrink: 0;
+        margin-top: auto;
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(10px);
+        border-top: 1px solid rgba(0, 0, 0, 0.1);
+        padding: 16px 20px;
+        gap: 12px;
     }
 }
 
 /* ===== CORRECTIONS VUE SEMAINE - DATES RONDES ===== */
 
-/* 4. FORCER LES DATES DE LA VUE SEMAINE À RESTER PARFAITEMENT RONDES */
+/* 4. FORCER LES DATES DE LA VUE SEMAINE À RESTER RONDES */
 .week-day {
     border-radius: 50% !important;
-    min-width: 48px !important;
-    min-height: 48px !important;
     width: 48px !important;
     height: 48px !important;
-    box-sizing: border-box !important;
-    flex-shrink: 0 !important;
 }
 
-/* Forcer les dimensions exactes pour éviter la déformation */
+/* Forcer la forme ronde même sur mobile pour la vue semaine */
 @media (max-width: 768px) {
     .week-day {
         border-radius: 50% !important;
-        min-width: 44px !important;
-        min-height: 44px !important;
         width: 44px !important;
         height: 44px !important;
-        box-sizing: border-box !important;
-        flex-shrink: 0 !important;
     }
 }
 
 @media (max-width: 480px) {
     .week-day {
         border-radius: 50% !important;
-        min-width: 42px !important;
-        min-height: 42px !important;
         width: 42px !important;
         height: 42px !important;
-        box-sizing: border-box !important;
-        flex-shrink: 0 !important;
     }
 }
 
 @media (max-width: 375px) {
     .week-day {
         border-radius: 50% !important;
-        min-width: 40px !important;
-        min-height: 40px !important;
         width: 40px !important;
         height: 40px !important;
-        box-sizing: border-box !important;
-        flex-shrink: 0 !important;
     }
 }
 
-/* 5. CORRECTION SPÉCIFIQUE IPHONE 13 (390px largeur) */
-@media (max-width: 390px) and (min-width: 376px) {
-    .week-day {
-        border-radius: 50% !important;
-        min-width: 46px !important;
-        min-height: 46px !important;
-        width: 46px !important;
-        height: 46px !important;
-        box-sizing: border-box !important;
-        flex-shrink: 0 !important;
+/* 5. CORRECTION CONTENEUR VUE SEMAINE - ÉVITER LA COUPURE DES CERCLES */
+.week-days-container {
+    padding: 20px 12px !important;
+    min-height: 88px !important;
+    overflow: visible !important;
+    position: relative;
+}
+
+/* Gestion des animations de hover pour éviter la coupure */
+.week-day:hover,
+.week-day.selected {
+    z-index: 10;
+    position: relative;
+}
+
+/* ===== NOUVEAU: SUPPRESSION VISUELLE DES CHECKBOXES ALIMENTS (VUE SEMAINE) ===== */
+
+/* 6. MASQUER VISUELLEMENT LES CHECKBOXES ET RENDRE TOUTE LA LIGNE CLIQUABLE */
+.aliment-check {
+    display: none !important;
+}
+
+.aliment-checkbox {
+    display: none !important;
+}
+
+/* Rendre toute la ligne d'aliment cliquable avec effet visuel */
+.aliment-item.clickable {
+    cursor: pointer !important;
+    transition: all 0.3s ease !important;
+    position: relative;
+    overflow: hidden;
+}
+
+.aliment-item.clickable:hover {
+    transform: translateY(-2px) !important;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15) !important;
+}
+
+.aliment-item.clickable:active {
+    transform: translateY(0) !important;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1) !important;
+}
+
+/* Style pour les aliments consommés - remplace la checkbox */
+.aliment-item.consomme::before {
+    content: '✓';
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    background: #4CAF50;
+    color: white;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    font-weight: bold;
+    z-index: 10;
+    animation: checkAppear 0.3s ease;
+}
+
+@keyframes checkAppear {
+    0% {
+        opacity: 0;
+        transform: scale(0.5);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+/* ===== NOUVEAU: SUPPRESSION VISUELLE DES CHECKBOXES FOOD-ITEM (VUE JOUR) ===== */
+
+/* 7. MASQUER VISUELLEMENT LES FOOD-CHECKBOXES ET RENDRE TOUTE LA LIGNE CLIQUABLE */
+.food-checkbox {
+    display: none !important;
+}
+
+/* Rendre toute la ligne food-item cliquable avec effet visuel */
+.food-item {
+    cursor: pointer !important;
+    transition: all 0.3s ease !important;
+    position: relative;
+    overflow: hidden;
+}
+
+.food-item:hover {
+    transform: translateY(-2px) !important;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15) !important;
+    background: rgba(0, 0, 0, 0.02) !important;
+}
+
+.food-item:active {
+    transform: translateY(0) !important;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1) !important;
+}
+
+/* Style pour les food-items consommés - remplace la checkbox */
+.food-item.consumed {
+    background: linear-gradient(135deg, #e8f5e8, #c8e6c9) !important;
+    border: 1px solid #4CAF50 !important;
+    box-shadow: 0 2px 8px rgba(76, 175, 80, 0.3) !important;
+}
+
+.food-item.consumed::before {
+    content: '✓';
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    background: #4CAF50;
+    color: white;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    font-weight: bold;
+    z-index: 10;
+    animation: checkAppear 0.3s ease;
+}
+
+/* ===== NOUVEAU: CORRECTION TAILLE EMOJIS STATS ===== */
+
+/* 8. CORRIGER LA TAILLE DES ICÔNES PERSONNALISÉES DANS LES STATS */
+.recent-emoji .custom-icon {
+    width: 24px !important;
+    height: 24px !important;
+}
+
+.recent-emoji {
+    font-size: 24px;
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+/* Responsive pour les stats sur mobile */
+@media (max-width: 768px) {
+    .recent-emoji .custom-icon {
+        width: 22px !important;
+        height: 22px !important;
     }
     
-    .calendar-day {
-        border-radius: 50% !important;
-        width: 46px !important;
-        height: 46px !important;
+    .recent-emoji {
+        font-size: 22px;
+        width: 22px;
+        height: 22px;
     }
 }
 
-/* 6. CORRECTIONS ADDITIONNELLES POUR GARANTIR LA FORME RONDE */
+@media (max-width: 480px) {
+    .recent-emoji .custom-icon {
+        width: 20px !important;
+        height: 20px !important;
+    }
+    
+    .recent-emoji {
+        font-size: 20px;
+        width: 20px;
+        height: 20px;
+    }
+}
+
+@media (max-width: 375px) {
+    .recent-emoji .custom-icon {
+        width: 18px !important;
+        height: 18px !important;
+    }
+    
+    .recent-emoji {
+        font-size: 18px;
+        width: 18px;
+        height: 18px;
+    }
+}
+
+/* 9. CORRECTIONS ADDITIONNELLES POUR GARANTIR LA FORME RONDE */
 .week-day,
 .calendar-day {
-    /* Forcer l'aspect ratio 1:1 */
-    aspect-ratio: 1 / 1 !important;
-    /* Éviter la compression */
+    aspect-ratio: 1/1 !important;
+    min-width: unset !important;
+    min-height: unset !important;
     flex-shrink: 0 !important;
-    /* Forcer le box-sizing */
-    box-sizing: border-box !important;
-    /* Centrage du contenu */
-    display: flex !important;
-    align-items: center !important;
-    justify-content: center !important;
 }
 
-/* 7. CONTENEUR DE LA VUE SEMAINE - OPTIMISATION ESPACEMENT ET HAUTEUR */
+/* 10. CONTENEUR DE LA VUE SEMAINE - OPTIMISATION ESPACEMENT ET HAUTEUR */
 .week-days-container {
     display: flex !important;
-    justify-content: space-around !important;
-    align-items: center !important;
-    width: 100% !important;
-    max-width: 100% !important;
-    overflow-x: hidden !important;
-    /* CORRECTION CLÉS : Padding vertical suffisant pour les cercles entiers */
+    justify-content: center !important;
+    gap: 12px !important;
     padding: 20px 12px !important;
-    min-height: 88px !important; /* 48px + 40px padding */
+    min-height: 88px !important;
+    overflow: visible !important;
+    position: relative;
 }
 
-/* 8. CORRECTION SPÉCIFIQUE POUR LE CONTENU DES DATES */
+/* 11. CORRECTION SPÉCIFIQUE POUR LE CONTENU DES DATES */
 .week-day-number {
     line-height: 1 !important;
-    text-align: center !important;
-    width: 100% !important;
+    font-size: inherit !important;
+    display: block !important;
 }
 
-/* 9. CORRECTION DES INDICATEURS POUR QU'ILS NE DÉFORMENT PAS */
+.calendar-day .day-number {
+    line-height: 1 !important;
+    font-size: inherit !important;
+    display: block !important;
+}
+
+/* 12. CORRECTION DES INDICATEURS POUR QU'ILS NE DÉFORMENT PAS */
 .week-day-indicators,
 .day-indicators {
     position: absolute !important;
-    pointer-events: none !important;
+    bottom: 2px !important;
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+    display: flex !important;
+    gap: 2px !important;
+    height: 4px !important;
 }
 
-/* 10. CORRECTION DES EFFETS HOVER/SELECTED POUR ÉVITER LE DÉBORDEMENT */
+/* 13. CORRECTION DES EFFETS HOVER/SELECTED POUR ÉVITER LE DÉBORDEMENT */
 .week-day:hover {
     transform: scale(1.05) !important;
-    /* Gérer le débordement */
-    z-index: 5 !important;
+    z-index: 10 !important;
+    position: relative !important;
 }
 
 .week-day.selected {
     transform: scale(1.08) !important;
-    z-index: 6 !important;
+    z-index: 15 !important;
+    position: relative !important;
 }
 
-.week-day.selected:hover {
-    transform: scale(1.1) !important;
-    z-index: 7 !important;
-}
-
-/* 11. AJUSTEMENTS DU CONTENEUR POUR ACCOMMODER LES SCALES */
+/* 14. AJUSTEMENTS DU CONTENEUR POUR ACCOMMODER LES SCALES */
 .calendar-week-view {
     overflow: visible !important;
 }
 
-.week-header {
-    padding-bottom: 10px !important;
+.calendar-month-view {
+    overflow: visible !important;
 }
 
-/* 12. CORRECTIONS POUR DESKTOP AUSSI */
+/* 15. CORRECTIONS POUR DESKTOP AUSSI */
 @media (min-width: 769px) {
     .week-days-container {
         padding: 24px 20px !important;
-        min-height: 92px !important; /* 48px + 44px padding */
+        min-height: 96px !important;
     }
     
-    .calendar-grid {
-        padding: 20px !important;
-        overflow: visible !important;
-    }
-    
-    /* Assurer que les calendar-day ne sont pas coupés non plus */
-    .ios-calendar-container {
-        overflow: visible !important;
-    }
-    
-    .calendar-month-view {
-        overflow: visible !important;
+    .week-day {
+        width: 48px !important;
+        height: 48px !important;
     }
 }
 
-/* 13. AJUSTEMENTS RESPONSIVE POUR CHAQUE BREAKPOINT */
+/* 16. AJUSTEMENTS RESPONSIVE POUR CHAQUE BREAKPOINT */
 @media (max-width: 768px) {
     .week-days-container {
-        padding: 18px 16px !important;
-        min-height: 80px !important; /* 44px + 36px padding */
+        padding: 20px 16px !important;
+        min-height: 88px !important;
     }
 }
 
 @media (max-width: 480px) {
     .week-days-container {
-        padding: 16px 12px !important;
-        min-height: 74px !important; /* 42px + 32px padding */
+        padding: 18px 12px !important;
+        min-height: 82px !important;
     }
 }
 
 @media (max-width: 375px) {
     .week-days-container {
-        padding: 14px 10px !important;
-        min-height: 68px !important; /* 40px + 28px padding */
+        padding: 16px 10px !important;
+        min-height: 76px !important;
     }
 }
 
-/* 14. RÈGLES DE PRIORITÉ MAXIMALE POUR iPhone 13 */
+/* 17. RÈGLES DE PRIORITÉ MAXIMALE POUR iPhone 13 */
 @supports (-webkit-appearance: none) {
     .week-day,
     .calendar-day {
-        -webkit-appearance: none !important;
         border-radius: 50% !important;
+        aspect-ratio: 1/1 !important;
+    }
+}
+
+/* ===== CORRECTION EMOJI FOOD-WIDGETS TRIED SUR iPHONE ===== */
+
+/* S'assurer que les emojis/icônes restent toujours visibles dans les food-widgets "tried" */
+@media screen and (max-width: 430px) {
+    .food-widget.tried .food-emoji,
+    .food-widget.tried .custom-icon {
+        opacity: 1 !important;
+        visibility: visible !important;
+        display: block !important;
+        margin: 0 auto 8px auto !important;
+        filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1)) !important;
+    }
+    
+    .food-widget.tried .food-emoji {
+        font-size: 28px !important;
+        text-align: center !important;
+        width: 100% !important;
+        height: auto !important;
+    }
+    
+    .food-widget.tried .custom-icon {
+        width: 28px !important;
+        height: 28px !important;
+        transform: none !important;
+    }
+    
+    /* Maintenir l'effet hover sur iPhone */
+    .food-widget.tried:hover .custom-icon,
+    .food-widget.tried:active .custom-icon {
+        transform: scale(1.05) !important;
+        filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2)) brightness(1.1) !important;
+    }
+    
+    .food-widget.tried:hover .food-emoji,
+    .food-widget.tried:active .food-emoji {
+        transform: scale(1.05) !important;
+    }
+}
+
+/* Spécifique pour iPhone 13/12 et similaires */
+@media screen and (max-width: 390px) and (min-width: 375px) {
+    .food-widget.tried .food-emoji {
+        font-size: 26px !important;
+    }
+    
+    .food-widget.tried .custom-icon {
+        width: 26px !important;
+        height: 26px !important;
+    }
+}
+
+/* Spécifique pour iPhone mini et petits écrans */
+@media screen and (max-width: 375px) {
+    .food-widget.tried .food-emoji {
+        font-size: 24px !important;
+    }
+    
+    .food-widget.tried .custom-icon {
+        width: 24px !important;
+        height: 24px !important;
     }
 } 

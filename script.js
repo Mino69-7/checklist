@@ -459,6 +459,9 @@ class BabyFoodTracker {
 
         this.categorieActive = categorie;
         
+        // SYNCHRONISATION INSTANTANÉE : Forcer la mise à jour immédiate de toutes les données
+        this.synchroniserInstantanement();
+        
         // Toujours mettre à jour la progression pour tous les onglets
         this.mettreAJourProgress();
         
@@ -471,6 +474,7 @@ class BabyFoodTracker {
             this.semaineActuelle = this.calculerSemaineActuelle();
             this.genererCalendrier();
         } else {
+            // CORRECTION : Synchroniser avant de générer les aliments pour voir les changements instantanément
             this.genererAliments();
         }
     }
@@ -571,6 +575,18 @@ class BabyFoodTracker {
         this.alimentActuel = null;
     }
 
+    // Fonction de synchronisation INSTANTANÉE pour les changements d'onglets
+    synchroniserInstantanement() {
+        // Recharger les données depuis localStorage pour être sûr d'avoir la dernière version
+        this.calendrierData = this.chargerCalendrier() || {};
+        this.evaluations = this.chargerEvaluations();
+        this.alimentsGoutes = this.chargerAlimentsGoutes();
+        
+        // Mettre à jour immédiatement toutes les statistiques
+        this.mettreAJourStatistiques();
+        this.mettreAJourProgress();
+    }
+
     // Fonction de synchronisation globale pour mettre à jour tous les affichages
     synchroniserToutesLesDonnees() {
         this.mettreAJourStatistiques();
@@ -635,10 +651,13 @@ class BabyFoodTracker {
         
         this.fermerModal();
         
-        // Synchronisation globale avec délai pour assurer que tout est bien sauvegardé
+        // SYNCHRONISATION INSTANTANÉE pour voir le changement immédiatement
+        this.synchroniserInstantanement();
+        
+        // Synchronisation différée pour s'assurer que tout est bien persisté
         setTimeout(() => {
             this.synchroniserToutesLesDonnees();
-        }, 50);
+        }, 10);
 
         // Animation de succès
         const message = etaitDejaEvalue ? `${nomAliment} modifié ! ✏️` : `${nomAliment} évalué ! ✅`;
@@ -792,10 +811,13 @@ class BabyFoodTracker {
                 localStorage.setItem('babyFoodHistorique', JSON.stringify(historique));
             }
             
-            // Synchroniser l'affichage
+            // SYNCHRONISATION INSTANTANÉE pour voir le changement immédiatement
+            this.synchroniserInstantanement();
+            
+            // Synchronisation différée pour s'assurer que tout est bien persisté
             setTimeout(() => {
                 this.synchroniserToutesLesDonnees();
-            }, 50);
+            }, 10);
             
             this.afficherNotificationSucces(`✅ ${nomAliment} marqué comme goûté !`);
         } else {
@@ -1817,24 +1839,10 @@ class BabyFoodTracker {
         
         foodItem.appendChild(info);
 
-        // Actions
+        // Actions - SEULEMENT LE BOUTON SUPPRIMER
         const actions = document.createElement('div');
         actions.className = 'food-item-actions';
         
-        // Checkbox
-        const checkbox = document.createElement('div');
-        checkbox.className = 'food-checkbox';
-        if (aliment.consomme) {
-            checkbox.classList.add('checked');
-        }
-        
-        checkbox.addEventListener('click', (e) => {
-            e.stopPropagation();
-            this.marquerConsommation(aliment.nom, dateKey, moment, !aliment.consomme);
-        });
-        
-        actions.appendChild(checkbox);
-
         // Bouton supprimer
         const deleteBtn = document.createElement('button');
         deleteBtn.className = 'food-delete-btn';
@@ -1846,6 +1854,20 @@ class BabyFoodTracker {
         
         actions.appendChild(deleteBtn);
         foodItem.appendChild(actions);
+
+        // ÉVÉNEMENT POUR MARQUER COMME CONSOMMÉ - CLIC SUR TOUTE LA LIGNE
+        foodItem.addEventListener('click', (e) => {
+            // Vérifier si on a cliqué sur le bouton de suppression
+            if (e.target.classList.contains('food-delete-btn') || e.target.closest('.food-delete-btn')) {
+                return; // Laisser l'événement de suppression se gérer
+            }
+            
+            e.stopPropagation();
+            
+            // Basculer l'état consommé (toggle)
+            const estConsomme = aliment.consomme;
+            this.marquerConsommation(aliment.nom, dateKey, moment, !estConsomme);
+        });
 
         return foodItem;
     }
@@ -1951,22 +1973,27 @@ class BabyFoodTracker {
             this.confirmerSuppressionJour(cleJour, dateJour);
         });
 
-        // Ajouter les événements de suppression sur les aliments existants APRÈS génération du HTML
+        // Ajouter les événements sur les aliments existants APRÈS génération du HTML
         setTimeout(() => {
             div.querySelectorAll('.aliment-item.clickable').forEach(item => {
-                // Événement pour la checkbox
-                const checkbox = item.querySelector('.aliment-checkbox');
-                if (checkbox) {
-                    checkbox.addEventListener('change', (e) => {
-                        e.stopPropagation();
-                        const nomAliment = item.dataset.aliment;
-                        const cleJour = item.dataset.jour;
-                        const moment = item.dataset.moment;
-                        this.marquerConsommation(nomAliment, cleJour, moment, checkbox.checked);
-                    });
-                }
+                // Événement pour marquer comme consommé - CLIC SUR TOUTE LA LIGNE
+                item.addEventListener('click', (e) => {
+                    // Vérifier si on a cliqué sur le bouton de suppression
+                    if (e.target.classList.contains('aliment-delete')) {
+                        return; // Laisser l'événement de suppression se gérer
+                    }
+                    
+                    e.stopPropagation();
+                    const nomAliment = item.dataset.aliment;
+                    const cleJour = item.dataset.jour;
+                    const moment = item.dataset.moment;
+                    
+                    // Basculer l'état consommé (toggle)
+                    const estConsomme = item.classList.contains('consomme');
+                    this.marquerConsommation(nomAliment, cleJour, moment, !estConsomme);
+                });
 
-                // Événement pour la suppression
+                // Événement pour la suppression - séparé et avec priorité
                 const deleteBtn = item.querySelector('.aliment-delete');
                 if (deleteBtn) {
                     deleteBtn.addEventListener('click', (e) => {
@@ -2340,10 +2367,13 @@ class BabyFoodTracker {
             // Mettre à jour visuellement l'élément
             this.mettreAJourAffichageConsommation(nomAliment, cleJour, moment, estConsomme);
             
-            // Synchroniser les statistiques et l'historique en temps réel
+            // SYNCHRONISATION INSTANTANÉE pour voir le changement immédiatement
+            this.synchroniserInstantanement();
+            
+            // Synchronisation différée pour s'assurer que tout est bien persisté
             setTimeout(() => {
                 this.synchroniserToutesLesDonnees();
-            }, 50);
+            }, 10);
             
             // Afficher une notification
             const message = estConsomme 
@@ -2354,19 +2384,14 @@ class BabyFoodTracker {
     }
 
     mettreAJourAffichageConsommation(nomAliment, cleJour, moment, estConsomme) {
-        // Mettre à jour dans la vue semaine (vue principale)
+        // Mettre à jour dans la vue semaine (vue principale) - PLUS DE CHECKBOX, JUSTE LES CLASSES
         const alimentItem = document.querySelector(`.aliment-item[data-aliment="${nomAliment}"][data-jour="${cleJour}"][data-moment="${moment}"]`);
         if (alimentItem) {
-            const checkbox = alimentItem.querySelector('.aliment-checkbox');
-            if (checkbox) {
-                checkbox.checked = estConsomme;
-                
-                // Mettre à jour les classes visuelles
-                if (estConsomme) {
-                    alimentItem.classList.add('consomme');
-                } else {
-                    alimentItem.classList.remove('consomme');
-                }
+            // Mettre à jour seulement les classes visuelles
+            if (estConsomme) {
+                alimentItem.classList.add('consomme');
+            } else {
+                alimentItem.classList.remove('consomme');
             }
         }
         
@@ -2374,15 +2399,11 @@ class BabyFoodTracker {
         if (this.viewMode === 'day') {
             const foodItem = document.querySelector(`.food-item[data-aliment="${nomAliment}"][data-moment="${moment}"]`);
             if (foodItem) {
-                const checkbox = foodItem.querySelector('.food-checkbox');
-                if (checkbox) {
-                    if (estConsomme) {
-                        checkbox.classList.add('checked');
-                        foodItem.classList.add('consumed');
-                    } else {
-                        checkbox.classList.remove('checked');
-                        foodItem.classList.remove('consumed');
-                    }
+                // Plus de checkbox, juste les classes visuelles
+                if (estConsomme) {
+                    foodItem.classList.add('consumed');
+                } else {
+                    foodItem.classList.remove('consumed');
                 }
             }
             

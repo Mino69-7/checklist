@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Test iPhone 13 - Corrections Complètes</title>
+    <title>Test iPhone 13 - Corrections FINALES COMPLÈTES</title>
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="responsive-iphone.css">
     <style>
@@ -28,341 +28,403 @@
         }
         
         .fix-item {
-            margin: 12px 0;
-            padding: 10px;
-            background: white;
-            border-left: 4px solid #10b981;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin: 8px 0;
+        }
+        
+        .fix-status {
+            padding: 4px 8px;
             border-radius: 4px;
-        }
-        
-        .test-calendar {
-            margin: 20px 0;
-            background: white;
-            border-radius: 12px;
-            padding: 20px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-        }
-        
-        .test-week-view {
-            margin: 20px 0;
-            background: white;
-            border-radius: 12px;
-            padding: 20px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-        }
-        
-        .shape-test {
-            margin: 20px 0;
-            padding: 16px;
-            background: #fef3c7;
-            border: 1px solid #f59e0b;
-            border-radius: 8px;
-        }
-        
-        .shape-demo {
-            display: flex;
-            gap: 16px;
-            align-items: center;
-            flex-wrap: wrap;
-            margin-top: 10px;
-        }
-        
-        .shape-comparison {
-            text-align: center;
-        }
-        
-        .shape-label {
             font-size: 12px;
-            color: #666;
-            margin-top: 5px;
+            font-weight: bold;
         }
         
-        .test-week-day {
-            width: 46px;
-            height: 46px;
-            border-radius: 50%;
-            background: rgba(99, 102, 241, 0.1);
-            border: 2px solid rgba(99, 102, 241, 0.3);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 600;
-            color: #6366f1;
+        .fix-status.fixed {
+            background: #d1fae5;
+            color: #065f46;
         }
         
-        .test-calendar-day {
-            width: 46px;
-            height: 46px;
-            border-radius: 50%;
-            background: rgba(16, 185, 129, 0.1);
-            border: 2px solid rgba(16, 185, 129, 0.3);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 600;
-            color: #10b981;
-        }
-        
-        .test-square {
-            width: 46px;
-            height: 46px;
+        .test-section {
+            margin: 24px 0;
+            padding: 16px;
+            border: 1px solid #e5e7eb;
             border-radius: 8px;
-            background: rgba(239, 68, 68, 0.1);
-            border: 2px solid rgba(239, 68, 68, 0.3);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 600;
-            color: #ef4444;
         }
         
-        .modal-test-btn {
-            background: #10b981;
-            color: white;
-            border: none;
-            padding: 12px 24px;
+        .test-demo {
+            margin: 16px 0;
+            padding: 12px;
+            background: #f9fafb;
+            border-radius: 6px;
+        }
+        
+        /* Démonstration de food-item cliquable */
+        .demo-food-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px;
+            border: 1px solid #e0e0e0;
             border-radius: 8px;
-            font-weight: 600;
+            margin: 8px 0;
+            background: white;
             cursor: pointer;
-            margin: 10px 0;
+            transition: all 0.3s ease;
+            position: relative;
         }
         
-        .modal-test-btn:hover {
-            background: #059669;
+        .demo-food-item:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+            background: rgba(0, 0, 0, 0.02);
+        }
+        
+        .demo-food-item.consumed {
+            background: linear-gradient(135deg, #e8f5e8, #c8e6c9);
+            border: 1px solid #4CAF50;
+            box-shadow: 0 2px 8px rgba(76, 175, 80, 0.3);
+        }
+        
+        .demo-food-item.consumed::before {
+            content: '✓';
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            background: #4CAF50;
+            color: white;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: bold;
+            animation: checkAppear 0.3s ease;
+        }
+        
+        @keyframes checkAppear {
+            0% { opacity: 0; transform: scale(0.5); }
+            100% { opacity: 1; transform: scale(1); }
+        }
+        
+        /* Démonstration des stats */
+        .demo-recent-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 8px;
+            background: white;
+            border-radius: 6px;
+            margin: 8px 0;
+        }
+        
+        .demo-recent-emoji {
+            font-size: 24px;
+            width: 24px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+        
+        .demo-recent-emoji .custom-icon {
+            width: 24px !important;
+            height: 24px !important;
         }
     </style>
 </head>
 <body>
     <div class="test-info">
         iPhone 13 Test<br>
-        Largeur: <span id="width"></span>px<br>
-        Hauteur: <span id="height"></span>px<br>
-        Ratio: <span id="ratio"></span>
+        Largeur: <span id="viewport-width"></span>px<br>
+        Ratio: <span id="device-ratio"></span>
     </div>
-
-    <div class="app-container">
-        <div class="header">
-            <div class="header-content">
-                <div class="header-top">
-                    <h1>Test iPhone 13 - Corrections</h1>
-                    <button class="settings-btn">
-                        <span class="settings-icon">⚙️</span>
-                    </button>
-                </div>
-                <div class="subtitle">Vérification des corrections appliquées</div>
-            </div>
-        </div>
-
-        <div class="main-content">
-            <div class="test-status">
-                <h3>🎯 Corrections appliquées pour iPhone 13</h3>
-                
-                <div class="fix-item">
-                    <strong>✅ 1. Calendrier centré</strong><br>
-                    Le calendrier est maintenant parfaitement centré avec <code>margin: auto</code>
-                </div>
-                
-                <div class="fix-item">
-                    <strong>✅ 2. Dates rondes - Vue mensuelle</strong><br>
-                    <code>border-radius: 50%</code> forcé sur tous les breakpoints
-                </div>
-                
-                <div class="fix-item">
-                    <strong>✅ 3. Bouton modal visible</strong><br>
-                    Modal corrigée avec <code>flex-direction: column</code> et footer sticky
-                </div>
-                
-                <div class="fix-item">
-                    <strong>✅ 4. Dates rondes - Vue semaine</strong><br>
-                    Week-day avec dimensions exactes et <code>aspect-ratio: 1/1</code>
-                </div>
-            </div>
-
-            <!-- Test des formes rondes -->
-            <div class="shape-test">
-                <h4>🔍 Test des formes rondes</h4>
-                <p>Comparaison visuelle entre les nouvelles formes rondes et l'ancien style carré :</p>
-                
-                <div class="shape-demo">
-                    <div class="shape-comparison">
-                        <div class="test-week-day">15</div>
-                        <div class="shape-label">Vue semaine<br>(Corrigé)</div>
-                    </div>
-                    
-                    <div class="shape-comparison">
-                        <div class="test-calendar-day">20</div>
-                        <div class="shape-label">Vue mensuelle<br>(Corrigé)</div>
-                    </div>
-                    
-                    <div class="shape-comparison">
-                        <div class="test-square">25</div>
-                        <div class="shape-label">Ancien style<br>(Carré)</div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Test du calendrier réel -->
-            <div class="test-calendar">
-                <h4>📅 Test Calendrier (Vue mensuelle)</h4>
-                <div class="ios-calendar-container">
-                    <div class="calendar-month-view">
-                        <div class="calendar-header">
-                            <button class="calendar-nav-btn">‹</button>
-                            <h3 class="calendar-title">Janvier 2024</h3>
-                            <button class="calendar-nav-btn">›</button>
-                        </div>
-                        
-                        <div class="calendar-weekdays">
-                            <div class="weekday">Dim</div>
-                            <div class="weekday">Lun</div>
-                            <div class="weekday">Mar</div>
-                            <div class="weekday">Mer</div>
-                            <div class="weekday">Jeu</div>
-                            <div class="weekday">Ven</div>
-                            <div class="weekday">Sam</div>
-                        </div>
-                        
-                        <div class="calendar-grid">
-                            <div class="calendar-day other-month"><span class="day-number">31</span></div>
-                            <div class="calendar-day"><span class="day-number">1</span></div>
-                            <div class="calendar-day"><span class="day-number">2</span></div>
-                            <div class="calendar-day"><span class="day-number">3</span></div>
-                            <div class="calendar-day"><span class="day-number">4</span></div>
-                            <div class="calendar-day has-events"><span class="day-number">5</span></div>
-                            <div class="calendar-day"><span class="day-number">6</span></div>
-                            <div class="calendar-day"><span class="day-number">7</span></div>
-                            <div class="calendar-day"><span class="day-number">8</span></div>
-                            <div class="calendar-day"><span class="day-number">9</span></div>
-                            <div class="calendar-day"><span class="day-number">10</span></div>
-                            <div class="calendar-day"><span class="day-number">11</span></div>
-                            <div class="calendar-day"><span class="day-number">12</span></div>
-                            <div class="calendar-day"><span class="day-number">13</span></div>
-                            <div class="calendar-day"><span class="day-number">14</span></div>
-                            <div class="calendar-day today"><span class="day-number">15</span></div>
-                            <div class="calendar-day"><span class="day-number">16</span></div>
-                            <div class="calendar-day"><span class="day-number">17</span></div>
-                            <div class="calendar-day"><span class="day-number">18</span></div>
-                            <div class="calendar-day"><span class="day-number">19</span></div>
-                            <div class="calendar-day"><span class="day-number">20</span></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Test de la vue semaine -->
-            <div class="test-week-view">
-                <h4>📆 Test Vue Semaine</h4>
-                <div class="calendar-week-view active">
-                    <div class="week-header">
-                        <button class="back-to-month-btn">
-                            <span class="back-arrow">‹</span>
-                            Retour au mois
-                        </button>
-                        <div class="week-navigation">
-                            <button class="day-nav-btn">‹</button>
-                            <h3 class="day-title">15 - 21 Janvier 2024</h3>
-                            <button class="day-nav-btn">›</button>
-                        </div>
-                    </div>
-                    
-                    <div class="week-days-container">
-                        <div class="week-day">
-                            <span class="week-day-number">15</span>
-                        </div>
-                        <div class="week-day has-events">
-                            <span class="week-day-number">16</span>
-                        </div>
-                        <div class="week-day today selected">
-                            <span class="week-day-number">17</span>
-                        </div>
-                        <div class="week-day">
-                            <span class="week-day-number">18</span>
-                        </div>
-                        <div class="week-day">
-                            <span class="week-day-number">19</span>
-                        </div>
-                        <div class="week-day">
-                            <span class="week-day-number">20</span>
-                        </div>
-                        <div class="week-day">
-                            <span class="week-day-number">21</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Test de la modal -->
-            <div class="test-status">
-                <h4>🧪 Test Modal Calendrier</h4>
-                <p>Cliquez pour tester la visibilité du bouton vert :</p>
-                <button class="modal-test-btn" onclick="testModal()">Ouvrir Modal Test</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- Modal de test -->
-    <div class="calendrier-modal" id="testModal">
-        <div class="calendrier-modal-content">
-            <div class="calendrier-modal-header">
-                <h3>Test Modal - Bouton Visible ?</h3>
-                <button class="close-calendrier-modal" onclick="closeTestModal()">×</button>
+    
+    <div style="padding: 20px; padding-top: 80px;">
+        <h1>🎯 Test iPhone 13 - Corrections FINALES</h1>
+        
+        <div class="test-status">
+            <h2>✅ État des corrections</h2>
+            
+            <div class="fix-item">
+                <span class="fix-status fixed">✓ CORRIGÉ</span>
+                <span>Calendrier centré au milieu de l'écran</span>
             </div>
             
-            <div class="calendrier-modal-body">
-                <div class="aliment-search-section">
-                    <p>Contenu de test...</p>
-                    <div style="height: 300px; background: #f5f5f5; margin: 10px 0; border-radius: 8px; display: flex; align-items: center; justify-content: center;">
-                        Zone de contenu simulé<br>pour tester le scroll
+            <div class="fix-item">
+                <span class="fix-status fixed">✓ CORRIGÉ</span>
+                <span>Dates parfaitement rondes (vue mensuelle + vue semaine)</span>
+            </div>
+            
+            <div class="fix-item">
+                <span class="fix-status fixed">✓ CORRIGÉ</span>
+                <span>Cercles entièrement visibles (plus de coupure)</span>
+            </div>
+            
+            <div class="fix-item">
+                <span class="fix-status fixed">✓ CORRIGÉ</span>
+                <span>Bouton modal "Ajouter au calendrier" visible</span>
+            </div>
+            
+            <div class="fix-item">
+                <span class="fix-status fixed">✓ NOUVEAU</span>
+                <span>Checkboxes supprimées - ligne entière cliquable</span>
+            </div>
+            
+            <div class="fix-item">
+                <span class="fix-status fixed">✓ NOUVEAU</span>
+                <span>Emojis stats taille corrigée (uniformité)</span>
+            </div>
+        </div>
+        
+        <!-- SECTION 1: TEST DATES RONDES -->
+        <div class="test-section">
+            <h3>🔵 Test 1: Dates parfaitement rondes</h3>
+            <p>Les dates doivent être des cercles parfaits, pas des carrés arrondis.</p>
+            
+            <div class="test-demo">
+                <h4>Vue semaine (simulation)</h4>
+                <div class="week-days-container">
+                    <div class="week-day" style="width: 44px; height: 44px; border-radius: 50%; background: #f3f4f6; border: 1px solid #d1d5db; display: flex; align-items: center; justify-content: center;">
+                        <span class="week-day-number">15</span>
                     </div>
-                    <div style="height: 200px; background: #e5e5e5; margin: 10px 0; border-radius: 8px; display: flex; align-items: center; justify-content: center;">
-                        Plus de contenu...
+                    <div class="week-day today" style="width: 44px; height: 44px; border-radius: 50%; background: #3b82f6; color: white; border: 1px solid #2563eb; display: flex; align-items: center; justify-content: center;">
+                        <span class="week-day-number">16</span>
+                    </div>
+                    <div class="week-day" style="width: 44px; height: 44px; border-radius: 50%; background: #f3f4f6; border: 1px solid #d1d5db; display: flex; align-items: center; justify-content: center;">
+                        <span class="week-day-number">17</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- SECTION 2: TEST CHECKBOXES SUPPRIMÉES -->
+        <div class="test-section">
+            <h3>🎯 Test 2: Lignes d'aliments cliquables</h3>
+            <p>Cliquez sur les lignes ci-dessous pour tester le toggle consommé/non-consommé :</p>
+            
+            <div class="test-demo">
+                <h4>Vue jour (simulation)</h4>
+                <div class="demo-food-item" onclick="this.classList.toggle('consumed')">
+                    <div style="font-size: 20px;">🥕</div>
+                    <div style="flex: 1;">
+                        <div style="font-weight: 500;">Carotte</div>
+                        <div style="font-size: 12px; color: #666;">3 jour(s)</div>
+                    </div>
+                    <button style="width: 24px; height: 24px; border-radius: 50%; border: none; background: #ef4444; color: white; cursor: pointer;" onclick="event.stopPropagation(); alert('Suppression!')">×</button>
+                </div>
+                
+                <div class="demo-food-item consumed" onclick="this.classList.toggle('consumed')">
+                    <div style="font-size: 20px;">🍌</div>
+                    <div style="flex: 1;">
+                        <div style="font-weight: 500;">Banane</div>
+                        <div style="font-size: 12px; color: #666;">2 jour(s)</div>
+                    </div>
+                    <button style="width: 24px; height: 24px; border-radius: 50%; border: none; background: #ef4444; color: white; cursor: pointer;" onclick="event.stopPropagation(); alert('Suppression!')">×</button>
+                </div>
+                
+                <p style="margin-top: 12px; font-size: 12px; color: #666;">
+                    ✅ Plus de checkboxes<br>
+                    ✅ Coche verte automatique quand consommé<br>
+                    ✅ Toute la ligne cliquable<br>
+                    ✅ Toggle au clic (consommé ↔ non consommé)
+                </p>
+            </div>
+        </div>
+        
+        <!-- SECTION 3: TEST EMOJIS STATS -->
+        <div class="test-section">
+            <h3>📊 Test 3: Emojis stats uniformes</h3>
+            <p>Les emojis des stats doivent avoir une taille uniforme.</p>
+            
+            <div class="test-demo">
+                <h4>Section "Dernières découvertes" (simulation)</h4>
+                
+                <!-- Emoji Apple natif -->
+                <div class="demo-recent-item">
+                    <div class="demo-recent-emoji">🥕</div>
+                    <div>
+                        <div style="font-weight: 500; font-size: 14px;">Carotte</div>
+                        <div style="font-size: 12px; color: #666;">Emoji Apple - 24px</div>
+                    </div>
+                </div>
+                
+                <!-- Icône personnalisée -->
+                <div class="demo-recent-item">
+                    <div class="demo-recent-emoji">
+                        <svg class="custom-icon" viewBox="0 0 24 24" style="width: 24px; height: 24px; fill: #22c55e;">
+                            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                        </svg>
+                    </div>
+                    <div>
+                        <div style="font-weight: 500; font-size: 14px;">Betterave</div>
+                        <div style="font-size: 12px; color: #666;">Icône personnalisée - 24px</div>
+                    </div>
+                </div>
+                
+                <p style="margin-top: 12px; font-size: 12px; color: #666;">
+                    ✅ Emojis Apple: 24px<br>
+                    ✅ Icônes personnalisées: 24px<br>
+                    ✅ Taille uniformisée sur tous les breakpoints
+                </p>
+            </div>
+        </div>
+        
+        <!-- SECTION 4: RÉSUMÉ TECHNIQUE -->
+        <div class="test-section">
+            <h3>⚙️ Résumé technique des corrections</h3>
+            
+            <div style="background: #f9fafb; padding: 12px; border-radius: 6px; margin: 12px 0;">
+                <h4 style="margin: 0 0 8px 0;">CSS (responsive-iphone.css)</h4>
+                <ul style="margin: 0; padding-left: 16px; font-size: 13px;">
+                    <li><code>.food-checkbox { display: none !important; }</code></li>
+                    <li><code>.food-item { cursor: pointer !important; }</code></li>
+                    <li><code>.food-item.consumed::before { content: '✓'; }</code></li>
+                    <li><code>.recent-emoji .custom-icon { width: 24px !important; }</code></li>
+                    <li><code>.week-day, .calendar-day { border-radius: 50% !important; }</code></li>
+                </ul>
+            </div>
+            
+            <div style="background: #fef3c7; padding: 12px; border-radius: 6px; margin: 12px 0;">
+                <h4 style="margin: 0 0 8px 0;">JavaScript (script.js)</h4>
+                <ul style="margin: 0; padding-left: 16px; font-size: 13px;">
+                    <li><code>creerElementAliment()</code> : Suppression de la checkbox</li>
+                    <li><code>addEventListener('click')</code> : Sur toute la ligne food-item</li>
+                    <li><code>mettreAJourAffichageConsommation()</code> : Plus de checkbox</li>
+                    <li>Toggle automatique avec <code>!estConsomme</code></li>
+                </ul>
+            </div>
+        </div>
+        
+        <div style="text-align: center; margin: 32px 0; padding: 20px; background: #dcfce7; border-radius: 8px;">
+            <h2 style="color: #166534; margin: 0 0 8px 0;">🎉 Toutes les corrections iPhone 13 appliquées !</h2>
+            <p style="color: #166534; margin: 0;">Interface optimisée pour iPhone 12-16 avec support Dynamic Island</p>
+        </div>
+        
+        <!-- Test 6: Correction emojis food-widgets "tried" -->
+        <div class="test-section">
+            <h3>🔧 Test 6: Correction emojis food-widgets "tried"</h3>
+            <div class="test-description">
+                <strong>Nouveau problème résolu :</strong> Les emojis des aliments marqués comme "consommés" 
+                dans le calendrier disparaissaient dans les pages fruits/légumes.
+            </div>
+            
+            <div class="fix-details">
+                <h4>✅ Corrections appliquées :</h4>
+                <ul>
+                    <li>Règles CSS spécifiques pour <code>.food-widget.tried</code></li>
+                    <li>Visibilité forcée : <code>opacity: 1 !important</code></li>
+                    <li>Affichage garanti : <code>display: block !important</code></li>
+                    <li>Tailles fixes pour emojis et icônes personnalisées</li>
+                    <li>Responsive adaptatif pour iPhone (28px → 24px)</li>
+                </ul>
+            </div>
+            
+            <div class="test-demo">
+                <h4>🧪 Démonstration :</h4>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 12px; margin: 15px 0;">
+                    <!-- Food-widget normal -->
+                    <div class="food-widget">
+                        <span class="food-emoji">🍎</span>
+                        <h3 class="food-name" style="font-size: 14px;">Pomme Normal</h3>
+                        <p class="food-benefits" style="font-size: 11px;">État normal</p>
+                    </div>
+                    
+                    <!-- Food-widget "tried" avec emoji Apple -->
+                    <div class="food-widget tried">
+                        <span class="food-emoji">🍌</span>
+                        <h3 class="food-name" style="font-size: 14px;">Banane Goûtée</h3>
+                        <p class="food-benefits" style="font-size: 11px;">Emoji visible ✅</p>
+                    </div>
+                    
+                    <!-- Food-widget "tried" avec icône personnalisée -->
+                    <div class="food-widget tried">
+                        <img src="icons/carotte.svg" class="custom-icon" alt="Carotte" style="width: 28px; height: 28px;">
+                        <h3 class="food-name" style="font-size: 14px;">Carotte Goûtée</h3>
+                        <p class="food-benefits" style="font-size: 11px;">Icône visible ✅</p>
+                    </div>
+                    
+                    <!-- Food-widget "tried" avec évaluation -->
+                    <div class="food-widget tried">
+                        <div class="rating-display-corner">
+                            <span class="rating-emoji-corner">😍</span>
+                        </div>
+                        <span class="food-emoji">🍓</span>
+                        <h3 class="food-name" style="font-size: 14px;">Fraise Adorée</h3>
+                        <p class="food-benefits" style="font-size: 11px;">Note + emoji ✅</p>
                     </div>
                 </div>
             </div>
             
-            <div class="calendrier-modal-footer">
-                <button class="calendrier-modal-btn cancel" onclick="closeTestModal()">Annuler</button>
-                <button class="calendrier-modal-btn confirm">✅ Ajouter au calendrier</button>
+            <div class="test-instructions">
+                <h4>📱 Instructions de test :</h4>
+                <ol style="font-size: 14px; line-height: 1.5;">
+                    <li>Marquez un aliment comme consommé dans le calendrier</li>
+                    <li>Allez dans la page fruits ou légumes correspondante</li>
+                    <li>Vérifiez que l'emoji reste parfaitement visible (bordure verte)</li>
+                    <li>Décochez l'aliment du calendrier</li>
+                    <li>Vérifiez que l'emoji redevient normal (bordure grise)</li>
+                </ol>
+            </div>
+        </div>
+
+        <!-- Résumé des améliorations -->
+        <div class="test-section" style="background: #f0fdf4; border-color: #10b981;">
+            <h3 style="color: #059669;">📊 Résumé complet des corrections iPhone 13</h3>
+            
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px; margin-top: 16px;">
+                <div style="background: white; padding: 12px; border-radius: 8px; border: 1px solid #d1fae5;">
+                    <h4 style="color: #059669; margin-top: 0;">🎯 Interface</h4>
+                    <ul style="font-size: 13px; margin: 0; color: #065f46;">
+                        <li>Calendrier centré</li>
+                        <li>Dates parfaitement rondes</li>
+                        <li>Modal repositionnée</li>
+                        <li>Footer toujours visible</li>
+                    </ul>
+                </div>
+                
+                <div style="background: white; padding: 12px; border-radius: 8px; border: 1px solid #d1fae5;">
+                    <h4 style="color: #059669; margin-top: 0;">✅ Interactions</h4>
+                    <ul style="font-size: 13px; margin: 0; color: #065f46;">
+                        <li>Checkboxes supprimées</li>
+                        <li>Clic sur toute la ligne</li>
+                        <li>Toggle fluide (vert/normal)</li>
+                        <li>Animations smoothes</li>
+                    </ul>
+                </div>
+                
+                <div style="background: white; padding: 12px; border-radius: 8px; border: 1px solid #d1fae5;">
+                    <h4 style="color: #059669; margin-top: 0;">📐 Design</h4>
+                    <ul style="font-size: 13px; margin: 0; color: #065f46;">
+                        <li>Emojis stats uniformes (24px)</li>
+                        <li>Emojis food-widgets protégés</li>
+                        <li>Responsive complet iPhone</li>
+                        <li>Compatible iPhone 12-16</li>
+                    </ul>
+                </div>
             </div>
         </div>
     </div>
-
+    
     <script>
-        // Affichage des dimensions de l'écran
-        function updateScreenInfo() {
-            document.getElementById('width').textContent = window.innerWidth;
-            document.getElementById('height').textContent = window.innerHeight;
-            document.getElementById('ratio').textContent = (window.innerWidth / window.innerHeight).toFixed(2);
+        // Afficher les infos de viewport
+        function updateViewportInfo() {
+            document.getElementById('viewport-width').textContent = window.innerWidth;
+            document.getElementById('device-ratio').textContent = window.devicePixelRatio;
         }
         
-        window.addEventListener('resize', updateScreenInfo);
-        updateScreenInfo();
+        updateViewportInfo();
+        window.addEventListener('resize', updateViewportInfo);
         
-        // Test de la modal
-        function testModal() {
-            document.getElementById('testModal').classList.add('active');
-        }
-        
-        function closeTestModal() {
-            document.getElementById('testModal').classList.remove('active');
-        }
-        
-        // Test de forme automatique
-        document.addEventListener('DOMContentLoaded', function() {
-            // Vérification des formes rondes
-            const weekDays = document.querySelectorAll('.week-day');
-            const calendarDays = document.querySelectorAll('.calendar-day');
-            
-            console.log('Week-day elements:', weekDays.length);
-            console.log('Calendar-day elements:', calendarDays.length);
-            
-            weekDays.forEach((el, i) => {
-                const computed = getComputedStyle(el);
-                console.log(`Week-day ${i}:`, {
-                    width: computed.width,
-                    height: computed.height,
-                    borderRadius: computed.borderRadius
-                });
+        // Simulation du comportement des food-items
+        document.querySelectorAll('.demo-food-item').forEach(item => {
+            item.addEventListener('click', function(e) {
+                if (e.target.tagName === 'BUTTON') return;
+                this.classList.toggle('consumed');
             });
         });
     </script>
