@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test iPhone 13 - Corrections Complètes</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="responsive-iphone.css">
+    <style>
+        .test-info {
+            position: fixed;
+            top: 10px;
+            left: 10px;
+            background: rgba(0,0,0,0.8);
+            color: white;
+            padding: 10px;
+            border-radius: 8px;
+            font-size: 12px;
+            z-index: 1000;
+        }
+        
+        .test-status {
+            margin-top: 20px;
+            padding: 16px;
+            background: #f0f9ff;
+            border: 1px solid #0ea5e9;
+            border-radius: 8px;
+        }
+        
+        .fix-item {
+            margin: 12px 0;
+            padding: 10px;
+            background: white;
+            border-left: 4px solid #10b981;
+            border-radius: 4px;
+        }
+        
+        .test-calendar {
+            margin: 20px 0;
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        
+        .test-week-view {
+            margin: 20px 0;
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        
+        .shape-test {
+            margin: 20px 0;
+            padding: 16px;
+            background: #fef3c7;
+            border: 1px solid #f59e0b;
+            border-radius: 8px;
+        }
+        
+        .shape-demo {
+            display: flex;
+            gap: 16px;
+            align-items: center;
+            flex-wrap: wrap;
+            margin-top: 10px;
+        }
+        
+        .shape-comparison {
+            text-align: center;
+        }
+        
+        .shape-label {
+            font-size: 12px;
+            color: #666;
+            margin-top: 5px;
+        }
+        
+        .test-week-day {
+            width: 46px;
+            height: 46px;
+            border-radius: 50%;
+            background: rgba(99, 102, 241, 0.1);
+            border: 2px solid rgba(99, 102, 241, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            color: #6366f1;
+        }
+        
+        .test-calendar-day {
+            width: 46px;
+            height: 46px;
+            border-radius: 50%;
+            background: rgba(16, 185, 129, 0.1);
+            border: 2px solid rgba(16, 185, 129, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            color: #10b981;
+        }
+        
+        .test-square {
+            width: 46px;
+            height: 46px;
+            border-radius: 8px;
+            background: rgba(239, 68, 68, 0.1);
+            border: 2px solid rgba(239, 68, 68, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            color: #ef4444;
+        }
+        
+        .modal-test-btn {
+            background: #10b981;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            margin: 10px 0;
+        }
+        
+        .modal-test-btn:hover {
+            background: #059669;
+        }
+    </style>
+</head>
+<body>
+    <div class="test-info">
+        iPhone 13 Test<br>
+        Largeur: <span id="width"></span>px<br>
+        Hauteur: <span id="height"></span>px<br>
+        Ratio: <span id="ratio"></span>
+    </div>
+
+    <div class="app-container">
+        <div class="header">
+            <div class="header-content">
+                <div class="header-top">
+                    <h1>Test iPhone 13 - Corrections</h1>
+                    <button class="settings-btn">
+                        <span class="settings-icon">⚙️</span>
+                    </button>
+                </div>
+                <div class="subtitle">Vérification des corrections appliquées</div>
+            </div>
+        </div>
+
+        <div class="main-content">
+            <div class="test-status">
+                <h3>🎯 Corrections appliquées pour iPhone 13</h3>
+                
+                <div class="fix-item">
+                    <strong>✅ 1. Calendrier centré</strong><br>
+                    Le calendrier est maintenant parfaitement centré avec <code>margin: auto</code>
+                </div>
+                
+                <div class="fix-item">
+                    <strong>✅ 2. Dates rondes - Vue mensuelle</strong><br>
+                    <code>border-radius: 50%</code> forcé sur tous les breakpoints
+                </div>
+                
+                <div class="fix-item">
+                    <strong>✅ 3. Bouton modal visible</strong><br>
+                    Modal corrigée avec <code>flex-direction: column</code> et footer sticky
+                </div>
+                
+                <div class="fix-item">
+                    <strong>✅ 4. Dates rondes - Vue semaine</strong><br>
+                    Week-day avec dimensions exactes et <code>aspect-ratio: 1/1</code>
+                </div>
+            </div>
+
+            <!-- Test des formes rondes -->
+            <div class="shape-test">
+                <h4>🔍 Test des formes rondes</h4>
+                <p>Comparaison visuelle entre les nouvelles formes rondes et l'ancien style carré :</p>
+                
+                <div class="shape-demo">
+                    <div class="shape-comparison">
+                        <div class="test-week-day">15</div>
+                        <div class="shape-label">Vue semaine<br>(Corrigé)</div>
+                    </div>
+                    
+                    <div class="shape-comparison">
+                        <div class="test-calendar-day">20</div>
+                        <div class="shape-label">Vue mensuelle<br>(Corrigé)</div>
+                    </div>
+                    
+                    <div class="shape-comparison">
+                        <div class="test-square">25</div>
+                        <div class="shape-label">Ancien style<br>(Carré)</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Test du calendrier réel -->
+            <div class="test-calendar">
+                <h4>📅 Test Calendrier (Vue mensuelle)</h4>
+                <div class="ios-calendar-container">
+                    <div class="calendar-month-view">
+                        <div class="calendar-header">
+                            <button class="calendar-nav-btn">‹</button>
+                            <h3 class="calendar-title">Janvier 2024</h3>
+                            <button class="calendar-nav-btn">›</button>
+                        </div>
+                        
+                        <div class="calendar-weekdays">
+                            <div class="weekday">Dim</div>
+                            <div class="weekday">Lun</div>
+                            <div class="weekday">Mar</div>
+                            <div class="weekday">Mer</div>
+                            <div class="weekday">Jeu</div>
+                            <div class="weekday">Ven</div>
+                            <div class="weekday">Sam</div>
+                        </div>
+                        
+                        <div class="calendar-grid">
+                            <div class="calendar-day other-month"><span class="day-number">31</span></div>
+                            <div class="calendar-day"><span class="day-number">1</span></div>
+                            <div class="calendar-day"><span class="day-number">2</span></div>
+                            <div class="calendar-day"><span class="day-number">3</span></div>
+                            <div class="calendar-day"><span class="day-number">4</span></div>
+                            <div class="calendar-day has-events"><span class="day-number">5</span></div>
+                            <div class="calendar-day"><span class="day-number">6</span></div>
+                            <div class="calendar-day"><span class="day-number">7</span></div>
+                            <div class="calendar-day"><span class="day-number">8</span></div>
+                            <div class="calendar-day"><span class="day-number">9</span></div>
+                            <div class="calendar-day"><span class="day-number">10</span></div>
+                            <div class="calendar-day"><span class="day-number">11</span></div>
+                            <div class="calendar-day"><span class="day-number">12</span></div>
+                            <div class="calendar-day"><span class="day-number">13</span></div>
+                            <div class="calendar-day"><span class="day-number">14</span></div>
+                            <div class="calendar-day today"><span class="day-number">15</span></div>
+                            <div class="calendar-day"><span class="day-number">16</span></div>
+                            <div class="calendar-day"><span class="day-number">17</span></div>
+                            <div class="calendar-day"><span class="day-number">18</span></div>
+                            <div class="calendar-day"><span class="day-number">19</span></div>
+                            <div class="calendar-day"><span class="day-number">20</span></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Test de la vue semaine -->
+            <div class="test-week-view">
+                <h4>📆 Test Vue Semaine</h4>
+                <div class="calendar-week-view active">
+                    <div class="week-header">
+                        <button class="back-to-month-btn">
+                            <span class="back-arrow">‹</span>
+                            Retour au mois
+                        </button>
+                        <div class="week-navigation">
+                            <button class="day-nav-btn">‹</button>
+                            <h3 class="day-title">15 - 21 Janvier 2024</h3>
+                            <button class="day-nav-btn">›</button>
+                        </div>
+                    </div>
+                    
+                    <div class="week-days-container">
+                        <div class="week-day">
+                            <span class="week-day-number">15</span>
+                        </div>
+                        <div class="week-day has-events">
+                            <span class="week-day-number">16</span>
+                        </div>
+                        <div class="week-day today selected">
+                            <span class="week-day-number">17</span>
+                        </div>
+                        <div class="week-day">
+                            <span class="week-day-number">18</span>
+                        </div>
+                        <div class="week-day">
+                            <span class="week-day-number">19</span>
+                        </div>
+                        <div class="week-day">
+                            <span class="week-day-number">20</span>
+                        </div>
+                        <div class="week-day">
+                            <span class="week-day-number">21</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Test de la modal -->
+            <div class="test-status">
+                <h4>🧪 Test Modal Calendrier</h4>
+                <p>Cliquez pour tester la visibilité du bouton vert :</p>
+                <button class="modal-test-btn" onclick="testModal()">Ouvrir Modal Test</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de test -->
+    <div class="calendrier-modal" id="testModal">
+        <div class="calendrier-modal-content">
+            <div class="calendrier-modal-header">
+                <h3>Test Modal - Bouton Visible ?</h3>
+                <button class="close-calendrier-modal" onclick="closeTestModal()">×</button>
+            </div>
+            
+            <div class="calendrier-modal-body">
+                <div class="aliment-search-section">
+                    <p>Contenu de test...</p>
+                    <div style="height: 300px; background: #f5f5f5; margin: 10px 0; border-radius: 8px; display: flex; align-items: center; justify-content: center;">
+                        Zone de contenu simulé<br>pour tester le scroll
+                    </div>
+                    <div style="height: 200px; background: #e5e5e5; margin: 10px 0; border-radius: 8px; display: flex; align-items: center; justify-content: center;">
+                        Plus de contenu...
+                    </div>
+                </div>
+            </div>
+            
+            <div class="calendrier-modal-footer">
+                <button class="calendrier-modal-btn cancel" onclick="closeTestModal()">Annuler</button>
+                <button class="calendrier-modal-btn confirm">✅ Ajouter au calendrier</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Affichage des dimensions de l'écran
+        function updateScreenInfo() {
+            document.getElementById('width').textContent = window.innerWidth;
+            document.getElementById('height').textContent = window.innerHeight;
+            document.getElementById('ratio').textContent = (window.innerWidth / window.innerHeight).toFixed(2);
+        }
+        
+        window.addEventListener('resize', updateScreenInfo);
+        updateScreenInfo();
+        
+        // Test de la modal
+        function testModal() {
+            document.getElementById('testModal').classList.add('active');
+        }
+        
+        function closeTestModal() {
+            document.getElementById('testModal').classList.remove('active');
+        }
+        
+        // Test de forme automatique
+        document.addEventListener('DOMContentLoaded', function() {
+            // Vérification des formes rondes
+            const weekDays = document.querySelectorAll('.week-day');
+            const calendarDays = document.querySelectorAll('.calendar-day');
+            
+            console.log('Week-day elements:', weekDays.length);
+            console.log('Calendar-day elements:', calendarDays.length);
+            
+            weekDays.forEach((el, i) => {
+                const computed = getComputedStyle(el);
+                console.log(`Week-day ${i}:`, {
+                    width: computed.width,
+                    height: computed.height,
+                    borderRadius: computed.borderRadius
+                });
+            });
+        });
+    </script>
+</body>
+</html> 

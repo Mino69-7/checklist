@@ -318,7 +318,8 @@
 /* iPhone Plus/Pro Max */
 @media screen and (max-width: 430px) and (min-width: 415px) {
     .ios-calendar-container {
-        margin: 20px;
+        margin: 20px auto !important;
+        display: block !important;
         border-radius: 24px;
         overflow: hidden;
         box-shadow: 0 12px 40px rgba(0,0,0,0.15);
@@ -359,7 +360,8 @@
     
     .calendar-day {
         height: 48px;
-        border-radius: 12px;
+        border-radius: 50% !important;
+        width: 48px !important;
         font-size: 16px;
         font-weight: 600;
     }
@@ -460,7 +462,7 @@
 /* iPhone Standard */
 @media screen and (max-width: 414px) and (min-width: 376px) {
     .ios-calendar-container {
-        margin: 16px;
+        margin: 16px auto !important;
         border-radius: 20px;
     }
     
@@ -486,7 +488,8 @@
     
     .calendar-day {
         height: 44px;
-        border-radius: 10px;
+        border-radius: 50% !important;
+        width: 44px !important;
         font-size: 15px;
     }
     
@@ -516,7 +519,7 @@
 /* iPhone SE et petits écrans */
 @media screen and (max-width: 375px) {
     .ios-calendar-container {
-        margin: 12px;
+        margin: 12px auto !important;
         border-radius: 16px;
     }
     
@@ -542,7 +545,8 @@
     
     .calendar-day {
         height: 40px;
-        border-radius: 8px;
+        border-radius: 50% !important;
+        width: 40px !important;
         font-size: 14px;
     }
     
@@ -795,4 +799,261 @@
 
 .main-content {
     padding-bottom: max(env(safe-area-inset-bottom), 20px);
+}
+
+/* ===== CORRECTIONS SPÉCIFIQUES IPHONE 13 ===== */
+
+/* 1. CORRECTION CENTRAGE CALENDRIER */
+.ios-calendar-container {
+    margin: 20px auto !important;
+    display: block !important;
+}
+
+/* 2. FORCER LES DATES DU CALENDRIER À RESTER RONDES */
+.calendar-day {
+    border-radius: 50% !important;
+    width: 48px !important;
+    height: 48px !important;
+}
+
+/* Forcer la forme ronde même sur mobile */
+@media (max-width: 768px) {
+    .calendar-day {
+        border-radius: 50% !important;
+        width: 44px !important;
+        height: 44px !important;
+    }
+}
+
+@media (max-width: 480px) {
+    .calendar-day {
+        border-radius: 50% !important;
+        width: 42px !important;
+        height: 42px !important;
+    }
+}
+
+@media (max-width: 375px) {
+    .calendar-day {
+        border-radius: 50% !important;
+        width: 40px !important;
+        height: 40px !important;
+    }
+}
+
+/* 3. CORRECTION MODAL CALENDRIER - BOUTONS VISIBLES */
+@media (max-width: 768px) {
+    .calendrier-modal-content {
+        max-height: 85vh !important;
+        display: flex !important;
+        flex-direction: column !important;
+    }
+    
+    .calendrier-modal-body {
+        max-height: calc(85vh - 140px) !important;
+        flex: 1 !important;
+        overflow-y: auto !important;
+    }
+    
+    .calendrier-modal-footer {
+        flex-shrink: 0 !important;
+        margin-top: auto !important;
+        background: rgba(255, 255, 255, 0.95) !important;
+        backdrop-filter: blur(10px) !important;
+        border-top: 1px solid rgba(0,0,0,0.1) !important;
+        padding: 16px 20px 20px !important;
+        position: sticky !important;
+        bottom: 0 !important;
+        z-index: 10 !important;
+    }
+}
+
+/* ===== CORRECTIONS VUE SEMAINE - DATES RONDES ===== */
+
+/* 4. FORCER LES DATES DE LA VUE SEMAINE À RESTER PARFAITEMENT RONDES */
+.week-day {
+    border-radius: 50% !important;
+    min-width: 48px !important;
+    min-height: 48px !important;
+    width: 48px !important;
+    height: 48px !important;
+    box-sizing: border-box !important;
+    flex-shrink: 0 !important;
+}
+
+/* Forcer les dimensions exactes pour éviter la déformation */
+@media (max-width: 768px) {
+    .week-day {
+        border-radius: 50% !important;
+        min-width: 44px !important;
+        min-height: 44px !important;
+        width: 44px !important;
+        height: 44px !important;
+        box-sizing: border-box !important;
+        flex-shrink: 0 !important;
+    }
+}
+
+@media (max-width: 480px) {
+    .week-day {
+        border-radius: 50% !important;
+        min-width: 42px !important;
+        min-height: 42px !important;
+        width: 42px !important;
+        height: 42px !important;
+        box-sizing: border-box !important;
+        flex-shrink: 0 !important;
+    }
+}
+
+@media (max-width: 375px) {
+    .week-day {
+        border-radius: 50% !important;
+        min-width: 40px !important;
+        min-height: 40px !important;
+        width: 40px !important;
+        height: 40px !important;
+        box-sizing: border-box !important;
+        flex-shrink: 0 !important;
+    }
+}
+
+/* 5. CORRECTION SPÉCIFIQUE IPHONE 13 (390px largeur) */
+@media (max-width: 390px) and (min-width: 376px) {
+    .week-day {
+        border-radius: 50% !important;
+        min-width: 46px !important;
+        min-height: 46px !important;
+        width: 46px !important;
+        height: 46px !important;
+        box-sizing: border-box !important;
+        flex-shrink: 0 !important;
+    }
+    
+    .calendar-day {
+        border-radius: 50% !important;
+        width: 46px !important;
+        height: 46px !important;
+    }
+}
+
+/* 6. CORRECTIONS ADDITIONNELLES POUR GARANTIR LA FORME RONDE */
+.week-day,
+.calendar-day {
+    /* Forcer l'aspect ratio 1:1 */
+    aspect-ratio: 1 / 1 !important;
+    /* Éviter la compression */
+    flex-shrink: 0 !important;
+    /* Forcer le box-sizing */
+    box-sizing: border-box !important;
+    /* Centrage du contenu */
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+}
+
+/* 7. CONTENEUR DE LA VUE SEMAINE - OPTIMISATION ESPACEMENT ET HAUTEUR */
+.week-days-container {
+    display: flex !important;
+    justify-content: space-around !important;
+    align-items: center !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    overflow-x: hidden !important;
+    /* CORRECTION CLÉS : Padding vertical suffisant pour les cercles entiers */
+    padding: 20px 12px !important;
+    min-height: 88px !important; /* 48px + 40px padding */
+}
+
+/* 8. CORRECTION SPÉCIFIQUE POUR LE CONTENU DES DATES */
+.week-day-number {
+    line-height: 1 !important;
+    text-align: center !important;
+    width: 100% !important;
+}
+
+/* 9. CORRECTION DES INDICATEURS POUR QU'ILS NE DÉFORMENT PAS */
+.week-day-indicators,
+.day-indicators {
+    position: absolute !important;
+    pointer-events: none !important;
+}
+
+/* 10. CORRECTION DES EFFETS HOVER/SELECTED POUR ÉVITER LE DÉBORDEMENT */
+.week-day:hover {
+    transform: scale(1.05) !important;
+    /* Gérer le débordement */
+    z-index: 5 !important;
+}
+
+.week-day.selected {
+    transform: scale(1.08) !important;
+    z-index: 6 !important;
+}
+
+.week-day.selected:hover {
+    transform: scale(1.1) !important;
+    z-index: 7 !important;
+}
+
+/* 11. AJUSTEMENTS DU CONTENEUR POUR ACCOMMODER LES SCALES */
+.calendar-week-view {
+    overflow: visible !important;
+}
+
+.week-header {
+    padding-bottom: 10px !important;
+}
+
+/* 12. CORRECTIONS POUR DESKTOP AUSSI */
+@media (min-width: 769px) {
+    .week-days-container {
+        padding: 24px 20px !important;
+        min-height: 92px !important; /* 48px + 44px padding */
+    }
+    
+    .calendar-grid {
+        padding: 20px !important;
+        overflow: visible !important;
+    }
+    
+    /* Assurer que les calendar-day ne sont pas coupés non plus */
+    .ios-calendar-container {
+        overflow: visible !important;
+    }
+    
+    .calendar-month-view {
+        overflow: visible !important;
+    }
+}
+
+/* 13. AJUSTEMENTS RESPONSIVE POUR CHAQUE BREAKPOINT */
+@media (max-width: 768px) {
+    .week-days-container {
+        padding: 18px 16px !important;
+        min-height: 80px !important; /* 44px + 36px padding */
+    }
+}
+
+@media (max-width: 480px) {
+    .week-days-container {
+        padding: 16px 12px !important;
+        min-height: 74px !important; /* 42px + 32px padding */
+    }
+}
+
+@media (max-width: 375px) {
+    .week-days-container {
+        padding: 14px 10px !important;
+        min-height: 68px !important; /* 40px + 28px padding */
+    }
+}
+
+/* 14. RÈGLES DE PRIORITÉ MAXIMALE POUR iPhone 13 */
+@supports (-webkit-appearance: none) {
+    .week-day,
+    .calendar-day {
+        -webkit-appearance: none !important;
+        border-radius: 50% !important;
+    }
 } 
