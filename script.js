@@ -575,6 +575,40 @@ class BabyFoodTracker {
         this.alimentActuel = null;
     }
 
+    // Fonction pour forcer le rechargement correct des icônes personnalisées
+    forceReloadCustomIcons() {
+        // Trouver tous les éléments avec des icônes personnalisées
+        const customIconElements = document.querySelectorAll('.custom-icon');
+        
+        customIconElements.forEach(element => {
+            // Sauvegarder le contenu HTML original
+            const originalHTML = element.innerHTML;
+            
+            // Vider temporairement l'élément
+            element.innerHTML = '';
+            
+            // Forcer un reflow
+            element.offsetHeight;
+            
+            // Restaurer le contenu
+            element.innerHTML = originalHTML;
+        });
+        
+        // Également mettre à jour tous les food-widgets avec des icônes personnalisées
+        const foodWidgets = document.querySelectorAll('.food-widget');
+        foodWidgets.forEach(widget => {
+            const iconElement = widget.querySelector('.custom-icon');
+            if (iconElement) {
+                // Régénérer l'icône avec un nouvel ID unique
+                const alimentNom = widget.dataset.aliment || widget.querySelector('.food-name')?.textContent?.trim();
+                if (alimentNom && EmojiManager.hasCustomIcon(alimentNom)) {
+                    const nouvelleIcone = EmojiManager.getAlimentIcon(alimentNom);
+                    iconElement.outerHTML = nouvelleIcone;
+                }
+            }
+        });
+    }
+
     // Fonction de synchronisation INSTANTANÉE pour les changements d'onglets
     synchroniserInstantanement() {
         // Recharger les données depuis localStorage pour être sûr d'avoir la dernière version
@@ -582,9 +616,28 @@ class BabyFoodTracker {
         this.evaluations = this.chargerEvaluations();
         this.alimentsGoutes = this.chargerAlimentsGoutes();
         
-        // Mettre à jour immédiatement toutes les statistiques
+        // NOUVEAU: Forcer le rechargement des icônes personnalisées
+        this.forceReloadCustomIcons();
+        
+        // Mettre à jour IMMÉDIATEMENT tous les affichages selon la catégorie active
         this.mettreAJourStatistiques();
         this.mettreAJourProgress();
+        
+        if (this.categorieActive === 'calendrier') {
+            this.genererCalendrier();
+        } else if (this.categorieActive === 'stats') {
+            // Les stats sont déjà mises à jour
+        } else if (this.categorieActive === 'prevention') {
+            this.genererPrevention();
+        } else {
+            // Pour les onglets fruits/légumes, regénérer ET forcer le rechargement des icônes
+            this.genererAliments();
+            
+            // Double vérification : forcer le rechargement des icônes après un court délai
+            setTimeout(() => {
+                this.forceReloadCustomIcons();
+            }, 50);
+        }
     }
 
     // Fonction de synchronisation globale pour mettre à jour tous les affichages

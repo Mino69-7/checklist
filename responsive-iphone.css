@@ -1228,19 +1228,58 @@
     .food-widget.tried .custom-icon {
         width: 28px !important;
         height: 28px !important;
+        object-fit: contain !important;
+    }
+}
+
+/* NOUVELLE CORRECTION: Forcer la visibilité des SVG après mises à jour dynamiques */
+@media screen and (max-width: 430px) {
+    /* Assurer que les SVG personnalisés sont toujours rendus correctement */
+    .food-widget .custom-icon,
+    .food-widget.tried .custom-icon {
+        opacity: 1 !important;
+        visibility: visible !important;
+        display: block !important;
+        fill: currentColor !important;
+        stroke: currentColor !important;
         transform: none !important;
+        transition: all 0.2s ease !important;
     }
     
-    /* Maintenir l'effet hover sur iPhone */
-    .food-widget.tried:hover .custom-icon,
-    .food-widget.tried:active .custom-icon {
-        transform: scale(1.05) !important;
-        filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2)) brightness(1.1) !important;
+    /* Forcer le rendu des gradients SVG */
+    .custom-icon svg,
+    .food-widget .custom-icon svg,
+    .food-widget.tried .custom-icon svg {
+        width: 100% !important;
+        height: 100% !important;
+        opacity: 1 !important;
+        visibility: visible !important;
+        display: block !important;
     }
     
-    .food-widget.tried:hover .food-emoji,
-    .food-widget.tried:active .food-emoji {
-        transform: scale(1.05) !important;
+    /* S'assurer que les defs et gradients sont bien chargés */
+    .custom-icon defs,
+    .custom-icon radialGradient,
+    .custom-icon linearGradient {
+        opacity: 1 !important;
+        visibility: visible !important;
+        display: block !important;
+    }
+    
+    /* Correction spécifique pour les food-widgets en état "tried" */
+    .food-widget.tried .custom-icon svg {
+        filter: none !important;
+        background: transparent !important;
+        outline: none !important;
+        border: none !important;
+    }
+    
+    /* Assurer la cohérence avec les emojis Apple */
+    .food-widget.tried .food-emoji,
+    .food-widget .food-emoji {
+        color: inherit !important;
+        background: transparent !important;
+        text-shadow: none !important;
     }
 }
 

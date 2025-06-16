@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test - Synchronisation Instantanée des Emojis</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="responsive-iphone.css">
+    <style>
+        body {
+            background: var(--background);
+            padding: 20px;
+            font-family: system-ui, -apple-system, sans-serif;
+        }
+        
+        .test-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+        }
+        
+        .test-section {
+            margin-bottom: 30px;
+            padding: 20px;
+            border: 2px solid #e1e8ed;
+            border-radius: 12px;
+            background: #f8f9fa;
+        }
+        
+        .test-section h3 {
+            color: #2c3e50;
+            margin: 0 0 15px 0;
+            font-size: 1.2em;
+        }
+        
+        .test-description {
+            background: #e8f4fd;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            border-left: 4px solid #3498db;
+        }
+        
+        .fix-details {
+            background: #e8f5e8;
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid #27ae60;
+        }
+        
+        .fix-details h4 {
+            color: #27ae60;
+            margin: 0 0 10px 0;
+        }
+        
+        .fix-details ul {
+            margin: 10px 0;
+            padding-left: 20px;
+        }
+        
+        .fix-details li {
+            margin-bottom: 5px;
+        }
+        
+        .demo-widgets {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+        
+        .demo-widget {
+            border: 2px solid #ddd;
+            border-radius: 12px;
+            padding: 15px;
+            text-align: center;
+            background: white;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        
+        .demo-widget.tried {
+            border-color: #27ae60;
+            background: #f8fff8;
+        }
+        
+        .demo-widget:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        
+        .demo-widget .custom-icon {
+            width: 32px;
+            height: 32px;
+            margin: 0 auto 8px auto;
+        }
+        
+        .demo-widget .food-emoji {
+            font-size: 32px;
+            display: block;
+            margin: 0 auto 8px auto;
+        }
+        
+        .demo-widget .food-name {
+            font-size: 12px;
+            font-weight: 500;
+            color: #333;
+        }
+        
+        .test-instructions {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            border-radius: 8px;
+            padding: 15px;
+            margin: 20px 0;
+        }
+        
+        .test-instructions h4 {
+            color: #856404;
+            margin: 0 0 10px 0;
+        }
+        
+        .test-step {
+            margin: 10px 0;
+            padding: 10px;
+            background: white;
+            border-radius: 6px;
+            border-left: 3px solid #007bff;
+        }
+        
+        @media (max-width: 768px) {
+            .demo-widgets {
+                grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+                gap: 10px;
+            }
+            
+            .demo-widget {
+                padding: 10px;
+            }
+            
+            .demo-widget .custom-icon {
+                width: 28px;
+                height: 28px;
+            }
+            
+            .demo-widget .food-emoji {
+                font-size: 28px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <h1>🔄 Test - Synchronisation Instantanée des Emojis</h1>
+        
+        <!-- Test 1: Correction du problème principal -->
+        <div class="test-section">
+            <h3>🎯 Problème résolu : Emojis blancs/invisibles</h3>
+            <div class="test-description">
+                <strong>Problème avant :</strong> Quand on marquait un aliment comme "consommé" dans le calendrier, 
+                puis qu'on allait dans les pages fruits/légumes, les icônes personnalisées (non-Apple) 
+                devenaient blanches/invisibles et il fallait actualiser la page pour les voir correctement.
+            </div>
+            
+            <div class="fix-details">
+                <h4>✅ Solutions appliquées :</h4>
+                <ul>
+                    <li><strong>IDs SVG uniques :</strong> Génération d'IDs uniques pour éviter les conflits de gradients</li>
+                    <li><strong>Rechargement forcé :</strong> Fonction <code>forceReloadCustomIcons()</code></li>
+                    <li><strong>CSS robuste :</strong> Règles CSS pour forcer la visibilité des SVG</li>
+                    <li><strong>Synchronisation instantanée :</strong> Mise à jour immédiate lors des changements d'onglets</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Test 2: Démonstration avec icônes personnalisées -->
+        <div class="test-section">
+            <h3>🧪 Test interactif : Icônes personnalisées</h3>
+            <div class="test-instructions">
+                <h4>Instructions de test :</h4>
+                <div class="test-step">
+                    <strong>1.</strong> Cliquez sur les aliments ci-dessous pour simuler le statut "tried" (consommé)
+                </div>
+                <div class="test-step">
+                    <strong>2.</strong> Vérifiez que les icônes restent visibles et colorées
+                </div>
+                <div class="test-step">
+                    <strong>3.</strong> Les emojis doivent être visibles instantanément sans actualisation
+                </div>
+            </div>
+            
+            <div class="demo-widgets">
+                <div class="demo-widget" onclick="toggleTried(this)">
+                    <div class="custom-icon">🍎</div>
+                    <div class="food-name">Pomme (Emoji)</div>
+                </div>
+                
+                <div class="demo-widget" onclick="toggleTried(this)" data-aliment="Betterave">
+                    <div id="betterave-icon"></div>
+                    <div class="food-name">Betterave (SVG)</div>
+                </div>
+                
+                <div class="demo-widget" onclick="toggleTried(this)" data-aliment="Poivron rouge">
+                    <div id="poivron-rouge-icon"></div>
+                    <div class="food-name">Poivron rouge (SVG)</div>
+                </div>
+                
+                <div class="demo-widget" onclick="toggleTried(this)" data-aliment="Haricot vert">
+                    <div id="haricot-vert-icon"></div>
+                    <div class="food-name">Haricot vert (SVG)</div>
+                </div>
+                
+                <div class="demo-widget" onclick="toggleTried(this)">
+                    <div class="food-emoji">🥕</div>
+                    <div class="food-name">Carotte (Emoji)</div>
+                </div>
+                
+                <div class="demo-widget" onclick="toggleTried(this)" data-aliment="Abricot">
+                    <div id="abricot-icon"></div>
+                    <div class="food-name">Abricot (SVG)</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Test 3: Validation technique -->
+        <div class="test-section">
+            <h3>⚙️ Validation technique</h3>
+            <div class="fix-details">
+                <h4>✅ Corrections techniques :</h4>
+                <ul>
+                    <li><strong>Génération IDs uniques :</strong> <code>timestamp + random + nom_aliment</code></li>
+                    <li><strong>Remplacement gradients :</strong> RegExp pour mettre à jour toutes les références</li>
+                    <li><strong>Forçage CSS :</strong> <code>opacity: 1 !important</code> sur tous les SVG</li>
+                    <li><strong>Reflow forcé :</strong> <code>element.offsetHeight</code> pour forcer le rendu</li>
+                    <li><strong>Double vérification :</strong> Rechargement différé après 50ms</li>
+                </ul>
+            </div>
+            
+            <div class="test-instructions">
+                <h4>🔍 Test de cohérence :</h4>
+                <div class="test-step">
+                    <strong>Avant :</strong> Icônes disparaissaient/devenaient blanches lors des changements d'onglets
+                </div>
+                <div class="test-step">
+                    <strong>Maintenant :</strong> Icônes toujours visibles et colorées instantanément
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="icons.js"></script>
+    <script>
+        // Fonction pour basculer l'état "tried" des widgets de démo
+        function toggleTried(element) {
+            element.classList.toggle('tried');
+            
+            // Simuler le rechargement de l'icône comme dans l'app réelle
+            const iconElement = element.querySelector('.custom-icon, .food-emoji');
+            if (iconElement && element.dataset.aliment) {
+                // Régénérer l'icône avec nouvel ID unique
+                const nomAliment = element.dataset.aliment;
+                const nouvelleIcone = EmojiManager.getAlimentIcon(nomAliment);
+                iconElement.outerHTML = nouvelleIcone;
+            }
+            
+            // Ajouter animation de confirmation
+            element.style.transform = 'scale(0.95)';
+            setTimeout(() => {
+                element.style.transform = '';
+            }, 150);
+        }
+
+        // Initialiser les icônes personnalisées
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('betterave-icon').innerHTML = EmojiManager.getAlimentIcon('Betterave');
+            document.getElementById('poivron-rouge-icon').innerHTML = EmojiManager.getAlimentIcon('Poivron rouge');
+            document.getElementById('haricot-vert-icon').innerHTML = EmojiManager.getAlimentIcon('Haricot vert');
+            document.getElementById('abricot-icon').innerHTML = EmojiManager.getAlimentIcon('Abricot');
+        });
+    </script>
+</body>
+</html> 

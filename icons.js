@@ -215,7 +215,29 @@ const EmojiManager = {
     getAlimentIcon(nomAliment) {
         // 1. Vérifier si une icône personnalisée existe
         if (this.alimentsIconesPersonnalisees.includes(nomAliment) && customIcons[nomAliment]) {
-            return customIcons[nomAliment];
+            // CORRECTION: Générer des IDs uniques pour éviter les conflits SVG
+            const timestamp = Date.now();
+            const random = Math.random().toString(36).substr(2, 9);
+            const uniqueId = `${nomAliment.toLowerCase().replace(/[^a-z0-9]/g, '')}_${timestamp}_${random}`;
+            
+            // Remplacer tous les IDs dans le SVG par des IDs uniques
+            let svgContent = customIcons[nomAliment];
+            
+            // Extraire et remplacer tous les IDs de gradients
+            const gradientMatches = svgContent.match(/id="([^"]+)"/g);
+            if (gradientMatches) {
+                gradientMatches.forEach(match => {
+                    const originalId = match.match(/id="([^"]+)"/)[1];
+                    const newId = `${originalId}_${uniqueId}`;
+                    
+                    // Remplacer la définition de l'ID
+                    svgContent = svgContent.replace(new RegExp(`id="${originalId}"`, 'g'), `id="${newId}"`);
+                    // Remplacer toutes les références à cet ID
+                    svgContent = svgContent.replace(new RegExp(`url\\(#${originalId}\\)`, 'g'), `url(#${newId})`);
+                });
+            }
+            
+            return svgContent;
         }
         
         // 2. Utiliser l'emoji Apple iOS officiel
